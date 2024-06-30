@@ -11,6 +11,7 @@ import Login from "./Pages/Login";
 import HomePage from "./Pages/HomePage";
 import SideMenu from "./Components/SideMenu";
 import ManageStock from "./Pages/ManageStock";
+import NotAuthorized from "./Pages/NotAuthorized";
 
 function App() {
   const loggedIn = Boolean(localStorage.getItem("token"));
@@ -18,14 +19,23 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
-      setUserData({
-        loggedIn: true,
-        name: "Eslam",
-        email: "eslammoh16@outlook.com",
-        phone: "01000000000",
-        avatar: "https://avatars.githubusercontent.com/u/47273077?v=4",
-        role: "admin",
-      });
+      const token = localStorage.getItem("token");
+      const fetchUserData = async () => {
+        const response = await getData("users", token);
+        console.log(response);
+        if (response.data) {
+          setUserData({
+            loggedIn: true,
+            name: response.data.name,
+            email: response.data.email,
+            role: response.data.role,
+          });
+        } else {
+          setUserData({});
+          localStorage.removeItem("token");
+        }
+      };
+      fetchUserData();
     }
   }, []);
 

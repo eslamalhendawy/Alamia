@@ -4,6 +4,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import MobileSideMenu from "./MobileSideMenu";
 
+import avatar from "/assets/avatar.png";
+
 const linksList = [
   {
     title: "ادارة المخزون",
@@ -55,8 +57,8 @@ const SideMenu = () => {
     <>
       <aside className="h-screen sticky top-0 left-0 hidden lg:flex flex-col">
         <div className="bg-darkGreen px-16 py-6 rounded-tr-xl ">
-          <div className="mb-4">
-            <img className="size-[80px] rounded-full " src={userData.avatar} alt="" />
+          <div className="mb-4 flex justify-center">
+            <img className="size-[80px] rounded-full " src={avatar} alt="" />
           </div>
           <h5 className="text-white text-xl text-center font-medium">{userData.name}</h5>
         </div>

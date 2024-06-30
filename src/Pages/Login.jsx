@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAppContext } from "../Context/AppContext";
 import { useNavigate } from "react-router-dom";
+import { postData } from "../Services/apiCalls";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,21 +28,22 @@ const Login = () => {
       toast.error("برجاء ادخال بريد الكتروني صحيح");
       return;
     }
-    if (password.length < 6) {
-      toast.error("كلمة المرور يجب ان تكون اكبر من 6 احرف");
-      return;
-    }
     toast.info("جاري تسجيل الدخول");
-    localStorage.setItem("token", "123456");
-    setUserData({
-      loggedIn: true,
-      name: "Eslam",
-      email: "eslammoh16@outlook.com",
-      phone: "01000000000",
-      avatar: "https://avatars.githubusercontent.com/u/47273077?v=4",
-      role: "admin",
-    });
-    navigate("/");
+    const response = await postData("auth/login", { email, password });
+    console.log(response);
+    if(response.token){
+      toast.success("تم تسجيل الدخول بنجاح");
+      localStorage.setItem("token", response.token);
+      setUserData({
+        loggedIn: true,
+        name: response.data.name,
+        email: response.data.email,
+        role: response.data.role,
+      });
+      navigate("/");
+    }else{
+      toast.error("خطأ في البريد الالكتروني او كلمة المرور");
+    }
   };
 
   return (

@@ -4,6 +4,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import Drawer from "@mui/material/SwipeableDrawer";
 
+import avatar from "/assets/avatar.png";
+
 const linksList = [
   {
     title: "ادارة المخزون",
@@ -70,8 +72,8 @@ const MobileSideMenu = () => {
             <i className="fa-solid fa-x"></i>
           </button>
           <div className="flex flex-col items-center justify-center bg-darkGreen py-8 mb-6">
-            <div className="mb-4">
-              <img className="size-[80px] rounded-full " src={userData.avatar} alt="" />
+            <div className="mb-4 flex justify-center">
+              <img className="size-[80px] rounded-full " src={avatar} alt="" />
             </div>
             <h5 className="text-white text-xl text-center font-medium">{userData.name}</h5>
           </div>

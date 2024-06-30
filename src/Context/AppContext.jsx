@@ -6,9 +6,6 @@ export const AppProvider = ({ children }) => {
   const [userData, setUserData] = useState({
     name: "",
     email: "",
-    phone: "",
-    address: "",
-    avatar: "",
     role: "",
     loggedIn: false,
   });
