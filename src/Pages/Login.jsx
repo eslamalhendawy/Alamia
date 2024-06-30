@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useAppContext } from "../Context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,6 +12,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hidden, setHidden] = useState(true);
+  const { userData, setUserData } = useAppContext();
+  const navigate = useNavigate();
 
   const regEmail = /^\w+([\\.-]?\w+)*@\w+([\\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -23,6 +27,21 @@ const Login = () => {
       toast.error("برجاء ادخال بريد الكتروني صحيح");
       return;
     }
+    if (password.length < 6) {
+      toast.error("كلمة المرور يجب ان تكون اكبر من 6 احرف");
+      return;
+    }
+    toast.info("جاري تسجيل الدخول");
+    localStorage.setItem("token", "123456");
+    setUserData({
+      loggedIn: true,
+      name: "Eslam",
+      email: "eslammoh16@outlook.com",
+      phone: "01000000000",
+      avatar: "https://avatars.githubusercontent.com/u/47273077?v=4",
+      role: "admin",
+    });
+    navigate("/");
   };
 
   return (
@@ -48,7 +67,7 @@ const Login = () => {
             </button>
           </div>
           <div className="flex justify-center">
-            <button onClick={handleClick} className="text-white hover:text-lightGreen hover:text-greenColor hover:bg-white duration-200 text-medium text-lg border-[3px] border-white py-2 px-12 rounded-lg">
+            <button onClick={handleClick} className="text-white outline-none hover:text-lightGreen hover:text-greenColor hover:bg-white duration-200 text-medium text-lg border-[3px] border-white py-2 px-12 rounded-lg">
               Sign In
             </button>
           </div>
