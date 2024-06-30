@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.minHeight {
+  min-height: 100vh;
+}

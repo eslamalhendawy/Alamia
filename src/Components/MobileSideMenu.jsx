@@ -21,6 +21,18 @@ const linksList = [
     title: "موردين",
     url: "/suppliers",
   },
+  {
+    title: "اضافة موظف",
+    url: "/add-employee",
+  },
+  {
+    title: "صلاحيات",
+    url: "/permissions",
+  },
+  {
+    title: "تقرير",
+    url: "/report",
+  },
 ];
 
 const MobileSideMenu = () => {

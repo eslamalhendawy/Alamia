@@ -10,6 +10,7 @@ import Onboarding from "./Pages/Onboarding";
 import Login from "./Pages/Login";
 import HomePage from "./Pages/HomePage";
 import SideMenu from "./Components/SideMenu";
+import ManageStock from "./Pages/ManageStock";
 
 function App() {
   const loggedIn = Boolean(localStorage.getItem("token"));
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             <Route path="/" element={loggedIn ? <HomePage /> : <Onboarding />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/manage-stock" element={<ManageStock />} />
           </Routes>
         </main>
       </Router>
