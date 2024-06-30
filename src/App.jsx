@@ -31,7 +31,7 @@ function App() {
   return (
     <>
       <Router>
-        <main className={loggedIn ? "flex gap-[40px] bg-greyColor" : ""}>
+        <main className={loggedIn ? "flex lg:gap-[40px] bg-greyColor" : ""}>
           {loggedIn && <SideMenu />}
           <Routes>
             <Route path="/" element={loggedIn ? <HomePage /> : <Onboarding />} />
