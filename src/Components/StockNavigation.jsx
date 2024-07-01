@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 
 const StockNavigation = () => {
   const location = useLocation();
-  const [currentPage, setCurrentPage] = useState("incoming-stock" || location.pathname.split("/")[0]);
+  const [currentPage, setCurrentPage] = useState("" || location.pathname.split("/")[0]);
 
   useEffect(() => {
     setCurrentPage(location.pathname.split("/")[1]);
