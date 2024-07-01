@@ -35,10 +35,10 @@ const OutgoingStockReport = () => {
     <section className="grow py-6 px-4 minHeight">
       <StockNavigation />
       <div className="flex justify-center gap-8 mb-6">
-        <Link to="/incoming-stock/add" className={`text-lg font-medium text-darkGreen hover:text-white duration-200`}>
+        <Link to="/outgoing-stock/add" className={`text-lg font-medium text-darkGreen hover:text-white duration-200`}>
           اضافة
         </Link>
-        <Link to="/incoming-stock/report" className={`text-lg font-medium text-darkGreen hover:text-white duration-200`}>
+        <Link to="/outgoing-stock/report" className={`text-lg font-medium text-darkGreen hover:text-white duration-200`}>
           تقرير
         </Link>
       </div>
