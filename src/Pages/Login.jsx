@@ -13,13 +13,12 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hidden, setHidden] = useState(true);
-  const { userData, setUserData } = useAppContext();
+  const { setUserData } = useAppContext();
   const navigate = useNavigate();
 
   const regEmail = /^\w+([\\.-]?\w+)*@\w+([\\.-]?\w+)*(\.\w{2,3})+$/;
 
   const handleClick = async () => {
-    console.log(email, password);
     if (!email || !password) {
       toast.error("برجاء ادخال البريد الالكتروني وكلمة المرور");
       return;
@@ -30,18 +29,18 @@ const Login = () => {
     }
     toast.info("جاري تسجيل الدخول");
     const response = await postData("auth/login", { email, password });
-    console.log(response);
-    if(response.token){
+    if (response.token) {
       toast.success("تم تسجيل الدخول بنجاح");
       localStorage.setItem("token", response.token);
       setUserData({
         loggedIn: true,
         name: response.data.name,
         email: response.data.email,
+        id: response.data._id,
         role: response.data.role,
       });
       navigate("/");
-    }else{
+    } else {
       toast.error("خطأ في البريد الالكتروني او كلمة المرور");
     }
   };

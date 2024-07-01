@@ -9,31 +9,31 @@ import avatar from "/assets/avatar.png";
 const linksList = [
   {
     title: "ادارة المخزون",
-    url: "/manage-stock",
+    url: ["/incoming-stock/add", "/incoming-stock/report", "/outgoing-stock/add", "/outgoing-stock/report", "/stock/view"],
   },
   {
     title: "فواتير",
-    url: "/bills",
+    url: ["/bills"],
   },
   {
     title: "عملاء",
-    url: "/clients",
+    url: ["/clients"],
   },
   {
     title: "موردين",
-    url: "/suppliers",
+    url: ["/suppliers"],
   },
   {
     title: "اضافة موظف",
-    url: "/add-employee",
+    url: ["/add-employee"],
   },
   {
     title: "صلاحيات",
-    url: "/permissions",
+    url: ["/permissions"],
   },
   {
     title: "تقرير",
-    url: "/report",
+    url: ["/report"],
   },
 ];
 
@@ -61,11 +61,12 @@ const SideMenu = () => {
             <img className="size-[80px] rounded-full " src={avatar} alt="" />
           </div>
           <h5 className="text-white text-xl text-center font-medium">{userData.name}</h5>
+          <h5 className="text-white text-xl text-center font-medium">Role {userData.role}</h5>
         </div>
         <div className="grow bg-navyColor flex flex-col justify-between rounded-br-xl">
           <ul className="  rounded-br-xl pt-8 flex flex-col gap-4">
             {linksList.map((link, index) => (
-              <Link to={link.url} key={index} className={activeLink === link.url ? "py-2 px-8 bg-greyColor text-navyColor text-center font-medium rounded-2xl w-[80%] mx-auto text-lg" : "py-2 px-8 hover:bg-greyColor text-goldColor text-lg hover:text-navyColor text-center font-medium rounded-2xl w-[80%] mx-auto"}>
+              <Link to={link.url[0]} key={index} className={link.url.includes(activeLink) ? "py-2 px-8 bg-greyColor text-navyColor text-center font-medium rounded-2xl w-[80%] mx-auto text-lg" : "py-2 px-8 hover:bg-greyColor text-goldColor text-lg hover:text-navyColor text-center font-medium rounded-2xl w-[80%] mx-auto"}>
                 <li>{link.title}</li>
               </Link>
             ))}

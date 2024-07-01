@@ -5,3 +5,12 @@
 .minHeight {
   min-height: 100vh;
 }
+
+.opacity-pulse {
+  animation: opacityPulse 2s infinite;
+}
+
+@keyframes opacityPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}

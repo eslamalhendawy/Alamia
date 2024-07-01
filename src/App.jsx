@@ -10,7 +10,10 @@ import Onboarding from "./Pages/Onboarding";
 import Login from "./Pages/Login";
 import HomePage from "./Pages/HomePage";
 import SideMenu from "./Components/SideMenu";
-import ManageStock from "./Pages/ManageStock";
+import IncomingStockAdd from "./Pages/IncomingStockAdd";
+import IncomingStockReport from "./Pages/IncomingStockReport";
+import OutgoingStockAdd from "./Pages/OutgoingStockAdd";
+import OutgoingStockReport from "./Pages/OutgoingStockReport";
 import NotAuthorized from "./Pages/NotAuthorized";
 
 function App() {
@@ -21,13 +24,13 @@ function App() {
     if (loggedIn) {
       const token = localStorage.getItem("token");
       const fetchUserData = async () => {
-        const response = await getData("users", token);
-        console.log(response);
+        const response = await getData("auth/me", token);
         if (response.data) {
           setUserData({
             loggedIn: true,
             name: response.data.name,
             email: response.data.email,
+            id: response.data._id,
             role: response.data.role,
           });
         } else {
@@ -47,7 +50,10 @@ function App() {
           <Routes>
             <Route path="/" element={loggedIn ? <HomePage /> : <Onboarding />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/manage-stock" element={<ManageStock />} />
+            <Route path="/incoming-stock/add" element={<IncomingStockAdd />} />
+            <Route path="/incoming-stock/report" element={<IncomingStockReport />} />
+            <Route path="/outgoing-stock/add" element={<OutgoingStockAdd />} />
+            <Route path="/outgoing-stock/report" element={<OutgoingStockReport />} />
           </Routes>
         </main>
       </Router>

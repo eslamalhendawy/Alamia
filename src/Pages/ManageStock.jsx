@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-import WarehouseIncoming from "../Components/WarehouseIncoming";
-import WarehouseOutgoing from "../Components/WarehouseOutgoing";
 import Warehouse from "../Components/Warehouse";
 
 const ManageStock = () => {
@@ -19,8 +17,6 @@ const ManageStock = () => {
           مخزن
         </button>
       </div>
-      {page === "incoming" && <WarehouseIncoming />}
-      {page === "outgoing" && <WarehouseOutgoing />}
       {page === "warehouse" && <Warehouse />}
     </section>
   );
