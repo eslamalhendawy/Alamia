@@ -8,8 +8,6 @@ import StockNavigation from "../Components/StockNavigation";
 const IncomingStockReport = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState("incoming");
-  const [numberOfPages, setNumberOfPages] = useState(0);
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("incoming-stock" || location.pathname.split("/")[0]);
 
@@ -22,8 +20,6 @@ const IncomingStockReport = () => {
       const response = await getData("buys", localStorage.getItem("token"));
       if (response.data) {
         setList(response.data);
-        setPage(response.paginationResult.currentPage);
-        setNumberOfPages(response.paginationResult.numberOfPages);
         setLoading(false);
       }
     };
@@ -58,7 +54,7 @@ const IncomingStockReport = () => {
                 <p className="text-right text-lg">التاريخ: {item.createdAt.split("T")[0]}</p>
               </div>
               <div className="flex justify-center sm:justify-end">
-                <button className="text-[#01D1ED] font-semibold text-lg">عرض</button>
+                <Link to={`/incoming-stock/${item._id}`} className="text-[#01D1ED] font-semibold text-lg">عرض</Link>
               </div>
             </div>
           ))}

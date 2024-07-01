@@ -8,8 +8,6 @@ import StockNavigation from "../Components/StockNavigation";
 const OutgoingStockReport = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState("incoming");
-  const [numberOfPages, setNumberOfPages] = useState(0);
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("incoming-stock" || location.pathname.split("/")[0]);
 
@@ -19,13 +17,10 @@ const OutgoingStockReport = () => {
 
   useEffect(() => {
     const fetchList = async () => {
-      const response = await getData("Supplayrs", localStorage.getItem("token"));
-      console.log(response);
+      const response = await getData("sells", localStorage.getItem("token"));
       if (response.data) {
         setList(response.data);
-        setPage(response.paginationResult.currentPage);
-        setNumberOfPages(response.paginationResult.numberOfPages);
-        // setLoading(false);
+        setLoading(false);
       }
     };
     fetchList();
@@ -49,17 +44,17 @@ const OutgoingStockReport = () => {
           {list.map((item, index) => (
             <div key={index} className="mb-6 lg:mb-10 bg-white p-4 rounded-xl font-medium">
               <div dir="rtl" className="flex flex-col sm:flex-row gap-3 items-center sm:justify-start mb-3 ">
-                <p className="text-right text-lg">المورد: {item.supplayr.supplayr_name}</p>
+                <p className="text-right text-lg">المورد: {item.clint.clint_name}</p>
                 <p className="text-right text-lg">النوع: {item.product.type}</p>
-                <p className="text-right text-lg">الوزن: {item.E_wieght}</p>
-                <p className="text-right text-lg">المقاس: {item.size}</p>
+                <p className="text-right text-lg">الوزن: {item.o_wieght}</p>
+                <p className="text-right text-lg">المقاس: {item.size_o}</p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 items-center sm:justify-end mb-3">
                 <p className="text-right text-lg">الموظف: {item.user.name}</p>
                 <p className="text-right text-lg">التاريخ: {item.createdAt.split("T")[0]}</p>
               </div>
               <div className="flex justify-center sm:justify-end">
-                <button className="text-[#01D1ED] font-semibold text-lg">عرض</button>
+                <Link to={`/outgoing-stock/${item._id}`} className="text-[#01D1ED] font-semibold text-lg">عرض</Link>
               </div>
             </div>
           ))}

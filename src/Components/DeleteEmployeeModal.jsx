@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { deleteData } from "../Services/apiCalls";
 
 import Modal from "@mui/material/Modal";
 
@@ -9,7 +10,14 @@ const DeleteEmployeeModal = ({ user }) => {
   const [open, setOpen] = useState(false);
 
   const handleDelete = async () => {
-    toast.info("جاري مسح الحساب")
+    toast.info("جاري مسح الحساب");
+    const response = await deleteData(`users/${user._id}`, localStorage.getItem("token"));
+    console.log(response);
+    if(response === ""){
+      toast.success("تم مسح الحساب بنجاح");
+      setOpen(false);
+      window.location.reload();
+    }
   };
 
   return (

@@ -54,8 +54,9 @@ const OutgoingStockAdd = () => {
   const [size, setSize] = useState("");
   const [price, setPrice] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
-  const [suppliers, setSuppliers] = useState([]);
-  const [selectedSupplier, setSelectedSupplier] = useState("");
+  const [name, setName] = useState("");
+  // const [suppliers, setSuppliers] = useState([]);
+  // const [selectedSupplier, setSelectedSupplier] = useState("");
   const [pay, setPay] = useState("");
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("incoming-stock" || location.pathname.split("/")[0]);
@@ -78,21 +79,21 @@ const OutgoingStockAdd = () => {
     fetchProducts();
   }, []);
 
-  useEffect(() => {
-    const fetchSuppliers = async () => {
-      const response = await getData("Supplayrs", localStorage.getItem("token"));
-      if (response) {
-        let temp = response.data.map((item) => {
-          return { value: item._id, label: item.supplayr_name };
-        });
-        setSuppliers(temp);
-      }
-    };
-    fetchSuppliers();
-  }, []);
+  // useEffect(() => {
+  //   const fetchSuppliers = async () => {
+  //     const response = await getData("Supplayrs", localStorage.getItem("token"));
+  //     if (response) {
+  //       let temp = response.data.map((item) => {
+  //         return { value: item._id, label: item.supplayr_name };
+  //       });
+  //       setSuppliers(temp);
+  //     }
+  //   };
+  //   fetchSuppliers();
+  // }, []);
 
   const handleAdd = () => {
-    if (!selectedProduct || !code || !weight || !size || !price || !selectedSupplier || !totalPrice || !pay) {
+    if (!selectedProduct || !code || !weight || !size || !price || !name || !totalPrice || !pay) {
       toast.error("برجاء ملئ جميع الحقول");
       return;
     }
@@ -123,8 +124,8 @@ const OutgoingStockAdd = () => {
       </div>
       <div className="flex flex-col items-center sm:flex-row justify-center gap-6 sm:gap-8 xl:gap-16 mb-6 lg:mb-10">
         <input onChange={(e) => setTotalPrice(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="السعر الاجمالي" />
-        {/* <input onChange={(e) => setName(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="اسم المورد" /> */}
-        <Select onChange={(e) => setSelectedSupplier(e.value)} className="w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" styles={customStyles2} options={suppliers} placeholder="اسم المورد" />
+        <input onChange={(e) => setName(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="اسم المورد" />
+        {/* <Select onChange={(e) => setSelectedSupplier(e.value)} className="w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" styles={customStyles2} options={suppliers} placeholder="اسم المورد" /> */}
       </div>
       <div className="flex justify-center mb-6 lg:mb-10">
         <input onChange={(e) => setPay(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="تم دفع" />
