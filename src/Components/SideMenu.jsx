@@ -61,7 +61,7 @@ const SideMenu = () => {
             <img className="size-[80px] rounded-full " src={avatar} alt="" />
           </div>
           <h5 className="text-white text-xl text-center font-medium">{userData.name}</h5>
-          <h5 className="text-white text-xl text-center font-medium">Role {userData.role}</h5>
+          <h5 className="text-white text-xl text-center font-medium capitalize">{userData.role}</h5>
         </div>
         <div className="grow bg-navyColor flex flex-col justify-between rounded-br-xl">
           <ul className="  rounded-br-xl pt-8 flex flex-col gap-4">

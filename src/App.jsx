@@ -14,6 +14,9 @@ import IncomingStockAdd from "./Pages/IncomingStockAdd";
 import IncomingStockReport from "./Pages/IncomingStockReport";
 import OutgoingStockAdd from "./Pages/OutgoingStockAdd";
 import OutgoingStockReport from "./Pages/OutgoingStockReport";
+import AddEmployee from "./Pages/AddEmployee";
+import Stock from "./Pages/Stock";
+import Permissions from "./Pages/Permissions";
 import NotAuthorized from "./Pages/NotAuthorized";
 
 function App() {
@@ -54,6 +57,9 @@ function App() {
             <Route path="/incoming-stock/report" element={<IncomingStockReport />} />
             <Route path="/outgoing-stock/add" element={<OutgoingStockAdd />} />
             <Route path="/outgoing-stock/report" element={<OutgoingStockReport />} />
+            <Route path="/add-employee" element={<AddEmployee />} />
+            <Route path="/stock/view" element={<Stock />} />
+            <Route path="/permissions" element={<Permissions />} />
           </Routes>
         </main>
       </Router>

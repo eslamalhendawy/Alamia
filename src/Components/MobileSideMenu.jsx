@@ -9,7 +9,7 @@ import avatar from "/assets/avatar.png";
 const linksList = [
   {
     title: "ادارة المخزون",
-    url: ["/incoming-stock", "/incoming-stock/report"],
+    url: ["/incoming-stock/add", "/incoming-stock/report", "/outgoing-stock/add", "/outgoing-stock/report", "/stock/view"],
   },
   {
     title: "فواتير",
@@ -76,6 +76,7 @@ const MobileSideMenu = () => {
               <img className="size-[80px] rounded-full " src={avatar} alt="" />
             </div>
             <h5 className="text-white text-xl text-center font-medium">{userData.name}</h5>
+            <h5 className="text-white text-xl text-center font-medium capitalize">{userData.role}</h5>
           </div>
           <div className="grow bg-navyColor flex flex-col justify-between">
             <ul className="  rounded-br-xl pt-8 flex flex-col gap-4">
