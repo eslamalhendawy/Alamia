@@ -5,6 +5,10 @@ import { getData } from "../Services/apiCalls";
 import Loading from "../Components/Loading";
 import StockNavigation from "../Components/StockNavigation";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 const IncomingStockReport = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,12 +23,18 @@ const IncomingStockReport = () => {
     const fetchList = async () => {
       const response = await getData("buys", localStorage.getItem("token"));
       if (response.data) {
-        setList(response.data);
+        setList(response.data.reverse());
         setLoading(false);
       }
     };
     fetchList();
   }, []);
+
+  const handlePrint = async () => {
+    const response = await getData("buys/export/excel", localStorage.getItem("token"));
+    console.log(response);
+    toast.info("جاري تحميل الملف");
+  };
 
   return (
     <section className="grow pb-6 pt-[70px] px-4 minHeight">
@@ -58,7 +68,7 @@ const IncomingStockReport = () => {
               </div>
             </div>
           ))}
-          <button className="bg-navyColor text-white py-2 px-8 rounded-xl">طباعة</button>
+          <button onClick={handlePrint} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">طباعة</button>
         </div>
       )}
     </section>

@@ -52,7 +52,7 @@ const Stock = () => {
 
   const handleSearch = async () => {
     setLoading(true);
-    const response = await getData(`warehous?${selectedProduct != "" ? `keyword=${selectedProduct}` : ""}&${size != "" ? `size=${size}` : ""}`, localStorage.getItem("token"));
+    const response = await getData(`warehous?${selectedProduct != "" ? `product=${selectedProduct}` : ""}${size != "" ? `&size=${size}` : ""}`, localStorage.getItem("token"));
     if (response) {
       setList(response.data);
       setLoading(false);
@@ -68,7 +68,7 @@ const Stock = () => {
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
         <input onChange={(e) => setSize(e.target.value)} type="text" className="w-[250px] bg-[#bcbaba] p-2 outline-none text-right rounded" placeholder="المقاس" />
-        <Select onChange={(e) => setSelectedProduct(e.label)} className="w-[250px]" styles={customStyles} options={products} placeholder="اسم المنتج" />
+        <Select onChange={(e) => setSelectedProduct(e.value)} className="w-[250px]" styles={customStyles} options={products} placeholder="اسم المنتج" />
       </div>
       {loading && <Loading />}
       {!loading && !hidden && list.length === 0 && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>}

@@ -18,8 +18,9 @@ const OutgoingStockReport = () => {
   useEffect(() => {
     const fetchList = async () => {
       const response = await getData("sells", localStorage.getItem("token"));
+      console.log(response);
       if (response.data) {
-        setList(response.data);
+        setList(response.data.reverse());
         setLoading(false);
       }
     };
@@ -45,7 +46,7 @@ const OutgoingStockReport = () => {
             <div key={index} className="mb-6 lg:mb-10 bg-white p-4 rounded-xl font-medium">
               <div dir="rtl" className="flex flex-col sm:flex-row gap-3 items-center sm:justify-start mb-3 ">
                 <p className="text-right text-lg">المورد: {item.clint.clint_name}</p>
-                <p className="text-right text-lg">النوع: {item.product.type}</p>
+                <p className="text-right text-lg">النوع: {item.product?.type}</p>
                 <p className="text-right text-lg">الوزن: {item.o_wieght}</p>
                 <p className="text-right text-lg">المقاس: {item.size_o}</p>
               </div>
@@ -58,7 +59,7 @@ const OutgoingStockReport = () => {
               </div>
             </div>
           ))}
-          <button className="bg-navyColor text-white py-2 px-8 rounded-xl">طباعة</button>
+          <button className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">طباعة</button>
         </div>
       )}
     </section>

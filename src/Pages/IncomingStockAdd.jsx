@@ -49,6 +49,7 @@ const customStyles2 = {
 const IncomingStockAdd = () => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [productsList, setProductsList] = useState([]);
+  const [productData, setProductData] = useState({});
   const [code, setCode] = useState("");
   const [weight, setWeight] = useState("");
   const [size, setSize] = useState("");
@@ -92,6 +93,25 @@ const IncomingStockAdd = () => {
     fetchSuppliers();
   }, []);
 
+  useEffect(() => {
+    const fetchProductData = async () => {
+      const response = await getData(`products/${selectedProduct}`, localStorage.getItem("token"));
+      console.log(response);
+      if (response) {
+        setProductData(response.data);
+      }
+    };
+    fetchProductData();
+  }, [selectedProduct]);
+
+  useEffect(() => {
+    if (weight && price) {
+      setTotalPrice(weight * price);
+    } else {
+      setTotalPrice("");
+    }
+  }, [weight, price]);
+
   const handleAdd = async () => {
     if (!selectedProduct || !code || !weight || !size || !price || !selectedSupplier || !totalPrice || !pay) {
       toast.error("برجاء ملئ جميع الحقول");
@@ -99,7 +119,6 @@ const IncomingStockAdd = () => {
     }
     toast.info("جاري اضافة البيانات");
     const response = await postData("buys", { user: userData.id, supplayr: selectedSupplier, size, E_wieght: weight, product: selectedProduct, product_code: code, price_Kilo: price, price_all: totalPrice, pay }, localStorage.getItem("token"));
-    console.log(response);
     if (response.data) {
       toast.success("تمت الاضافة بنجاح");
       setCode("");
@@ -136,7 +155,7 @@ const IncomingStockAdd = () => {
         <input value={size} onChange={(e) => setSize(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="المقاس" />
       </div>
       <div className="flex flex-col items-center sm:flex-row justify-center gap-6 sm:gap-8 xl:gap-16 mb-6 lg:mb-10">
-        <input value={totalPrice} onChange={(e) => setTotalPrice(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="السعر الاجمالي" />
+        <input value={totalPrice} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="السعر الاجمالي" />
         {/* <input value={name} onChange={(e) => setName(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="اسم المورد" /> */}
         <Select onChange={(e) => setSelectedSupplier(e.value)} className="w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" styles={customStyles2} options={suppliers} placeholder="اسم المورد" />
       </div>
@@ -144,11 +163,11 @@ const IncomingStockAdd = () => {
         <input value={pay} onChange={(e) => setPay(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="تم دفع" />
       </div>
       <div className="flex flex-col justify-center items-center mb-6 lg:mb-10">
-        <p className=" text-[#8b8989] text-xl mb-4">
-          متوسط السعر: <span className="text-black">420</span>
+        <p dir="rtl" className=" text-[#8b8989] text-xl mb-4">
+          متوسط السعر: <span className="text-black">{productData?.avg_price}</span>
         </p>
-        <p className=" text-[#8b8989] text-xl">
-          اجمالي المخزون: <span className="text-black">420</span>
+        <p dir="rtl" className=" text-[#8b8989] text-xl">
+          اجمالي المخزون: <span className="text-black">{productData?.wieght}</span>
         </p>
       </div>
       <div className="flex justify-center">

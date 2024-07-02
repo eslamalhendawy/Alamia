@@ -1,18 +1,23 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { getData } from "../Services/apiCalls";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { getData, deleteData, postData } from "../Services/apiCalls";
 
 import Loading from "../Components/Loading";
 import StockNavigation from "../Components/StockNavigation";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const OutgoingStockItem = () => {
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItem = async () => {
       const response = await getData(`sells/${id}`, localStorage.getItem("token"));
+      console.log(response);
       if (response.data) {
         setItem(response.data);
         setLoading(false);
@@ -20,6 +25,19 @@ const OutgoingStockItem = () => {
     };
     fetchItem();
   }, []);
+
+  const handleDelete = async () => {
+    const response = await deleteData(`sells/${id}`, localStorage.getItem("token"));
+    console.log(response);
+    if(response === ""){
+      toast.success("تم الحذف بنجاح");
+      navigate("/outgoing-stock/report");
+    }
+  };
+
+  const handleReturn = async () => {
+    const response = await postData(`return/${id}`, {}, localStorage.getItem("token"));
+  };
 
   return (
     <section className="grow pb-6 pt-[70px] px-4 minHeight">
@@ -40,24 +58,24 @@ const OutgoingStockItem = () => {
             <p className="basis-1/3">الموظف : {item.user.name}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
-            <p className="basis-1/3">النوع : {item.product.type}</p>
+            <p className="basis-1/3">النوع : {item.product?.type}</p>
             <p className="basis-1/3">التاريخ : {item.createdAt.split("T")[0]}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">الوزن : {item.o_wieght}ك</p>
-            <p className="basis-1/3">مدفوع : {item.clint.money_pay}</p>
+            <p className="basis-1/3">مدفوع : {item.pay_now}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">المقاس : {item.size_o}</p>
-            <p className="basis-1/3">باقي : {item.clint.money_on}</p>
+            <p className="basis-1/3">باقي : {item.price_allQuantity - item.pay_now}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">السعر : {item.price_allQuantity}</p>
           </div>
           <div className="flex flex-col sm:flex-row-reverse justify-start gap-3">
-            <button className="bg-navyColor text-white py-2 px-8 rounded-xl">مسح</button>
-            <button className="bg-navyColor text-white py-2 px-8 rounded-xl">مرتجع</button>
-            <button className="bg-navyColor text-white py-2 px-8 rounded-xl">
+            <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">مسح</button>
+            <button onClick={handleReturn} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">مرتجع</button>
+            <button className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
               <i className="fa-solid fa-pen-to-square"></i>
             </button>
           </div>

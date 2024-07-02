@@ -49,6 +49,7 @@ const customStyles2 = {
 const OutgoingStockAdd = () => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [productsList, setProductsList] = useState([]);
+  const [productData, setProductData] = useState({});
   const [code, setCode] = useState("");
   const [weight, setWeight] = useState("");
   const [size, setSize] = useState("");
@@ -61,6 +62,8 @@ const OutgoingStockAdd = () => {
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("incoming-stock" || location.pathname.split("/")[0]);
   const { userData } = useAppContext();
+  const [averagePrice, setAveragePrice] = useState("");
+  const [totalStock, setTotalStock] = useState("");
 
   useEffect(() => {
     setCurrentPage(location.pathname.split("/")[1]);
@@ -68,10 +71,11 @@ const OutgoingStockAdd = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await getData("products", localStorage.getItem("token"));
+      const response = await getData("warehous", localStorage.getItem("token"));
+      console.log(response);
       if (response) {
         let temp = response.data.map((item) => {
-          return { value: item._id, label: item.type };
+          return { value: item.product._id, label: `${item.product.type} - ${item.product_code}`, weight: item.weight, size: item.size, avg_price: item.product.avg_price, stock: item.product.wieght };
         });
         setProductsList(temp);
       }
@@ -80,11 +84,19 @@ const OutgoingStockAdd = () => {
   }, []);
 
   useEffect(() => {
+    if (selectedProduct !== "") {
+      setCode(productsList.find((item) => item.value === selectedProduct).label.split(" - ")[1]);
+      setWeight(productsList.find((item) => item.value === selectedProduct).weight);
+      setSize(productsList.find((item) => item.value === selectedProduct).size);
+    }
+  }, [selectedProduct]);
+
+  useEffect(() => {
     const fetchSuppliers = async () => {
-      const response = await getData("Supplayrs", localStorage.getItem("token"));
+      const response = await getData("clints", localStorage.getItem("token"));
       if (response) {
         let temp = response.data.map((item) => {
-          return { value: item._id, label: item.supplayr_name };
+          return { value: item._id, label: item.clint_name };
         });
         setSuppliers(temp);
       }
@@ -92,14 +104,41 @@ const OutgoingStockAdd = () => {
     fetchSuppliers();
   }, []);
 
+  // useEffect(() => {
+  //   const fetchProductData = async () => {
+  //     const response = await getData(`products/${selectedProduct}`, localStorage.getItem("token"));
+  //     if (response) {
+  //       setProductData(response.data);
+  //     }
+  //   };
+  //   fetchProductData();
+  // }, [selectedProduct]);
+
+  useEffect(() => {
+    if (weight && price) {
+      setTotalPrice(weight * price);
+    } else {
+      setTotalPrice("");
+    }
+  }, [weight, price]);
+
   const handleAdd = async () => {
-    if (!selectedProduct || !code || !weight || !size || !price || !name || !totalPrice || !pay) {
+    if (!selectedProduct || !code || !weight || !size || !price || !selectedSupplier || !totalPrice || !pay) {
       toast.error("برجاء ملئ جميع الحقول");
       return;
     }
     toast.info("جاري اضافة البيانات");
     const response = await postData("sells", { user: userData.id, clint: "6673344627dbf11c521d0d29", o_wieght: weight, product: selectedProduct, size_o: size, product_code: code, priceForKilo: price, price_allQuantity: totalPrice, pay_now: pay }, localStorage.getItem("token"));
-    console.log(response);
+    if(response.data){
+      toast.success("تمت الاضافة بنجاح");
+      setCode("");
+      setWeight("");
+      setSize("");
+      setPrice("");
+      setTotalPrice("");
+      setName("");
+      setPay("");
+    }
   };
 
   return (
@@ -114,30 +153,40 @@ const OutgoingStockAdd = () => {
         </Link>
       </div>
       <div className="flex justify-center mb-8">
-        <Select onChange={(e) => setSelectedProduct(e.value)} className="w-[250px]" styles={customStyles} options={productsList} placeholder="اسم المنتج" />
+        <Select
+          onChange={(e) => {
+            setSelectedProduct(e.value);
+            setAveragePrice(e.avg_price);
+            setTotalStock(e.stock);
+          }}
+          className="w-[250px]"
+          styles={customStyles}
+          options={productsList}
+          placeholder="اسم المنتج"
+        />
       </div>
       <div className="flex flex-col items-center sm:flex-row justify-center gap-6 sm:gap-8 xl:gap-16 mb-6 lg:mb-10">
         <input value={weight} onChange={(e) => setWeight(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="وزن" />
-        <input value={code} onChange={(e) => setCode(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="كود" />
+        <input value={code} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="كود" />
       </div>
       <div className="flex flex-col items-center sm:flex-row justify-center gap-6 sm:gap-8 xl:gap-16 mb-6 lg:mb-10">
         <input value={price} onChange={(e) => setPrice(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="السعر ك" />
-        <input value={size} onChange={(e) => setSize(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="المقاس" />
+        <input value={size} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="المقاس" />
       </div>
       <div className="flex flex-col items-center sm:flex-row justify-center gap-6 sm:gap-8 xl:gap-16 mb-6 lg:mb-10">
-        <input value={totalPrice} onChange={(e) => setTotalPrice(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="السعر الاجمالي" />
+        <input value={totalPrice} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="السعر الاجمالي" />
         {/* <input value={name} onChange={(e) => setName(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="اسم المورد" /> */}
-        <Select onChange={(e) => setSelectedSupplier(e.value)} className="w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" styles={customStyles2} options={suppliers} placeholder="اسم المورد" />
+        <Select onChange={(e) => setSelectedSupplier(e.value)} className="w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" styles={customStyles2} options={suppliers} placeholder="اسم العميل " />
       </div>
       <div className="flex justify-center mb-6 lg:mb-10">
         <input value={pay} onChange={(e) => setPay(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="تم دفع" />
       </div>
       <div className="flex flex-col justify-center items-center mb-6 lg:mb-10">
-        <p className=" text-[#8b8989] text-xl mb-4">
-          متوسط السعر: <span className="text-black">420</span>
+        <p dir="rtl" className=" text-[#8b8989] text-xl mb-4">
+          متوسط السعر: <span className="text-black">{averagePrice}</span>
         </p>
-        <p className=" text-[#8b8989] text-xl">
-          اجمالي المخزون: <span className="text-black">420</span>
+        <p dir="rtl" className=" text-[#8b8989] text-xl">
+          اجمالي المخزون: <span className="text-black">{totalStock}</span>
         </p>
       </div>
       <div className="flex justify-center">

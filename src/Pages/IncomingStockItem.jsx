@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { getData } from "../Services/apiCalls";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { getData, deleteData } from "../Services/apiCalls";
 
 import Loading from "../Components/Loading";
 import StockNavigation from "../Components/StockNavigation";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const IncomingStockItem = () => {
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -22,9 +26,59 @@ const IncomingStockItem = () => {
     fetchItem();
   }, []);
 
-  return (
-    <div>IncomingStockItem</div>
-  )
-}
+  const handleDelete = async () => {
+    const response = await deleteData(`buys/${id}`, localStorage.getItem("token"));
+    console.log(response);
+    if(response === ""){
+      toast.success("تم الحذف بنجاح");
+      navigate("/incoming-stock/report");
+    }
+  };
 
-export default IncomingStockItem
+  return (
+    <section className="grow pb-6 pt-[70px] px-4 minHeight">
+      <StockNavigation />
+      <div className="flex justify-center gap-8 mb-6">
+        <Link to="/incoming-stock/add" className={`text-lg font-medium text-darkGreen hover:text-white duration-200`}>
+          اضافة
+        </Link>
+        <Link to="/incoming-stock/report" className={`text-lg font-medium text-darkGreen hover:text-white duration-200`}>
+          تقرير
+        </Link>
+      </div>
+      {loading && <Loading />}
+      {!loading && (
+        <div dir="rtl" className="xl:w-[70%] 2xl:w-[50%] xl:mx-auto bg-white p-6 rounded-xl font-medium text-lg">
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3">المورد : {item.supplayr?.supplayr_name}</p>
+            <p className="basis-1/3">الموظف : {item.user.name}</p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3">النوع : {item.product.type}</p>
+            <p className="basis-1/3">التاريخ : {item.createdAt.split("T")[0]}</p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3">الوزن : {item.E_wieght}ك</p>
+            <p className="basis-1/3">مدفوع : {item.pay}</p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3">المقاس : {item.size}</p>
+            <p className="basis-1/3">باقي : {item.price_all - item.pay}</p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3">السعر : {item.price_all}</p>
+          </div>
+          <div className="flex flex-col sm:flex-row-reverse justify-start gap-3">
+            <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">مسح</button>
+            {/* <button className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">مرتجع</button> */}
+            <button className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
+              <i className="fa-solid fa-pen-to-square"></i>
+            </button>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+};
+
+export default IncomingStockItem;
