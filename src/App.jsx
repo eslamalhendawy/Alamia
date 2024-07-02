@@ -19,7 +19,7 @@ import Stock from "./Pages/Stock";
 import Permissions from "./Pages/Permissions";
 import IncomingStockItem from "./Pages/IncomingStockItem";
 import Report from "./Pages/Report";
-import NotAuthorized from "./Pages/NotAuthorized";
+import OutgoingStockItem from "./Pages/OutgoingStockItem";
 
 function App() {
   const loggedIn = Boolean(localStorage.getItem("token"));
@@ -63,6 +63,7 @@ function App() {
             <Route path="/stock/view" element={<Stock />} />
             <Route path="/permissions" element={<Permissions />} />
             <Route path="/incoming-stock/:id" element={<IncomingStockItem />} />
+            <Route path="/outgoing-stock/:id" element={<OutgoingStockItem />} />
             <Route path="/report" element={<Report />} />
           </Routes>
         </main>

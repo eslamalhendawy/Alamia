@@ -78,7 +78,7 @@ const Stock = () => {
             <div key={index} className="mb-6 lg:mb-10 bg-white p-4 rounded-xl font-medium">
               <div dir="rtl" className="flex flex-col sm:flex-row gap-3 items-center sm:justify-start mb-3 ">
                 <p className="text-right text-lg">النوع: {item.product.type}</p>
-                <p className="text-right text-lg">الوزن: {item.E_wieght}</p>
+                <p className="text-right text-lg">الوزن: {item.weight}</p>
                 <p className="text-right text-lg">المقاس: {item.size}</p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 items-center sm:justify-end mb-3">
