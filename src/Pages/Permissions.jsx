@@ -23,9 +23,9 @@ const Permissions = () => {
   }, []);
 
   return (
-    <section className="grow py-6 px-4 minHeight flex flex-col items-center justify-center">
+    <section className="grow pb-6 pt-[70px] px-4 minHeight flex flex-col items-center justify-center">
       {loading && <Loading />}
-      <div className="flex flex-col gap-6 md:w-[80%] pt-[50px] sm:pt-0">
+      <div className="flex flex-col gap-6 md:w-[80%]">
         {!loading &&
           users.length > 0 &&
           users.map((user) => (

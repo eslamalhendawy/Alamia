@@ -61,7 +61,7 @@ const Stock = () => {
   };
 
   return (
-    <section className="grow py-6 px-4 minHeight">
+    <section className="grow pb-6 pt-[70px] px-4 minHeight">
       <StockNavigation />
       <div className="flex flex-col-reverse md:flex-row items-center gap-4 justify-center mb-16">
         <button onClick={handleSearch} className="bg-navyColor hover:bg-[#234863] duration-200 text-white text-xl size-[40px] flex justify-center items-center rounded-lg">

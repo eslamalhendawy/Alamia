@@ -22,7 +22,7 @@ const OutgoingStockItem = () => {
   }, []);
 
   return (
-    <section className="grow py-6 px-4 minHeight">
+    <section className="grow pb-6 pt-[70px] px-4 minHeight">
       <StockNavigation />
       <div className="flex justify-center gap-8 mb-6">
         <Link to="/outgoing-stock/add" className={`text-lg font-medium text-darkGreen hover:text-white duration-200`}>
