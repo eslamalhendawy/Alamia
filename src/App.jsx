@@ -24,6 +24,8 @@ import Suppliers from "./Pages/Suppliers";
 import Clients from "./Pages/Clients";
 import AddClient from "./Pages/AddClient";
 import AddSupplier from "./Pages/AddSupplier";
+import Tax from "./Pages/Tax";
+import Bills from "./Pages/Bills";
 
 function App() {
   const loggedIn = Boolean(localStorage.getItem("token"));
@@ -73,6 +75,10 @@ function App() {
             <Route path="/clients" element={<Clients />} />
             <Route path="/add-client" element={<AddClient />} />
             <Route path="/add-supplier" element={<AddSupplier />} />
+            <Route path="/exit-tax/add" element={<Tax />} />
+            <Route path="/enter-tax/add" element={<Tax />} />
+            <Route path="/receive-bill/add" element={<Bills />} />
+            <Route path="/pay-bill/add" element={<Bills />} />
           </Routes>
         </main>
       </Router>

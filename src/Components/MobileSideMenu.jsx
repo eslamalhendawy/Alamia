@@ -13,7 +13,11 @@ const linksList = [
   },
   {
     title: "فواتير",
-    url: ["/bills"],
+    url: ["/receive-bill/add", "/receive-bill/report", "/pay-bill/add", "/pay-bill/report"],
+  },
+  {
+    title: "ضريبة",
+    url: ["/exit-tax", "/enter-tax"],
   },
   {
     title: "عملاء",
@@ -67,7 +71,7 @@ const MobileSideMenu = () => {
         <i className="fa-solid fa-bars"></i>
       </button>
       <Drawer anchor="left" open={open} onClose={toggleMenu(false)} onOpen={toggleMenu(true)}>
-        <div className="w-screen h-full md:max-w-screen-sm flex flex-col bg-navyColor relative">
+        <div className="w-screen h-full overflow-scroll no-scrollbar md:max-w-screen-sm flex flex-col bg-navyColor relative">
           <button className="w-fit ml-auto text-xl hover:text-red-500 duration-200 text-white absolute right-6 top-4" onClick={() => setOpen(false)}>
             <i className="fa-solid fa-x"></i>
           </button>
