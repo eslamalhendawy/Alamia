@@ -22,6 +22,8 @@ import Report from "./Pages/Report";
 import OutgoingStockItem from "./Pages/OutgoingStockItem";
 import Suppliers from "./Pages/Suppliers";
 import Clients from "./Pages/Clients";
+import AddClient from "./Pages/AddClient";
+import AddSupplier from "./Pages/AddSupplier";
 
 function App() {
   const loggedIn = Boolean(localStorage.getItem("token"));
@@ -69,6 +71,8 @@ function App() {
             <Route path="/report" element={<Report />} />
             <Route path="/suppliers" element={<Suppliers />} />
             <Route path="/clients" element={<Clients />} />
+            <Route path="/add-client" element={<AddClient />} />
+            <Route path="/add-supplier" element={<AddSupplier />} />
           </Routes>
         </main>
       </Router>

@@ -49,38 +49,38 @@ const AddEmployee = () => {
         <div>
           <img src={logo} alt="" />
         </div>
-        <div className="flex w-full lg:w-[70%] 2xl:w-[60%] rounded-xl overflow-hidden">
+        <div className="flex flex-row-reverse w-full lg:w-[70%] 2xl:w-[60%] rounded-xl overflow-hidden">
           <div className="bg-[#f3f3f3] py-3 w-[30px] md:w-[50px] flex justify-center items-center text-lg text-lightGreen">
             <i className="fa-solid fa-users"></i>
           </div>
-          <input value={name} onChange={(e) => setName(e.target.value)} className="grow px-2 outline-none text-lg" type="text" placeholder="User Name" />
+          <input value={name} onChange={(e) => setName(e.target.value)} className="grow px-2 outline-none text-lg text-right" type="text" placeholder="الاسم" />
         </div>
-        <div className="flex w-full lg:w-[70%] 2xl:w-[60%] rounded-xl overflow-hidden">
+        <div className="flex flex-row-reverse w-full lg:w-[70%] 2xl:w-[60%] rounded-xl overflow-hidden">
           <div className="bg-[#f3f3f3] py-3 w-[30px] md:w-[50px] flex justify-center items-center text-lg text-lightGreen">
             <i className="fa-solid fa-envelope"></i>
           </div>
-          <input value={email} onChange={(e) => setEmail(e.target.value)} className="grow px-2 outline-none text-lg" type="text" placeholder="Email" />
+          <input value={email} onChange={(e) => setEmail(e.target.value)} className="grow px-2 outline-none text-lg text-right" type="text" placeholder="الايميل" />
         </div>
-        <div className="flex w-full lg:w-[70%] 2xl:w-[60%] rounded-xl overflow-hidden">
+        <div className="flex flex-row-reverse w-full lg:w-[70%] 2xl:w-[60%] rounded-xl overflow-hidden">
           <div className="bg-[#f3f3f3] py-3 w-[30px] md:w-[50px] flex justify-center items-center text-lg text-lightGreen">
             <i className="fa-solid fa-users"></i>
           </div>
-          <input value={role} onChange={(e) => setRole(e.target.value)} className="grow px-2 outline-none text-lg" type="text" placeholder="Role" />
+          <input value={role} onChange={(e) => setRole(e.target.value)} className="grow px-2 outline-none text-lg text-right" type="text" placeholder="الصلاحية" />
         </div>
-        <div className="flex w-full lg:w-[70%] 2xl:w-[60%] rounded-xl overflow-hidden">
+        <div className="flex flex-row-reverse w-full lg:w-[70%] 2xl:w-[60%] rounded-xl overflow-hidden">
           <div className="bg-[#f3f3f3] py-3 w-[30px] md:w-[50px] flex justify-center items-center text-lg text-lightGreen">
             <i className="fa-solid fa-lock"></i>
           </div>
-          <input value={password} onChange={(e) => setPassword(e.target.value)} className="grow px-2 outline-none text-lg" type="password" placeholder="Password" />
+          <input value={password} onChange={(e) => setPassword(e.target.value)} className="grow px-2 outline-none text-lg text-right" type="password" placeholder="كلمة المرور" />
         </div>
-        <div className="flex w-full lg:w-[70%] 2xl:w-[60%] rounded-xl overflow-hidden mb-8">
+        <div className="flex flex-row-reverse w-full lg:w-[70%] 2xl:w-[60%] rounded-xl overflow-hidden mb-8">
           <div className="bg-[#f3f3f3] py-3 w-[30px] md:w-[50px] flex justify-center items-center text-lg text-lightGreen">
             <i className="fa-solid fa-lock"></i>
           </div>
-          <input value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} className="grow px-2 outline-none text-lg" type="password" placeholder="Confirm Password" />
+          <input value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} className="grow px-2 outline-none text-lg text-right" type="password" placeholder="تأكيد كلمة المرور" />
         </div>
         <button onClick={handleClick} className="text-white outline-none hover:text-lightGreen hover:text-greenColor hover:bg-white duration-200 text-medium text-lg border-[3px] border-white py-2 px-12 rounded-lg">
-          Sign Up
+          تسجيل
         </button>
       </div>
     </section>

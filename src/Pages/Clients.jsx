@@ -48,8 +48,7 @@ const Clients = () => {
     if (selectedClient !== "") {
       setHidden(false);
       const fetchClientData = async () => {
-        const response = await getData(`sells?client=${selectedClient}`, localStorage.getItem("token"));
-        console.log(response);
+        const response = await getData(`sells?clint=${selectedClient}`, localStorage.getItem("token"));
         if (response.data) {
           setClientData(response.data.reverse());
           setLoading(false);
@@ -66,7 +65,7 @@ const Clients = () => {
         <Select onChange={(e) => setSelectedClient(e.value)} className="w-[250px]" styles={customStyles} options={clients} placeholder="اسم العميل" />
       </div>
       {loading && !hidden && <Loading />}
-      {!loading && clientData.length === 0 && <h2 className="text-2xl text-center">No Clients Found</h2>}
+      {!loading && clientData.length === 0 && <h2 className="text-2xl text-center">No Records Found</h2>}
       {!loading && clientData.length > 0 && (
         <>
           <div className="xl:w-[50%] xl:mx-auto flex flex-col gap-6">
@@ -74,7 +73,7 @@ const Clients = () => {
               <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
                 <p>عميل: {item.clint.clint_name}</p>
                 <p>النوع: {item.product.type}</p>
-                <p>الوزن: {item.o_wieght}</p>
+                <p>الوزن: {item.o_wieght}ك</p>
                 <p>المقاس: {item.size_o}</p>
                 <p>الموظف: {item.user.name}</p>
                 <p>التاريخ: {item.updatedAt.split("T")[0]}</p>
