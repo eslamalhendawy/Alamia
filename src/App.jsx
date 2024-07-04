@@ -46,7 +46,6 @@ function App() {
           });
         } else {
           setUserData({});
-          localStorage.removeItem("token");
         }
       };
       fetchUserData();

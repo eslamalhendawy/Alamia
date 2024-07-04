@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { getData, deleteData } from "../Services/apiCalls";
 
 import Loading from "../Components/Loading";
+import EditStockModal from "../Components/EditStockModal";
 import StockNavigation from "../Components/StockNavigation";
 
 import { toast } from "react-toastify";
@@ -17,7 +18,6 @@ const IncomingStockItem = () => {
   useEffect(() => {
     const fetchItem = async () => {
       const response = await getData(`buys/${id}`, localStorage.getItem("token"));
-      console.log(response);
       if (response.data) {
         setItem(response.data);
         setLoading(false);
@@ -70,10 +70,7 @@ const IncomingStockItem = () => {
           </div>
           <div className="flex flex-col sm:flex-row-reverse justify-start gap-3">
             <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">مسح</button>
-            {/* <button className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">مرتجع</button> */}
-            <button className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
-              <i className="fa-solid fa-pen-to-square"></i>
-            </button>
+            <EditStockModal item={item} />
           </div>
         </div>
       )}

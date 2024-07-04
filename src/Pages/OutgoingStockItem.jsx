@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { getData, deleteData, postData } from "../Services/apiCalls";
 
 import Loading from "../Components/Loading";
+import EditStockModal from "../Components/EditStockModal";
 import StockNavigation from "../Components/StockNavigation";
 
 import { toast } from "react-toastify";
@@ -28,7 +29,6 @@ const OutgoingStockItem = () => {
 
   const handleDelete = async () => {
     const response = await deleteData(`sells/${id}`, localStorage.getItem("token"));
-    console.log(response);
     if(response === ""){
       toast.success("تم الحذف بنجاح");
       navigate("/outgoing-stock/report");
@@ -75,9 +75,7 @@ const OutgoingStockItem = () => {
           <div className="flex flex-col sm:flex-row-reverse justify-start gap-3">
             <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">مسح</button>
             <button onClick={handleReturn} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">مرتجع</button>
-            <button className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
-              <i className="fa-solid fa-pen-to-square"></i>
-            </button>
+            {/* <EditStockModal /> */}
           </div>
         </div>
       )}
