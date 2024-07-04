@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = "https://almaya.zeabur.app/api/v1/";
+const baseURL = "https://alalamya.onrender.com/api/v1/";
 
 export const postData = async (url, data, token) => {
   let result = [];

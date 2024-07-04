@@ -30,11 +30,11 @@ const IncomingStockReport = () => {
     fetchList();
   }, []);
 
-  const handlePrint = async () => {
-    const response = await getData("buys/export/excel", localStorage.getItem("token"));
-    console.log(response);
-    toast.info("جاري تحميل الملف");
-  };
+  // const handlePrint = async () => {
+  //   const response = await getData("buys/export/excel");
+  //   console.log(response);
+  //   toast.info("جاري تحميل الملف");
+  // };
 
   return (
     <section className="grow pb-6 pt-[70px] px-4 minHeight">
@@ -68,7 +68,7 @@ const IncomingStockReport = () => {
               </div>
             </div>
           ))}
-          <button onClick={handlePrint} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">طباعة</button>
+          <a href="https://alalamya.onrender.com/api/v1/buys/export/excel" target="_blank" className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">طباعة</a>
         </div>
       )}
     </section>

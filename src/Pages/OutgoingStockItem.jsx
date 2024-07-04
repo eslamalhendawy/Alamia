@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import { useAppContext } from "../Context/AppContext";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getData, deleteData, postData } from "../Services/apiCalls";
 
 import Loading from "../Components/Loading";
-import EditStockModal from "../Components/EditStockModal";
+import EditOutgoingModel from "../Components/EditOutgoingModel";
 import StockNavigation from "../Components/StockNavigation";
 
 import { toast } from "react-toastify";
@@ -13,6 +14,7 @@ const OutgoingStockItem = () => {
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const { userData } = useAppContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,14 +31,19 @@ const OutgoingStockItem = () => {
 
   const handleDelete = async () => {
     const response = await deleteData(`sells/${id}`, localStorage.getItem("token"));
-    if(response === ""){
+    if (response === "") {
       toast.success("تم الحذف بنجاح");
       navigate("/outgoing-stock/report");
     }
   };
 
   const handleReturn = async () => {
-    const response = await postData(`return/${id}`, {}, localStorage.getItem("token"));
+    const response = await postData(`return`, { user: userData.id, sell: item._id, o_wieght: item.o_wieght, size_o: item.size_o, product_code: item.product_code, priceForKilo: item.priceForKilo, price_allQuantity: item.price_allQuantity, refund_amount: item.pay_now, clint: item.clint._id, product: item.product._id }, localStorage.getItem("token"));
+    console.log(response);
+    if(response.data){
+      toast.success("تم الارجاع بنجاح");
+      navigate("/outgoing-stock/report");
+    }
   };
 
   return (
@@ -73,9 +80,13 @@ const OutgoingStockItem = () => {
             <p className="basis-1/3">السعر : {item.price_allQuantity}</p>
           </div>
           <div className="flex flex-col sm:flex-row-reverse justify-start gap-3">
-            <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">مسح</button>
-            <button onClick={handleReturn} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">مرتجع</button>
-            {/* <EditStockModal /> */}
+            <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
+              مسح
+            </button>
+            <button onClick={handleReturn} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
+              مرتجع
+            </button>
+            <EditOutgoingModel item={item} />
           </div>
         </div>
       )}

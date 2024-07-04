@@ -18,7 +18,6 @@ const OutgoingStockReport = () => {
   useEffect(() => {
     const fetchList = async () => {
       const response = await getData("sells", localStorage.getItem("token"));
-      console.log(response);
       if (response.data) {
         setList(response.data.reverse());
         setLoading(false);
@@ -59,7 +58,7 @@ const OutgoingStockReport = () => {
               </div>
             </div>
           ))}
-          <button className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">طباعة</button>
+          <a href="https://alalamya.onrender.com/api/v1/sells/export/excel" target="_blank" className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">طباعة</a>
         </div>
       )}
     </section>

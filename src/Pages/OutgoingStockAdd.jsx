@@ -128,7 +128,7 @@ const OutgoingStockAdd = () => {
       return;
     }
     toast.info("جاري اضافة البيانات");
-    const response = await postData("sells", { user: userData.id, clint: "6673344627dbf11c521d0d29", o_wieght: weight, product: selectedProduct, size_o: size, product_code: code, priceForKilo: price, price_allQuantity: totalPrice, pay_now: pay }, localStorage.getItem("token"));
+    const response = await postData("sells", { user: userData.id, clint: selectedSupplier, o_wieght: weight, product: selectedProduct, size_o: size, product_code: code, priceForKilo: price, price_allQuantity: totalPrice, pay_now: pay }, localStorage.getItem("token"));
     if (response.data){
       toast.success("تمت الاضافة بنجاح");
       setCode("");

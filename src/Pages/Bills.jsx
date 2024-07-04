@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
+import { useAppContext } from "../Context/AppContext";
 import { useLocation, Link } from "react-router-dom";
-import { getData } from "../Services/apiCalls";
+import { getData, postData } from "../Services/apiCalls";
 
 import Select from "react-select";
 
 import BillsNavigation from "../Components/BillsNavigation";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const customStyles = {
   control: (provided) => ({
@@ -34,41 +38,58 @@ const Bills = () => {
   const [amount, setAmount] = useState("");
   const [checkNumber, setCheckNumber] = useState("");
   const [checkDate, setCheckDate] = useState("");
+  const { userData } = useAppContext();
 
   useEffect(() => {
     setCurrentPage(location.pathname.split("/")[1]);
   }, [location]);
 
   useEffect(() => {
-    if (type !== "") {
+    if (currentPage !== "") {
       const fetchList = async () => {
-        const response = await getData(`${type}`, localStorage.getItem("token"));
-        if (type === "clints") {
+        if (currentPage === "receive-bill") {
+          const response = await getData(`clints`, localStorage.getItem("token"));
+          setType("clints");
           let temp = response.data.map((item) => {
-            return { value: item._id, label: item.clint_name };
+            return { value: item._id, label: item.clint_name, name: item.clint_name };
           });
           setList(temp);
         } else {
+          const response = await getData(`Supplayrs`, localStorage.getItem("token"));
+          setType("Supplayrs");
           let temp = response.data.map((item) => {
-            return { value: item._id, label: item.supplayr_name };
+            return { value: item._id, label: item.supplayr_name, name: item.supplayr_name };
           });
           setList(temp);
         }
       };
       fetchList();
     }
-  }, [type]);
+  }, [currentPage]);
 
   useEffect(() => {
-    const fetchSelectedData = async () => {
-      const response = await getData(`${type}/${selected}`, localStorage.getItem("token"));
-      console.log(response);
-      setSelectedData(response.data);
-    };
-    fetchSelectedData();
+    if (selected !== "") {
+      const fetchSelectedData = async () => {
+        const response = await getData(`${type}/${selected}`, localStorage.getItem("token"));
+        console.log(response);
+        setSelectedData(response.data);
+      };
+      fetchSelectedData();
+    }
   }, [selected]);
 
-  const handleAdd = async () => {};
+  const handleAdd = async () => {
+    if (selected === "") {
+      toast.error("اختر العميل");
+      return;
+    }
+    if (amount === "") {
+      toast.error("ادخل المبلغ المدفوع");
+      return;
+    }
+    const response = await postData("sell_bell", { user: userData.id, clint_name: type === "clints" ? selectedData?.clint_name : selectedData?.supplayr_name, pay_bell: amount, payment_method: paymentType }, localStorage.getItem("token"));
+    console.log(response);
+  };
 
   return (
     <section className="grow pb-6 pt-[70px] px-4 minHeight">
@@ -80,20 +101,6 @@ const Bills = () => {
         <Link to={currentPage === "receive-bill" ? "/receive-bill/report" : "/pay-bill/report"} className={`text-lg font-medium text-darkGreen hover:text-white duration-200`}>
           تقرير
         </Link>
-      </div>
-      <div className="flex justify-center gap-6 mb-8">
-        <div className="flex gap-2 items-center">
-          <label htmlFor="client" className="text-lg text-[#054A3D] font-medium">
-            عميل
-          </label>
-          <input onChange={(e) => setType("clints")} type="radio" name="type" id="client" />
-        </div>
-        <div className="flex gap-2 items-center">
-          <label htmlFor="supplier" className="text-lg text-[#054A3D] font-medium">
-            مورد
-          </label>
-          <input onChange={(e) => setType("Supplayrs")} type="radio" name="type" id="supplier" />
-        </div>
       </div>
       <div className="flex justify-center mb-8">
         <Select onChange={(e) => setSelected(e.value)} className="w-[250px]" styles={customStyles} options={list} />
