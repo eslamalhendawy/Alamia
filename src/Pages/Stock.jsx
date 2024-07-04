@@ -53,6 +53,7 @@ const Stock = () => {
   const handleSearch = async () => {
     setLoading(true);
     const response = await getData(`warehous?${selectedProduct != "" ? `product=${selectedProduct}` : ""}${size != "" ? `&size=${size}` : ""}`, localStorage.getItem("token"));
+    console.log(response.data);
     if (response) {
       setList(response.data);
       setLoading(false);
@@ -77,7 +78,7 @@ const Stock = () => {
           {list.map((item, index) => (
             <div key={index} className="mb-6 lg:mb-10 bg-white p-4 rounded-xl font-medium">
               <div dir="rtl" className="flex flex-col sm:flex-row gap-3 items-center sm:justify-start mb-3 ">
-                <p className="text-right text-lg">النوع: {item.product.type}</p>
+                <p className="text-right text-lg">النوع: {item.product?.type}</p>
                 <p className="text-right text-lg">الوزن: {item.weight}</p>
                 <p className="text-right text-lg">المقاس: {item.size}</p>
               </div>

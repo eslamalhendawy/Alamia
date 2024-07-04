@@ -71,7 +71,6 @@ const Bills = () => {
     if (selected !== "") {
       const fetchSelectedData = async () => {
         const response = await getData(`${type}/${selected}`, localStorage.getItem("token"));
-        console.log(response);
         setSelectedData(response.data);
       };
       fetchSelectedData();
@@ -87,8 +86,29 @@ const Bills = () => {
       toast.error("ادخل المبلغ المدفوع");
       return;
     }
-    const response = await postData("sell_bell", { user: userData.id, clint_name: type === "clints" ? selectedData?.clint_name : selectedData?.supplayr_name, pay_bell: amount, payment_method: paymentType }, localStorage.getItem("token"));
-    console.log(response);
+    if (type === "clints") {
+      const data = { user: userData.id, clint: selectedData?.clint_name, payBell: amount, paymentMethod: paymentType, checkDate, checkNumber };
+      if (paymentType === "cash") {
+        delete data.checkDate;
+        delete data.checkNumber;
+      }
+      const response = await postData("sell_bell", data, localStorage.getItem("token"));
+      console.log(response);
+      if (response.data) {
+        window.location.reload();
+      }
+    } else {
+      const data = { user: userData.id, supplayr_name: selectedData?.supplayr_name, pay_bell: amount, payment_method: paymentType, check_date: checkDate, check_number: checkNumber };
+      if (paymentType === "cash") {
+        delete data.check_date;
+        delete data.check_number;
+      }
+      const response = await postData("buy_bell", data, localStorage.getItem("token"));
+      console.log(response);
+      if (response.data) {
+        window.location.reload();
+      }
+    }
   };
 
   return (

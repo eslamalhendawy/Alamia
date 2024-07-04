@@ -22,6 +22,7 @@ const IncomingStockReport = () => {
   useEffect(() => {
     const fetchList = async () => {
       const response = await getData("buys", localStorage.getItem("token"));
+      console.log(response);
       if (response.data) {
         setList(response.data.reverse());
         setLoading(false);
@@ -60,7 +61,7 @@ const IncomingStockReport = () => {
                 <p className="text-right text-lg">المقاس: {item.size}</p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 items-center sm:justify-end mb-3">
-                <p className="text-right text-lg">الموظف: {item.user.name}</p>
+                <p className="text-right text-lg">الموظف: {item.user?.name}</p>
                 <p className="text-right text-lg">التاريخ: {item.createdAt.split("T")[0]}</p>
               </div>
               <div className="flex justify-center sm:justify-end">

@@ -74,11 +74,11 @@ const Suppliers = () => {
           <div className="xl:w-[50%] xl:mx-auto">
             {supplierData.map((item) => (
               <div dir="rtl" key={item._id} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
-                <p className="text-lg">مورد: {item.supplayr.supplayr_name}</p>
-                <p className="text-lg">النوع: {item.product.type}</p>
+                <p className="text-lg">مورد: {item.supplayr?.supplayr_name}</p>
+                <p className="text-lg">النوع: {item.product?.type}</p>
                 <p className="text-lg">الوزن: {item.E_wieght}ك</p>
                 <p className="text-lg">المقاس: {item.size}</p>
-                <p className="text-lg">الموظف: {item.user.name}</p>
+                <p className="text-lg">الموظف: {item.user?.name}</p>
                 <p className="text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
                 <p className="text-lg">السعر الاجمالي: {item.price_all}</p>
               </div>
