@@ -73,7 +73,7 @@ const Suppliers = () => {
           <div className="flex justify-center mb-8 md:mb-16"></div>
           <div className="xl:w-[50%] xl:mx-auto">
             {supplierData.map((item) => (
-              <div dir="rtl" key={item._id} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
+              <div dir="rtl" key={item._id} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg mb-6">
                 <p className="text-lg">مورد: {item.supplayr?.supplayr_name}</p>
                 <p className="text-lg">النوع: {item.product?.type}</p>
                 <p className="text-lg">الوزن: {item.E_wieght}ك</p>

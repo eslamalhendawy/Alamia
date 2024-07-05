@@ -20,7 +20,6 @@ const OutgoingStockItem = () => {
   useEffect(() => {
     const fetchItem = async () => {
       const response = await getData(`sells/${id}`, localStorage.getItem("token"));
-      console.log(response);
       if (response.data) {
         setItem(response.data);
         setLoading(false);
@@ -39,7 +38,6 @@ const OutgoingStockItem = () => {
 
   const handleReturn = async () => {
     const response = await postData(`return`, { user: userData.id, sell: item._id, o_wieght: item.o_wieght, size_o: item.size_o, product_code: item.product_code, priceForKilo: item.priceForKilo, price_allQuantity: item.price_allQuantity, refund_amount: item.pay_now, clint: item.clint._id, product: item.product._id }, localStorage.getItem("token"));
-    console.log(response);
     if(response.data){
       toast.success("تم الارجاع بنجاح");
       navigate("/outgoing-stock/report");

@@ -41,10 +41,7 @@ const Stock = () => {
         let temp = response.data.map((item) => {
           return { value: item._id, label: item.type };
         });
-        setProducts(prev => [
-          ...prev,
-          ...temp
-        ])
+        setProducts((prev) => [...prev, ...temp]);
       }
     };
     fetchProducts();
@@ -76,14 +73,17 @@ const Stock = () => {
       {!loading && list.length > 0 && (
         <div className="xl:w-[50%] xl:mx-auto">
           {list.map((item, index) => (
-            <div key={index} className="mb-6 lg:mb-10 bg-white p-4 rounded-xl font-medium">
-              <div dir="rtl" className="flex flex-col sm:flex-row gap-3 items-center sm:justify-start mb-3 ">
+            <div key={index} dir="rtl" className="flex items-center justify-between bg-white p-4 mb-6  rounded-lg font-medium text-lg ">
+              <div className="flex flex-wrap gap-4 items-center">
                 <p className="text-right text-lg">النوع: {item.product?.type}</p>
                 <p className="text-right text-lg">الوزن: {item.weight}</p>
                 <p className="text-right text-lg">المقاس: {item.size}</p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3 items-center sm:justify-end mb-3">
                 <p className="text-right text-lg">التاريخ: {item.createdAt.split("T")[0]}</p>
+              </div>
+              <div>
+                <button className="text-xl hover:text-red-600 duration-200">
+                  <i className="fa-solid fa-trash"></i>
+                </button>
               </div>
             </div>
           ))}

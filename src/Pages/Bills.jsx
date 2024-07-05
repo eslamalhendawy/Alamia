@@ -104,7 +104,6 @@ const Bills = () => {
         delete data.check_number;
       }
       const response = await postData("buy_bell", data, localStorage.getItem("token"));
-      console.log(response);
       if (response.data) {
         window.location.reload();
       }
