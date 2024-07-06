@@ -17,15 +17,15 @@ const linksList = [
   },
   {
     title: "ضريبة",
-    url: ["/exit-tax/add", "/exit-tax/report", "/enter-tax/add", "/enter-tax/report"],
+    url: ["/exit-tax", "/enter-tax"],
   },
   {
     title: "عملاء",
-    url: ["/clients"],
+    url: ["/clients", "/add-client"],
   },
   {
     title: "موردين",
-    url: ["/suppliers"],
+    url: ["/suppliers", "/add-supplier"],
   },
   {
     title: "اضافة موظف",

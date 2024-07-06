@@ -50,7 +50,6 @@ const Stock = () => {
   const handleSearch = async () => {
     setLoading(true);
     const response = await getData(`warehous?${selectedProduct != "" ? `product=${selectedProduct}` : ""}${size != "" ? `&size=${size}` : ""}`, localStorage.getItem("token"));
-    console.log(response.data);
     if (response) {
       setList(response.data);
       setLoading(false);
@@ -80,11 +79,11 @@ const Stock = () => {
                 <p className="text-right text-lg">المقاس: {item.size}</p>
                 <p className="text-right text-lg">التاريخ: {item.createdAt.split("T")[0]}</p>
               </div>
-              <div>
+              {/* <div>
                 <button className="text-xl hover:text-red-600 duration-200">
                   <i className="fa-solid fa-trash"></i>
                 </button>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>

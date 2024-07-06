@@ -1,16 +1,22 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { getData, deleteData, postData } from "../Services/apiCalls";
 
 import Loading from "../Components/Loading";
 import BillsNavigation from "../Components/BillsNavigation";
+import EditBillModal from "../Components/EditBillModal";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BillItem = () => {
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("");
   const [type, setType] = useState("");
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState({});
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCurrentPage(location.pathname.split("/")[1]);
@@ -25,11 +31,32 @@ const BillItem = () => {
     const fetchData = async () => {
       if (type === "sell_bell") {
         const response = await getData(`sell_bell/${id}`, localStorage.getItem("token"));
-        console.log(response);
+        setData({ client: response.data.clint.clint_name, employee: response.data.user.name, payed: response.data.payBell, date: response.data.updatedAt, debt: response.data.clint.money_on, total: response.data.clint.total_monye });
+        setLoading(false);
+      } else if(type === "buy_bell") {
+        const response = await getData(`buy_bell/${id}`, localStorage.getItem("token"));
+        setData({ client: response.data.supplayr.supplayr_name, employee: response.data.user.name, payed: response.data.pay_bell, date: response.data.updatedAt, debt: response.data.supplayr.price_on, total: response.data.supplayr.total_price });
+        setLoading(false);
       }
     };
     fetchData();
   }, [type]);
+
+  const handleDelete = async () => {
+    if (type === "sell_bell") {
+      const response = await deleteData(`sell_bell/${id}`, localStorage.getItem("token"));
+      if (response === "") {
+        toast.success("تم الحذف بنجاح");
+        navigate("/receive-bill/report");
+      }
+    }else if(type === "buy_bell") {
+      const response = await deleteData(`buy_bell/${id}`, localStorage.getItem("token"));
+      if (response === "") {
+        toast.success("تم الحذف بنجاح");
+        navigate("/pay-bill/report");
+      }
+    }
+  };
 
   return (
     <section className="grow pb-6 pt-[70px] px-4 minHeight">
@@ -43,6 +70,33 @@ const BillItem = () => {
         </Link>
       </div>
       {loading && <Loading />}
+      {!loading && (
+        <div dir="rtl" className="xl:w-[70%] 2xl:w-[50%] xl:mx-auto bg-white p-6 rounded-xl font-medium text-lg">
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3">
+              {type === "sell_bell" ? "العميل" : "المورد"} : {data.client}
+            </p>
+            <p className="basis-1/3">الموظف : {data.employee}</p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3">المبلغ المدفوع : {data.payed}</p>
+            <p className="basis-1/3">الباقي : {data.debt}</p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-6">
+            <p className="basis-1/3">السعر : {data.total}</p>
+            <p className="basis-1/3">التاريخ : {data.date.split("T")[0]}</p>
+          </div>
+          <div>
+            <div className="flex flex-col sm:flex-row-reverse justify-start gap-3">
+              <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
+                مسح
+              </button>
+              <button className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">مرتجع</button>
+              <EditBillModal />
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

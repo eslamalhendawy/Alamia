@@ -44,7 +44,7 @@ const AddEmployee = () => {
   };
 
   return (
-    <section className="grow py-6 px-4 flex items-center justify-center minHeight">
+    <section className="grow pb-6 pt-[70px] px-4 flex items-center justify-center minHeight">
       <div className="bg-cover bg-center p-4 w-full xl:w-[70%] 2xl:w-[50%] flex flex-col items-center gap-4" style={{ backgroundImage: `url(${image})` }}>
         <div>
           <img src={logo} alt="" />

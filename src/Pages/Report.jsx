@@ -6,7 +6,7 @@ const Report = () => {
   const [endDate, setEndDate] = useState("");
 
   return (
-    <section className="minHeight grow py-6 px-4">
+    <section className="minHeight grow pb-6 pt-[70px] px-4">
       <div className="flex flex-col sm:flex-row-reverse justify-start items-center gap-4 md:gap-8 pt-[50px]">
         <input onChange={(e) => setStartDate(e.target.value)} className="bg-[#bcbaba] text-white outline-none p-2 lg:w-[250px]" type="date" />
         <span className="text-lg text-navyColor font-medium">الى</span>

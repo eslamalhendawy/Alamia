@@ -21,11 +21,11 @@ const linksList = [
   },
   {
     title: "عملاء",
-    url: ["/clients"],
+    url: ["/clients", "/add-client"],
   },
   {
     title: "موردين",
-    url: ["/suppliers"],
+    url: ["/suppliers", "/add-supplier"],
   },
   {
     title: "اضافة موظف",
