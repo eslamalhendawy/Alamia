@@ -31,11 +31,12 @@ const BillItem = () => {
     const fetchData = async () => {
       if (type === "sell_bell") {
         const response = await getData(`sell_bell/${id}`, localStorage.getItem("token"));
-        setData({ client: response.data.clint.clint_name, employee: response.data.user.name, payed: response.data.payBell, date: response.data.updatedAt, debt: response.data.clint.money_on, total: response.data.clint.total_monye });
+        console.log(response.data);
+        setData({ client: response.data.clint.clint_name, employee: response.data.user.name, payed: response.data.payBell, date: response.data.updatedAt, debt: response.data.clint.money_on, total: response.data.clint.total_monye, paymentMethod: response.data.paymentMethod, checkNumber: response.data.checkNumber, checkDate: response.data.checkDate, allPayed: response.data.clint.money_pay, clientID: response.data.clint._id });
         setLoading(false);
-      } else if(type === "buy_bell") {
+      } else if (type === "buy_bell") {
         const response = await getData(`buy_bell/${id}`, localStorage.getItem("token"));
-        setData({ client: response.data.supplayr.supplayr_name, employee: response.data.user.name, payed: response.data.pay_bell, date: response.data.updatedAt, debt: response.data.supplayr.price_on, total: response.data.supplayr.total_price });
+        setData({ client: response.data.supplayr.supplayr_name, employee: response.data.user.name, payed: response.data.pay_bell, date: response.data.updatedAt, debt: response.data.supplayr.price_on, total: response.data.supplayr.total_price, paymentMethod: response.data.payment_method, allPayed: response.data.supplayr.price_pay, checkNumber: response.data.check_number, checkDate: response.data.check_date });
         setLoading(false);
       }
     };
@@ -49,13 +50,20 @@ const BillItem = () => {
         toast.success("تم الحذف بنجاح");
         navigate("/receive-bill/report");
       }
-    }else if(type === "buy_bell") {
+    } else if (type === "buy_bell") {
       const response = await deleteData(`buy_bell/${id}`, localStorage.getItem("token"));
       if (response === "") {
         toast.success("تم الحذف بنجاح");
         navigate("/pay-bill/report");
       }
     }
+  };
+
+  const handleReturn = async () => {
+    let temp = new Date();
+    const date = `${temp.getFullYear()}-${temp.getMonth() + 1}-${temp.getDate()}`;
+    const response = await postData(`return_check`, { clint: data.clientID, amount: data.payed, date }, localStorage.getItem("token"));
+    console.log(response);
   };
 
   return (
@@ -79,11 +87,27 @@ const BillItem = () => {
             <p className="basis-1/3">الموظف : {data.employee}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
-            <p className="basis-1/3">المبلغ المدفوع : {data.payed}</p>
+            <p className="basis-1/3">مبلغ الفاتورة : {data.payed}</p>
             <p className="basis-1/3">الباقي : {data.debt}</p>
           </div>
-          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-6">
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">السعر : {data.total}</p>
+            <p className="basis-1/3">المبلغ المدفوع : {data.allPayed}</p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+            <p className="basis-1/2">طريقة الدفع : {data.paymentMethod}</p>
+            {data.paymentMethod === "check" && (
+              <>
+                <p className="basis-1/3">رقم الشيك : {data.checkNumber}</p>
+              </>
+            )}
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-6">
+            {data.paymentMethod === "check" && (
+              <>
+                <p className="basis-1/3">تاريخ الشيك : {data.checkDate}</p>
+              </>
+            )}
             <p className="basis-1/3">التاريخ : {data.date.split("T")[0]}</p>
           </div>
           <div>
@@ -91,8 +115,12 @@ const BillItem = () => {
               <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
                 مسح
               </button>
-              <button className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">مرتجع</button>
-              <EditBillModal />
+              {data.paymentMethod === "check" && type === "sell_bell" && (
+                <button onClick={handleReturn} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
+                  مرتجع
+                </button>
+              )}
+              <EditBillModal data={data} />
             </div>
           </div>
         </div>

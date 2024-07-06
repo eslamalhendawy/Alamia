@@ -1,20 +1,50 @@
 import { useState } from "react";
-import { postData } from "../Services/apiCalls";
+import { getData } from "../Services/apiCalls";
+
+import Loading from "../Components/Loading";
 
 const Report = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState("");
+
+  const handleSearch = async () => {
+    setLoading(true);
+    const response = await getData(`report?startDate=${startDate}&endDate=${endDate}`);
+    if (response.data) {
+      setResult(response.data);
+      setLoading(false);
+    }
+    console.log(response);
+  };
 
   return (
     <section className="minHeight grow pb-6 pt-[70px] px-4">
-      <div className="flex flex-col sm:flex-row-reverse justify-start items-center gap-4 md:gap-8 pt-[50px]">
+      <div className="flex flex-col sm:flex-row-reverse justify-center items-center gap-4 md:gap-8 pt-[50px] mb-12">
         <input onChange={(e) => setStartDate(e.target.value)} className="bg-[#bcbaba] text-white outline-none p-2 lg:w-[250px]" type="date" />
         <span className="text-lg text-navyColor font-medium">الى</span>
         <input onChange={(e) => setEndDate(e.target.value)} className="bg-[#bcbaba] text-white outline-none p-2 lg:w-[250px]" type="date" />
-        <button className="bg-navyColor hover:bg-[#234863] duration-200 text-white text-xl size-[40px] flex justify-center items-center rounded-lg">
+        <button onClick={handleSearch} className="bg-navyColor hover:bg-[#234863] duration-200 text-white text-xl size-[40px] flex justify-center items-center rounded-lg">
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
       </div>
+      {loading && <Loading />}
+      {!loading && result && (
+        <div dir="rtl" className="xl:w-[75%] 2xl:w-[55%] xl:mx-auto bg-white p-6 rounded-xl font-medium text-lg">
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3">اجمالي المبيع : {result.totalSales}</p>
+            <p className="basis-1/3">متبقي على العملاء : {result.totalDueFromClients}</p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3">اجمالي شراء : {result.totalPurchases}</p>
+            <p className="basis-1/3">تم سداد : {result.totalDueFromClients}</p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3"> هامش الربح : {result.totalPurchases}</p>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
