@@ -79,6 +79,9 @@ const Bills = () => {
   }, [selected]);
 
   const handleAdd = async () => {
+    if(userData.role === "storage_employee"){
+      return toast.error("لا تملك الصلاحية للقيام بهذه العملية");
+    }
     if (selected === "") {
       toast.error("اختر العميل");
       return;

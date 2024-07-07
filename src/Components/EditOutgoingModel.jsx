@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAppContext } from "../Context/AppContext";
 import { putData } from "../Services/apiCalls";
 
 import Modal from "@mui/material/Modal";
@@ -7,11 +8,19 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const EditOutgoingModel = ({ item }) => {
+  const { userData } = useAppContext();
   const [open, setOpen] = useState(false);
   const [weight, setWeight] = useState(item?.o_wieght);
   const [payed, setPayed] = useState(item?.pay_now);
   const [price, setPrice] = useState(item?.price_allQuantity);
   const [size, setSize] = useState(item?.size_o);
+
+  const handleOpenModal = () => {
+    if (userData.role !== "admin") {
+      return toast.error("غير مسموح لك بالتعديل");
+    }
+    setOpen(true);
+  };
 
   const handleEdit = async () => {
     const response = await putData(`sells/${item._id}`, {size_o: size, o_wieght: weight, price_allQuantity: price, pay_now: payed}, localStorage.getItem("token"));
@@ -24,7 +33,7 @@ const EditOutgoingModel = ({ item }) => {
 
   return (
     <>
-      <button onClick={() => setOpen(true)} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
+      <button onClick={handleOpenModal} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
         <i className="fa-solid fa-pen-to-square"></i>
       </button>
       <Modal open={open} onClose={() => setOpen(false)}>

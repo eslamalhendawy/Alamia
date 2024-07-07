@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAppContext } from "../Context/AppContext";
 import { useLocation, Link } from "react-router-dom";
 import { getData } from "../Services/apiCalls";
 
@@ -6,10 +7,17 @@ import Loading from "../Components/Loading";
 import BillsNavigation from "../Components/BillsNavigation";
 
 const BillReport = () => {
+  const { userData } = useAppContext();
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("");
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (userData.role === "storage_employee") {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     setCurrentPage(location.pathname.split("/")[1]);
@@ -30,7 +38,7 @@ const BillReport = () => {
           let temp = response.data.map((item) => {
             return { id: item._id, client: item.supplayr?.supplayr_name, payed: item.pay_bell, paymentMethod: item.payment_method, employee: item.user.name, date: item.updatedAt };
           });
-          setList(temp.reverse());
+          setList(temp);
           setLoading(false);
         }
       };
@@ -51,7 +59,7 @@ const BillReport = () => {
       </div>
       {loading && <Loading />}
       {!loading && list.length === 0 && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>}
-      {!loading && list.length > 0 && (
+      {!loading && list.length > 0 && userData !== "storage_employee" && (
         <div className="xl:w-[50%] xl:mx-auto">
           {list.map((item) => (
             <div dir="rtl" key={item.id} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg mb-6">

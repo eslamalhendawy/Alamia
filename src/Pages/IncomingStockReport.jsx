@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAppContext } from "../Context/AppContext";
 import { Link, useLocation } from "react-router-dom";
 import { getData } from "../Services/apiCalls";
 
@@ -6,10 +7,17 @@ import Loading from "../Components/Loading";
 import StockNavigation from "../Components/StockNavigation";
 
 const IncomingStockReport = () => {
+  const { userData } = useAppContext();
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("incoming-stock" || location.pathname.split("/")[0]);
+
+  useEffect(() => {
+    if(userData.role === "bill_employee"){
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     setCurrentPage(location.pathname.split("/")[1]);
@@ -18,6 +26,7 @@ const IncomingStockReport = () => {
   useEffect(() => {
     const fetchList = async () => {
       const response = await getData("buys", localStorage.getItem("token"));
+      console.log(response);
       if (response.data) {
         setList(response.data.reverse());
         setLoading(false);
@@ -39,7 +48,7 @@ const IncomingStockReport = () => {
       </div>
       {loading && <Loading />}
       {!loading && list.length === 0 && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>}
-      {!loading && list.length > 0 && (
+      {!loading && list.length > 0 && userData.role != "bill_employee" && (
         <div className="xl:w-[50%] xl:mx-auto">
           {list.map((item, index) => (
             <div key={index} dir="rtl" className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg mb-6">

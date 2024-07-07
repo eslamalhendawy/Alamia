@@ -12,10 +12,10 @@ const StockNavigation = () => {
   return (
     <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12">
       <Link to="/incoming-stock/add" className={` hover:bg-goldColor duration-200 text-white py-3 text-lg font-medium w-[150px] md:w-[200px] rounded-lg text-center ${currentPage === "incoming-stock" ? "bg-goldColor" : "bg-lightGreen"}`}>
-        المخزون الوارد
+        مشتريات
       </Link>
       <Link to="/outgoing-stock/add" className={` hover:bg-goldColor duration-200 text-white py-3 text-lg font-medium w-[150px] md:w-[200px] rounded-lg text-center ${currentPage === "outgoing-stock" ? "bg-goldColor" : "bg-lightGreen"}`}>
-        المخزون الخارج
+        مبيعات
       </Link>
       <Link to="/stock/view" className={` hover:bg-goldColor duration-200 text-white py-3 text-lg font-medium w-[150px] md:w-[200px] rounded-lg text-center ${currentPage === "stock" ? "bg-goldColor" : "bg-lightGreen"}`}>
         مخزن

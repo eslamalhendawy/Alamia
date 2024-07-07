@@ -112,6 +112,10 @@ const OutgoingStockAdd = () => {
   }, [weight, price]);
 
   const handleAdd = async () => {
+    if(userData.role === "bill_employee"){
+      toast.error("لا يمكنك القيام بهذه العملية");
+      return;
+    }
     if (!selectedProduct || !code || !weight || !size || !price || !selectedSupplier || !totalPrice || !pay) {
       toast.error("برجاء ملئ جميع الحقول");
       return;

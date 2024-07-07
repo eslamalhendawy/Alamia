@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAppContext } from "../Context/AppContext";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { getData, deleteData, postData } from "../Services/apiCalls";
 
@@ -10,6 +11,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const BillItem = () => {
+  const { userData } = useAppContext();
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("");
   const [type, setType] = useState("");
@@ -24,7 +26,7 @@ const BillItem = () => {
       setType("sell_bell");
     } else {
       setType("buy_bell");
-    } 
+    }
   }, [location]);
 
   useEffect(() => {
@@ -43,6 +45,9 @@ const BillItem = () => {
   }, [type]);
 
   const handleDelete = async () => {
+    if (userData.role !== "admin") {
+      return toast.error("غير مسموح لك بالحذف");
+    }
     if (type === "sell_bell") {
       const response = await deleteData(`sell_bell/${id}`, localStorage.getItem("token"));
       if (response === "") {
@@ -59,11 +64,13 @@ const BillItem = () => {
   };
 
   const handleReturn = async () => {
+    if (userData.role !== "admin") {
+      return toast.error("غير مسموح لك بالمرتجع");
+    }
     let temp = new Date();
     const date = `${temp.getFullYear()}-${temp.getMonth() + 1}-${temp.getDate()}`;
     const response = await postData(`return_check`, { clint: data.clientID, amount: data.payed, date }, localStorage.getItem("token"));
-    console.log(response);
-    if(response.data) {
+    if (response.data) {
       toast.success("تم اضافة المرتجع بنجاح");
       navigate("/receive-bill/report");
     }

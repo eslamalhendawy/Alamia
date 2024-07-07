@@ -1,15 +1,26 @@
 import { useState } from "react";
+import { useAppContext } from "../Context/AppContext";
 import { getData } from "../Services/apiCalls";
 
 import Loading from "../Components/Loading";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Report = () => {
+  const { userData } = useAppContext();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState("");
 
   const handleSearch = async () => {
+    if (userData.role !== "admin") {
+      return toast.error("غير مسموح لك بالبحث");
+    }
+    if (!startDate || !endDate) {
+      return toast.error("الرجاء ادخال تاريخ البداية والنهاية");
+    }
     setLoading(true);
     const response = await getData(`report?startDate=${startDate}&endDate=${endDate}`);
     if (response.data) {

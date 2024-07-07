@@ -59,7 +59,7 @@ const SideMenu = () => {
 
   return (
     <>
-      <aside className="h-screen sticky overflow-scroll no-scrollbar top-0 left-0 hidden lg:flex flex-col">
+      <aside className="h-screen sticky overflow-scroll no-scrollbar top-0 left-0 hidden lg:flex flex-col min-w-[280px]">
         <div className="bg-darkGreen px-16 py-6 rounded-tr-xl ">
           <div className="mb-4 flex justify-center">
             <img className="size-[80px] rounded-full " src={avatar} alt="" />

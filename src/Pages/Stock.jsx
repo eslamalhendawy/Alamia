@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAppContext } from "../Context/AppContext";
 import { getData } from "../Services/apiCalls";
 
 import Select from "react-select";
@@ -33,6 +34,7 @@ const Stock = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hidden, setHidden] = useState(true);
+  const {userData} = useAppContext();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -48,8 +50,12 @@ const Stock = () => {
   }, []);
 
   const handleSearch = async () => {
+    if(userData.role === "bill_employee"){
+      return toast.error("لا تملك الصلاحية للقيام بهذه العملية");
+    }
     setLoading(true);
     const response = await getData(`warehous?${selectedProduct != "" ? `product=${selectedProduct}` : ""}${size != "" ? `&size=${size}` : ""}`, localStorage.getItem("token"));
+    console.log(response);
     if (response) {
       setList(response.data);
       setLoading(false);

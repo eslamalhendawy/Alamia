@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAppContext } from "../Context/AppContext";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getData, deleteData } from "../Services/apiCalls";
 
@@ -10,6 +11,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const IncomingStockItem = () => {
+  const { userData } = useAppContext();
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
@@ -27,8 +29,10 @@ const IncomingStockItem = () => {
   }, []);
 
   const handleDelete = async () => {
+    if(userData.role !== "admin"){
+      return toast.error("غير مسموح لك بالحذف");
+    }
     const response = await deleteData(`buys/${id}`, localStorage.getItem("token"));
-    console.log(response);
     if(response === ""){
       toast.success("تم الحذف بنجاح");
       navigate("/incoming-stock/report");

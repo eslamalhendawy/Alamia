@@ -27,7 +27,8 @@ const customStyles = {
 const options = [
   { value: "admin", label: "Admin" },
   { value: "manager", label: "Manager"},
-  { value: "employee", label: "Employee"},
+  { value: "storage_employee", label: "Storage Employee"},
+  { value: "bill_employee", label: "Bills Employee"},
 ];
 
 const EditEmployeeModal = ({ user }) => {

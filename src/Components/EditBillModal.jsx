@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
+import { useAppContext } from "../Context/AppContext";
+import { useLocation, useParams } from "react-router-dom";
 import { putData } from "../Services/apiCalls";
 
 import Modal from "@mui/material/Modal";
@@ -8,6 +9,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const EditBillModal = ({ data }) => {
+  const { userData } = useAppContext();
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const { id } = useParams();
@@ -17,6 +19,13 @@ const EditBillModal = ({ data }) => {
   const [checkDate, setCheckDate] = useState(data?.checkDate);
   const [type, setType] = useState("");
 
+  const handleOpenModal = () => {
+    if (userData.role !== "admin") {
+      return toast.error("غير مسموح لك بالتعديل");
+    }
+    setOpen(true);
+  };
+
   useEffect(() => {
     if (location.pathname.split("/")[1] === "receive-bill") {
       setType("receive-bill");
@@ -24,7 +33,6 @@ const EditBillModal = ({ data }) => {
       setType("pay-bill");
     }
   }, [location]);
-
 
   const handleEdit = async () => {
     if (type === "receive-bill") {
@@ -56,7 +64,7 @@ const EditBillModal = ({ data }) => {
 
   return (
     <>
-      <button onClick={() => setOpen(true)} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
+      <button onClick={handleOpenModal} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
         <i className="fa-solid fa-pen-to-square"></i>
       </button>
       <Modal open={open} onClose={() => setOpen(false)}>

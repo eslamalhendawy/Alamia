@@ -29,6 +29,9 @@ const OutgoingStockItem = () => {
   }, []);
 
   const handleDelete = async () => {
+    if (userData.role !== "admin") {
+      return toast.error("غير مسموح لك بالحذف");
+    }
     const response = await deleteData(`sells/${id}`, localStorage.getItem("token"));
     if (response === "") {
       toast.success("تم الحذف بنجاح");
@@ -37,8 +40,11 @@ const OutgoingStockItem = () => {
   };
 
   const handleReturn = async () => {
+    if (userData.role !== "admin") {
+      return toast.error("غير مسموح لك بالحذف");
+    }
     const response = await postData(`return`, { user: userData.id, sell: item._id, o_wieght: item.o_wieght, size_o: item.size_o, product_code: item.product_code, priceForKilo: item.priceForKilo, price_allQuantity: item.price_allQuantity, refund_amount: item.pay_now, clint: item.clint._id, product: item.product._id }, localStorage.getItem("token"));
-    if(response.data){
+    if (response.data) {
       toast.success("تم الارجاع بنجاح");
       navigate("/outgoing-stock/report");
     }
