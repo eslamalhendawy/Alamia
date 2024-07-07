@@ -35,7 +35,6 @@ const BillItem = () => {
         setLoading(false);
       } else if (type === "buy_bell") {
         const response = await getData(`buy_bell/${id}`, localStorage.getItem("token"));
-        console.log(response.data);
         setData({ client: response.data.supplayr?.supplayr_name, employee: response.data.user.name, payed: response.data.pay_bell, date: response.data.updatedAt, debt: response.data.supplayr.price_on, total: response.data.supplayr.total_price, paymentMethod: response.data.payment_method, allPayed: response.data.supplayr.price_pay, checkNumber: response.data.check_number, checkDate: response.data.check_date });
         setLoading(false);
       }
