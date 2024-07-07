@@ -157,7 +157,7 @@ const Bills = () => {
           اضافة <i className="fa-solid fa-plus"></i>
         </button>
       </div>
-      <div dir="rtl" className="flex flex-col justify-start lg:pr-12 text-xl font-medium">
+      <div dir="rtl" className="flex flex-col gap-3 justify-start lg:pr-12 text-xl font-medium">
         <p>مدفوع : {type === "clints" ? selectedData?.money_pay : selectedData?.price_pay}</p>
         <p>باقي : {type === "clints" ? selectedData?.money_on : selectedData?.price_on}</p>
         <p>اجمالي المبلغ : {type === "clints" ? selectedData?.total_monye : selectedData?.total_price}</p>

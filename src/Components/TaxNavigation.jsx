@@ -11,11 +11,11 @@ const TaxNavigation = () => {
 
   return (
     <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12">
-      <Link to="/exit-tax/add" className={` hover:bg-goldColor duration-200 text-white py-3 text-lg font-medium w-[150px] md:w-[200px] rounded-lg text-center ${currentPage === "exit-tax" ? "bg-goldColor" : "bg-lightGreen"}`}>
-        ضريبة خروج
+      <Link to="/client-tax/add" className={` hover:bg-goldColor duration-200 text-white py-3 text-lg font-medium w-[150px] md:w-[200px] rounded-lg text-center ${currentPage === "client-tax" ? "bg-goldColor" : "bg-lightGreen"}`}>
+        ضريبة عميل
       </Link>
-      <Link to="/enter-tax/add" className={` hover:bg-goldColor duration-200 text-white py-3 text-lg font-medium w-[150px] md:w-[200px] rounded-lg text-center ${currentPage === "enter-tax" ? "bg-goldColor" : "bg-lightGreen"}`}>
-        ضريبة دخول
+      <Link to="/supplier-tax/add" className={` hover:bg-goldColor duration-200 text-white py-3 text-lg font-medium w-[150px] md:w-[200px] rounded-lg text-center ${currentPage === "supplier-tax" ? "bg-goldColor" : "bg-lightGreen"}`}>
+        ضريبة مورد
       </Link>
     </div>
   );

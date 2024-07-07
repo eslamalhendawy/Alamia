@@ -9,7 +9,6 @@ const BillReport = () => {
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("");
   const [list, setList] = useState([]);
-  const [type, setType] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,7 +19,6 @@ const BillReport = () => {
     if (currentPage !== "") {
       const fetchList = async () => {
         if (currentPage === "receive-bill") {
-          setType("receive-bill");
           const response = await getData(`sell_bell`, localStorage.getItem("token"));
           let temp = response.data.map((item) => {
             return { id: item._id, client: item.clint.clint_name || item.clint, payed: item.payBell, paymentMethod: item.paymentMethod, employee: item.user.name, date: item.updatedAt };
@@ -28,10 +26,9 @@ const BillReport = () => {
           setList(temp.reverse());
           setLoading(false);
         } else {
-          setType("pay-bill");
           const response = await getData(`buy_bell`, localStorage.getItem("token"));
           let temp = response.data.map((item) => {
-            return { id: item._id, client: item.supplayr.supplayr_name, payed: item.pay_bell, paymentMethod: item.payment_method, employee: item.user.name, date: item.updatedAt };
+            return { id: item._id, client: item.supplayr?.supplayr_name, payed: item.pay_bell, paymentMethod: item.payment_method, employee: item.user.name, date: item.updatedAt };
           });
           setList(temp.reverse());
           setLoading(false);

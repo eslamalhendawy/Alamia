@@ -17,7 +17,7 @@ const linksList = [
   },
   {
     title: "ضريبة",
-    url: ["/exit-tax", "/enter-tax"],
+    url: ["/client-tax/add", "/supplier-tax/add", "/client-tax/report", "/supplier-tax/report"],
   },
   {
     title: "عملاء",

@@ -24,19 +24,19 @@ const BillItem = () => {
       setType("sell_bell");
     } else {
       setType("buy_bell");
-    }
+    } 
   }, [location]);
 
   useEffect(() => {
     const fetchData = async () => {
       if (type === "sell_bell") {
         const response = await getData(`sell_bell/${id}`, localStorage.getItem("token"));
-        console.log(response.data);
         setData({ client: response.data.clint.clint_name, employee: response.data.user.name, payed: response.data.payBell, date: response.data.updatedAt, debt: response.data.clint.money_on, total: response.data.clint.total_monye, paymentMethod: response.data.paymentMethod, checkNumber: response.data.checkNumber, checkDate: response.data.checkDate, allPayed: response.data.clint.money_pay, clientID: response.data.clint._id });
         setLoading(false);
       } else if (type === "buy_bell") {
         const response = await getData(`buy_bell/${id}`, localStorage.getItem("token"));
-        setData({ client: response.data.supplayr.supplayr_name, employee: response.data.user.name, payed: response.data.pay_bell, date: response.data.updatedAt, debt: response.data.supplayr.price_on, total: response.data.supplayr.total_price, paymentMethod: response.data.payment_method, allPayed: response.data.supplayr.price_pay, checkNumber: response.data.check_number, checkDate: response.data.check_date });
+        console.log(response.data);
+        setData({ client: response.data.supplayr?.supplayr_name, employee: response.data.user.name, payed: response.data.pay_bell, date: response.data.updatedAt, debt: response.data.supplayr.price_on, total: response.data.supplayr.total_price, paymentMethod: response.data.payment_method, allPayed: response.data.supplayr.price_pay, checkNumber: response.data.check_number, checkDate: response.data.check_date });
         setLoading(false);
       }
     };
@@ -64,6 +64,10 @@ const BillItem = () => {
     const date = `${temp.getFullYear()}-${temp.getMonth() + 1}-${temp.getDate()}`;
     const response = await postData(`return_check`, { clint: data.clientID, amount: data.payed, date }, localStorage.getItem("token"));
     console.log(response);
+    if(response.data) {
+      toast.success("تم اضافة المرتجع بنجاح");
+      navigate("/receive-bill/report");
+    }
   };
 
   return (
