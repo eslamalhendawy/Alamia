@@ -22,7 +22,7 @@ const Report = () => {
       return toast.error("الرجاء ادخال تاريخ البداية والنهاية");
     }
     setLoading(true);
-    const response = await getData(`report?startDate=${startDate}&endDate=${endDate}`);
+    const response = await getData(`report?startDate=${startDate}&endDate=${endDate}`, localStorage.getItem("token"));
     if (response.data) {
       setResult(response.data);
       setLoading(false);

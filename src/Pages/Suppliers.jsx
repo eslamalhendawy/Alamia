@@ -109,17 +109,17 @@ const Suppliers = () => {
           </div>
           <div dir="rtl" className="flex flex-col md:flex-row md:justify-center gap-12 xl:gap-24">
             <div dir="rtl" className="flex flex-col gap-3 justify-start lg:pr-12 text-xl font-medium">
-              <span>وارد</span>
+              {/* <span>وارد</span> */}
               <p>مدفوع : {supplierData[0].supplayr.price_pay}</p>
               <p>باقي : {supplierData[0].supplayr.price_on}</p>
               <p>اجمالي المبلغ : {supplierData[0].supplayr.total_price}</p>
             </div>
-            <div dir="rtl" className="flex flex-col gap-3 justify-start lg:pr-12 text-xl font-medium">
+            {/* <div dir="rtl" className="flex flex-col gap-3 justify-start lg:pr-12 text-xl font-medium">
               <span>صادر</span>
               <p>المتبقي : {supplierData[0].supplayr.priceOn_sell}</p>
               <p>الدين : {supplierData[0].supplayr.moneyOn_me}</p>
               <p>المستحق : {supplierData[0].supplayr.moneyFor_me}</p>
-            </div>
+            </div> */}
           </div>
         </>
       )}
