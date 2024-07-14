@@ -38,6 +38,7 @@ const Bills = () => {
   const [amount, setAmount] = useState("");
   const [checkNumber, setCheckNumber] = useState("");
   const [checkDate, setCheckDate] = useState("");
+  const [bankName, setBankName] = useState("");
   const { userData } = useAppContext();
 
   useEffect(() => {
@@ -71,7 +72,6 @@ const Bills = () => {
     if (selected !== "") {
       const fetchSelectedData = async () => {
         const response = await getData(`${type}/${selected}`, localStorage.getItem("token"));
-        console.log(response.data);
         setSelectedData(response.data);
       };
       fetchSelectedData();
@@ -79,7 +79,7 @@ const Bills = () => {
   }, [selected]);
 
   const handleAdd = async () => {
-    if(userData.role === "storage_employee"){
+    if (userData.role === "storage_employee") {
       return toast.error("لا تملك الصلاحية للقيام بهذه العملية");
     }
     if (selected === "") {
@@ -90,11 +90,16 @@ const Bills = () => {
       toast.error("ادخل المبلغ المدفوع");
       return;
     }
+    if (paymentType === "check" && (checkDate === "" || checkNumber === "" || bankName === "")) {
+      toast.error("ادخل بيانات الشيك");
+      return;
+    }
     if (type === "clints") {
-      const data = { user: userData.id, clint: selectedData?._id, payBell: amount, paymentMethod: paymentType, checkDate, checkNumber };
+      const data = { user: userData.id, clint: selectedData?._id, payBell: amount, paymentMethod: paymentType, checkDate, checkNumber, bankName };
       if (paymentType === "cash") {
         delete data.checkDate;
         delete data.checkNumber;
+        delete data.bankName;
       }
       const response = await postData("sell_bell", data, localStorage.getItem("token"));
       console.log(response);
@@ -102,10 +107,11 @@ const Bills = () => {
         window.location.reload();
       }
     } else {
-      const data = { user: userData.id, supplayr: selectedData?._id, pay_bell: amount, payment_method: paymentType, check_date: checkDate, check_number: checkNumber };
+      const data = { user: userData.id, supplayr: selectedData?._id, pay_bell: amount, payment_method: paymentType, check_date: checkDate, check_number: checkNumber, bank_name: bankName };
       if (paymentType === "cash") {
         delete data.check_date;
         delete data.check_number;
+        delete data.bank_name;
       }
       const response = await postData("buy_bell", data, localStorage.getItem("token"));
       if (response.data) {
@@ -147,6 +153,9 @@ const Bills = () => {
       </div>
       {paymentType === "check" && (
         <>
+          <div className="flex justify-center mb-8">
+            <input onChange={(e) => setBankName(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="اسم البنك" />
+          </div>
           <div className="flex justify-center mb-8">
             <input onChange={(e) => setCheckNumber(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="number" placeholder="رقم الشيك" />
           </div>
