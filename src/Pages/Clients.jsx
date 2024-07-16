@@ -125,9 +125,11 @@ const Clients = () => {
             {clientData.chBack.length !== 0 &&
               clientData.chBack.map((item, index) => (
                 <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
-                  <p className="text-right text-lg">المدفوع: {item.payBell}</p>
-                  <p className="text-right text-lg">طريقة الدفع: {item.paymentMethod}</p>
-                  <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
+                  <p className="text-right text-lg">مبلغ الشيك: {item.amount}</p>
+                  <p className="text-right text-lg">اسم العميل : {item.clint.clint_name}</p>
+                  <p className="text-right text-lg">رقم الشيك : {item.clint.clint_name}</p>
+                  <p className="text-right text-lg">تاريخ الشيك : {item.clint.clint_name}</p>
+                  {/* <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p> */}
                 </div>
               ))}
             {clientData.chBack.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
@@ -137,7 +139,7 @@ const Clients = () => {
             {clientData.tax.length !== 0 &&
               clientData.tax.map((item, index) => (
                 <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
-                  <p className="text-right text-lg">عدد مرات الخصم: {}</p>
+                  <p className="text-right text-lg">عدد مرات الخصم: {item.clint.disCount}</p>
                   <p className="text-right text-lg">نسبة الضريبة: {item.taxRate}</p>
                   <p className="text-right text-lg">نسبة الخصم: {item.discountRate}</p>
                   <p className="text-right text-lg">المبلغ: {item.amount}</p>
