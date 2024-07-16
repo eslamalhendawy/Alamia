@@ -10,12 +10,14 @@ const OutgoingStockReport = () => {
   const { userData } = useAppContext();
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(true);
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("incoming-stock" || location.pathname.split("/")[0]);
 
   useEffect(() => {
-    if(userData.role === "bill_employee"){
+    if (userData.role === "bill_employee" || userData.role === "manager") {
       setLoading(false);
+      setAuthorized(false);
     }
   }, []);
 
@@ -46,8 +48,8 @@ const OutgoingStockReport = () => {
         </Link>
       </div>
       {loading && <Loading />}
-      {!loading && list.length === 0 && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>}
-      {!loading && list.length > 0 && userData.role !== "bill_employee" && (
+      {(!loading && list.length === 0) || (!authorized && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>)}
+      {!loading && list.length > 0 && authorized && (
         <div className="xl:w-[50%] xl:mx-auto">
           {list.map((item, index) => (
             <div key={index} dir="rtl" className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg mb-6">

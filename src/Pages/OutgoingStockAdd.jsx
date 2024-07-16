@@ -112,7 +112,7 @@ const OutgoingStockAdd = () => {
   }, [weight, price]);
 
   const handleAdd = async () => {
-    if(userData.role === "bill_employee"){
+    if(userData.role === "bill_employee" || userData.role === "manager"){
       toast.error("لا يمكنك القيام بهذه العملية");
       return;
     }

@@ -64,7 +64,6 @@ const AddEmployee = () => {
     }
     toast.info("جاري اضافة الموظف");
     const response = await postData("auth/signup", { name, email, password, passwordConfirm, role });
-    console.log(response);
     if (response.token) {
       toast.success("تم اضافة الموظف بنجاح");
       setName("");

@@ -39,14 +39,14 @@ const Suppliers = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userData.role === "storage_employee" || userData.role === "bill_employee") {
+    if (userData.role !== "admin") {
       setLoading(false);
       setAuthorized(false);
     }
   }, []);
 
   const handleClick = () => {
-    if (userData.role === "storage_employee" || userData.role === "bill_employee") {
+    if (userData.role !== "admin") {
       return toast.error("غير مسموح لك بالاضافة");
     } else {
       navigate("/add-supplier");

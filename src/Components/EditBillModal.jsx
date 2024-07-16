@@ -17,6 +17,7 @@ const EditBillModal = ({ data }) => {
   const [paymentType, setPaymentType] = useState(data?.paymentMethod);
   const [checkNumber, setCheckNumber] = useState(data?.checkNumber);
   const [checkDate, setCheckDate] = useState(data?.checkDate);
+  const [bankName, setBankName] = useState(data?.bankName);
   const [type, setType] = useState("");
 
   const handleOpenModal = () => {
@@ -36,10 +37,11 @@ const EditBillModal = ({ data }) => {
 
   const handleEdit = async () => {
     if (type === "receive-bill") {
-      const data = { payBell: payed, paymentMethod: paymentType, checkNumber, checkDate };
+      const data = { payBell: payed, paymentMethod: paymentType, checkNumber, checkDate, bankName };
       if (setPaymentType === "cash") {
         delete data.checkNumber;
         delete data.checkDate;
+        delete data.bankName;
       }
       const response = await putData(`sell_bell/${id}`, data, localStorage.getItem("token"));
       console.log(response);
@@ -48,10 +50,11 @@ const EditBillModal = ({ data }) => {
         window.location.reload();
       }
     } else if (type === "pay-bill") {
-      const data = { pay_bell: payed, payment_method: paymentType, check_number: checkNumber, check_date: checkDate };
+      const data = { pay_bell: payed, payment_method: paymentType, check_number: checkNumber, check_date: checkDate, bank_name: bankName };
       if (setPaymentType === "cash") {
         delete data.check_number;
         delete data.check_date;
+        delete data.bank_name;
       }
       const response = await putData(`buy_bell/${id}`, data, localStorage.getItem("token"));
       console.log(response);
@@ -98,10 +101,13 @@ const EditBillModal = ({ data }) => {
             {paymentType === "check" && (
               <>
                 <div className="flex justify-center mb-8">
-                  <input value={checkNumber} onChange={(e) => setCheckNumber(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="number" placeholder="رقم الشيك" />
+                  <input value={bankName} onChange={(e) => setBankName(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[60%]" type="text" placeholder="اسم البنك" />
                 </div>
                 <div className="flex justify-center mb-8">
-                  <input value={checkDate} onChange={(e) => setCheckDate(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="date" placeholder="تاريخ الشيك" />
+                  <input value={checkNumber} onChange={(e) => setCheckNumber(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[60%]" type="number" placeholder="رقم الشيك" />
+                </div>
+                <div className="flex justify-center mb-8">
+                  <input value={checkDate} onChange={(e) => setCheckDate(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[60%]" type="date" placeholder="تاريخ الشيك" />
                 </div>
               </>
             )}

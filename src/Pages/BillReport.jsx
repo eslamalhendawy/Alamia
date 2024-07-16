@@ -12,10 +12,12 @@ const BillReport = () => {
   const [currentPage, setCurrentPage] = useState("");
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [authorized , setAuthorized] = useState(true);
 
   useEffect(() => {
-    if (userData.role === "storage_employee") {
+    if (userData.role === "manager" || userData.role === "storage_employee") {
       setLoading(false);
+      setAuthorized(false);
     }
   }, []);
 
@@ -58,8 +60,8 @@ const BillReport = () => {
         </Link>
       </div>
       {loading && <Loading />}
-      {!loading && list.length === 0 && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>}
-      {!loading && list.length > 0 && userData !== "storage_employee" && (
+      {!loading && list.length === 0 || !authorized && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>}
+      {!loading && list.length > 0 && authorized && (
         <div className="xl:w-[50%] xl:mx-auto">
           {list.map((item) => (
             <div dir="rtl" key={item.id} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg mb-6">

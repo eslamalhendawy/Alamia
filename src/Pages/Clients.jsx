@@ -4,7 +4,6 @@ import { useAppContext } from "../Context/AppContext";
 import { useNavigate } from "react-router-dom";
 
 import Select from "react-select";
-
 import Loading from "../Components/Loading";
 
 import { toast } from "react-toastify";
@@ -32,14 +31,15 @@ const Clients = () => {
   const { userData } = useAppContext();
   const [clients, setClients] = useState([]);
   const [selectedClient, setSelectedClient] = useState("");
-  const [clientData, setClientData] = useState({});
+  const [clientData, setClientData] = useState("");
   const [hidden, setHidden] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState("");
   const [authorized, setAuthorized] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userData.role === "storage_employee" || userData.role === "bill_employee") {
+    if (userData.role !== "admin") {
       setLoading(false);
       setAuthorized(false);
     }
@@ -63,9 +63,10 @@ const Clients = () => {
       setHidden(false);
       setLoading(true);
       const fetchClientData = async () => {
-        const response = await getData(`sells?clint=${selectedClient}`, localStorage.getItem("token"));
-        if (response.data) {
-          setClientData(response.data.reverse());
+        const response = await getData(`clints/${selectedClient}/details`, localStorage.getItem("token"));
+        console.log(response);
+        if (response) {
+          setClientData(response);
           setLoading(false);
         }
       };
@@ -74,7 +75,7 @@ const Clients = () => {
   }, [selectedClient]);
 
   const handleClick = () => {
-    if (userData.role === "storage_employee" || userData.role === "bill_employee") {
+    if (userData.role !== "admin") {
       return toast.error("غير مسموح لك بالاضافة");
     } else {
       navigate("/add-client");
@@ -90,27 +91,69 @@ const Clients = () => {
         <Select onChange={(e) => setSelectedClient(e.value)} className="w-[250px]" styles={customStyles} options={clients} placeholder="اسم العميل" />
       </div>
       {loading && !hidden && <Loading />}
-      {!loading && clientData.length === 0 && <h2 className="text-2xl text-center">No Records Found</h2>}
-      {!loading && clientData.length > 0 && (
+      {!loading && clientData === "" && <h2 className="text-2xl text-center">No Records Found</h2>}
+      {!loading && clientData !== "" && (
         <>
-          <div className="xl:w-[50%] xl:mx-auto flex flex-col gap-6 mb-8 md:mb-16">
-            {clientData.map((item, index) => (
-              <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
-                <p>عميل: {item.clint.clint_name}</p>
-                <p>النوع: {item.product.type}</p>
-                <p>الوزن: {item.o_wieght}ك</p>
-                <p>المقاس: {item.size_o}</p>
-                <p>الموظف: {item.user.name}</p>
-                <p>التاريخ: {item.updatedAt.split("T")[0]}</p>
-                <p>سعر الاجمالي: {item.price_allQuantity}</p>
-              </div>
-            ))}
+          <div dir="rtl" className="xl:w-[70%] xl:mx-auto flex flex-col gap-6 mb-8 md:mb-8">
+            <h3 className="text-lightGreen text-2xl font-medium">بكر مباع</h3>
+            {clientData.sela.length !== 0 &&
+              clientData.sela.map((item, index) => (
+                <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
+                  <p>النوع: {item.product.type}</p>
+                  <p>الوزن: {item.o_wieght}ك</p>
+                  <p>المقاس: {item.size_o}</p>
+                  <p>التاريخ: {item.updatedAt.split("T")[0]}</p>
+                  <p>سعر الاجمالي: {item.price_allQuantity}</p>
+                </div>
+              ))}
+            {clientData.sela.length === 0 && <p className="text-center">لا يوجد بيانات</p>}
+          </div>
+          <div dir="rtl" className="xl:w-[70%] xl:mx-auto flex flex-col gap-6 mb-8 md:mb-8">
+            <h3 className="text-lightGreen text-2xl font-medium">فواتير</h3>
+            {clientData.bell.length !== 0 &&
+              clientData.bell.map((item, index) => (
+                <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
+                  <p className="text-right text-lg">المدفوع: {item.payBell}</p>
+                  <p className="text-right text-lg">طريقة الدفع: {item.paymentMethod}</p>
+                  <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
+                </div>
+              ))}
+            {clientData.bell.length === 0 && <p className="text-center">لا يوجد بيانات</p>}
+          </div>
+          <div dir="rtl" className="xl:w-[70%] xl:mx-auto flex flex-col gap-6 mb-8 md:mb-8">
+            <h3 className="text-lightGreen text-2xl font-medium">شيكات مرتدة</h3>
+            {clientData.chBack.length !== 0 &&
+              clientData.chBack.map((item, index) => (
+                <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
+                  <p className="text-right text-lg">المدفوع: {item.payBell}</p>
+                  <p className="text-right text-lg">طريقة الدفع: {item.paymentMethod}</p>
+                  <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
+                </div>
+              ))}
+            {clientData.chBack.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
+          </div>
+          <div dir="rtl" className="xl:w-[70%] xl:mx-auto flex flex-col gap-6 mb-8 md:mb-12">
+            <h3 className="text-lightGreen text-2xl font-medium">عمليات ضريبية</h3>
+            {clientData.tax.length !== 0 &&
+              clientData.tax.map((item, index) => (
+                <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
+                  <p className="text-right text-lg">عدد مرات الخصم: {}</p>
+                  <p className="text-right text-lg">نسبة الضريبة: {item.taxRate}</p>
+                  <p className="text-right text-lg">نسبة الخصم: {item.discountRate}</p>
+                  <p className="text-right text-lg">المبلغ: {item.amount}</p>
+                  <p className="text-right text-lg">قيمة الضريبة: {Math.floor(item.taxAmount)}</p>
+                  <p className="text-right text-lg">قيمة الخصم: {Math.floor(item.discountAmount)}</p>
+                  <p className="text-right text-lg">الاجمالي: {Math.floor(item.netAmount)}</p>
+                  <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
+                </div>
+              ))}
+            {clientData.tax.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
           </div>
           <div dir="rtl" className="flex flex-col md:flex-row md:justify-center gap-12 xl:gap-24">
             <div dir="rtl" className="flex flex-col gap-3 justify-start lg:pr-12 text-xl font-medium">
-              <p>مدفوع : {clientData[0].clint.money_pay}</p>
-              <p>باقي : {clientData[0].clint.money_on}</p>
-              <p>اجمالي المبلغ : {clientData[0].clint.money_on + clientData[0].clint.money_pay}</p>
+              <p>مدفوع : {clientData.sela[0].clint.money_on}</p>
+              <p>باقي : {clientData.sela[0].clint.money_on}</p>
+              <p>اجمالي المبلغ : {clientData.sela[0].clint.money_on + clientData.sela[0].clint.money_pay}</p>
             </div>
           </div>
         </>

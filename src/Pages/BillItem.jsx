@@ -33,11 +33,12 @@ const BillItem = () => {
     const fetchData = async () => {
       if (type === "sell_bell") {
         const response = await getData(`sell_bell/${id}`, localStorage.getItem("token"));
-        setData({ client: response.data.clint.clint_name, employee: response.data.user.name, payed: response.data.payBell, date: response.data.updatedAt, debt: response.data.clint.money_on, total: response.data.clint.total_monye, paymentMethod: response.data.paymentMethod, checkNumber: response.data.checkNumber, checkDate: response.data.checkDate, allPayed: response.data.clint.money_pay, clientID: response.data.clint._id });
+        console.log(response);
+        setData({ client: response.data.clint.clint_name, employee: response.data.user.name, payed: response.data.payBell, date: response.data.updatedAt, debt: response.data.clint.money_on, total: response.data.clint.total_monye, paymentMethod: response.data.paymentMethod, checkNumber: response.data.checkNumber, checkDate: response.data.checkDate, bankName: response.data.bankName, allPayed: response.data.clint.money_pay, clientID: response.data.clint._id });
         setLoading(false);
       } else if (type === "buy_bell") {
         const response = await getData(`buy_bell/${id}`, localStorage.getItem("token"));
-        setData({ client: response.data.supplayr?.supplayr_name, employee: response.data.user.name, payed: response.data.pay_bell, date: response.data.updatedAt, debt: response.data.supplayr.price_on, total: response.data.supplayr.total_price, paymentMethod: response.data.payment_method, allPayed: response.data.supplayr.price_pay, checkNumber: response.data.check_number, checkDate: response.data.check_date });
+        setData({ client: response.data.supplayr?.supplayr_name, employee: response.data.user.name, payed: response.data.pay_bell, date: response.data.updatedAt, debt: response.data.supplayr.price_on, total: response.data.supplayr.total_price, paymentMethod: response.data.payment_method, allPayed: response.data.supplayr.price_pay, checkNumber: response.data.check_number, checkDate: response.data.check_date, bankName: response.data.bank_name });
         setLoading(false);
       }
     };
@@ -108,16 +109,19 @@ const BillItem = () => {
             <p className="basis-1/2">طريقة الدفع : {data.paymentMethod}</p>
             {data.paymentMethod === "check" && (
               <>
-                <p className="basis-1/3">رقم الشيك : {data.checkNumber}</p>
+                <p className="basis-1/3">اسم البنك : {data.bankName}</p>
               </>
             )}
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-6">
             {data.paymentMethod === "check" && (
               <>
+                <p className="basis-1/3">رقم الشيك : {data.checkNumber}</p>
                 <p className="basis-1/3">تاريخ الشيك : {data.checkDate}</p>
               </>
             )}
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-6">
             <p className="basis-1/3">التاريخ : {data.date.split("T")[0]}</p>
           </div>
           <div>

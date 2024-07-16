@@ -67,11 +67,12 @@ const Tax = () => {
     if (userData.role === "storage_employee" || userData.role === "bill_employee") {
       return toast.error("غير مسموح لك بالاضافة");
     }
-    if (selected === "" || amount === "" || taxAmount === "" || discountAmount === "") {
+    if (selected === "" || amount === "" || taxAmount === "") {
       return toast.error("الرجاء ملئ جميع الحقول");
     }
     if (currentPage === "client-tax") {
       const response = await postData(`clint_Tax`, { user: userData.id, clint: selected.value, amount, taxRate: taxAmount, discountRate: discountAmount, Note: notes }, localStorage.getItem("token"));
+      console.log(response);
       if (response.data) {
         toast.success("تم الاضافة بنجاح");
         setAmount("");
@@ -81,6 +82,7 @@ const Tax = () => {
       }
     } else if (currentPage === "supplier-tax") {
       const response = await postData(`supplayr_Tax`, { user: userData.id, supplayr: selected.value, amount, taxRate: taxAmount, discountRate: discountAmount, Note: notes }, localStorage.getItem("token"));
+      console.log(response);
       if (response.data) {
         toast.success("تم الاضافة بنجاح");
         setAmount("");

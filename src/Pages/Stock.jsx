@@ -50,7 +50,7 @@ const Stock = () => {
   }, []);
 
   const handleSearch = async () => {
-    if(userData.role === "bill_employee"){
+    if(userData.role === "bill_employee" || userData.role === "manager"){
       return toast.error("لا تملك الصلاحية للقيام بهذه العملية");
     }
     setLoading(true);

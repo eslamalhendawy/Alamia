@@ -79,7 +79,7 @@ const Bills = () => {
   }, [selected]);
 
   const handleAdd = async () => {
-    if (userData.role === "storage_employee") {
+    if (userData.role === "storage_employee" || userData.role === "manager") {
       return toast.error("لا تملك الصلاحية للقيام بهذه العملية");
     }
     if (selected === "") {
