@@ -27,7 +27,6 @@ const Report = () => {
       setResult(response.data);
       setLoading(false);
     }
-    console.log(response);
   };
 
   return (

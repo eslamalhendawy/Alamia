@@ -55,7 +55,6 @@ const Stock = () => {
     }
     setLoading(true);
     const response = await getData(`warehous?${selectedProduct != "" ? `product=${selectedProduct}` : ""}${size != "" ? `&size=${size}` : ""}`, localStorage.getItem("token"));
-    console.log(response);
     if (response) {
       setList(response.data);
       setLoading(false);

@@ -72,7 +72,6 @@ const Suppliers = () => {
       setLoading(true);
       const fetchClientData = async () => {
         const response = await getData(`buys?supplayr=${selectedSupplier}`, localStorage.getItem("token"));
-        console.log(response.data);
         if (response.data) {
           setSupplierData(response.data.reverse());
           setLoading(false);

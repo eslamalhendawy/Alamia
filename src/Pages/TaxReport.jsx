@@ -32,7 +32,6 @@ const TaxReport = () => {
     const fetchList = async () => {
       if (currentPage === "client-tax" && authorized) {
         const response = await getData(`clint_Tax`, localStorage.getItem("token"));
-        console.log(response);
         setList(response.data);
         setLoading(false);
       } else if (currentPage === "supplier-tax" && authorized) {
