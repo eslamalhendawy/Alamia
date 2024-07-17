@@ -33,7 +33,6 @@ const BillItem = () => {
     const fetchData = async () => {
       if (type === "sell_bell") {
         const response = await getData(`sell_bell/${id}`, localStorage.getItem("token"));
-        console.log(response);
         setData({ client: response.data.clint.clint_name, employee: response.data.user.name, payed: response.data.payBell, date: response.data.updatedAt, debt: response.data.clint.money_on, total: response.data.clint.total_monye, paymentMethod: response.data.paymentMethod, checkNumber: response.data.checkNumber, checkDate: response.data.checkDate, bankName: response.data.bankName, allPayed: response.data.clint.money_pay, clientID: response.data.clint._id });
         setLoading(false);
       } else if (type === "buy_bell") {
@@ -68,9 +67,9 @@ const BillItem = () => {
     if (userData.role !== "admin") {
       return toast.error("غير مسموح لك بالمرتجع");
     }
-    let temp = new Date();
-    const date = `${temp.getFullYear()}-${temp.getMonth() + 1}-${temp.getDate()}`;
-    const response = await postData(`return_check`, { clint: data.clientID, amount: data.payed, date }, localStorage.getItem("token"));
+    const sentData = { user: userData.id, clint: data.clientID, amount: data.payed, date: data.checkDate, num: data.checkNumber };
+    const response = await postData(`return_check`, sentData, localStorage.getItem("token"));
+    console.log(response);
     if (response.data) {
       toast.success("تم اضافة المرتجع بنجاح");
       navigate("/receive-bill/report");

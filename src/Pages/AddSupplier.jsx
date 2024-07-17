@@ -27,7 +27,6 @@ const AddSupplier = () => {
     }
     toast.info("جاري تسجيل العميل");
     const response = await postData("Supplayrs", { supplayr_name: name, price_pay: paid, price_on: debt, total_price: total }, localStorage.getItem("token"));
-    console.log(response);
     if (response.data) {
       toast.success("تم تسجيل المورد بنجاح");
       setName("");

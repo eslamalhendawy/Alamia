@@ -55,7 +55,6 @@ const IncomingStockAdd = () => {
   const [size, setSize] = useState("");
   const [price, setPrice] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
-  const [name, setName] = useState("");
   const [pay, setPay] = useState("");
   const [suppliers, setSuppliers] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState("");
@@ -129,7 +128,6 @@ const IncomingStockAdd = () => {
       setSize("");
       setPrice("");
       setTotalPrice("");
-      // setName("");
       setPay("");
       setSelectedProduct("");
     }

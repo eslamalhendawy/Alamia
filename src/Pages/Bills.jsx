@@ -102,7 +102,6 @@ const Bills = () => {
         delete data.bankName;
       }
       const response = await postData("sell_bell", data, localStorage.getItem("token"));
-      console.log(response);
       if (response.data) {
         window.location.reload();
       }

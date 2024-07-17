@@ -34,7 +34,6 @@ const Clients = () => {
   const [clientData, setClientData] = useState("");
   const [hidden, setHidden] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [open, setOpen] = useState("");
   const [authorized, setAuthorized] = useState(true);
   const navigate = useNavigate();
 
@@ -64,7 +63,6 @@ const Clients = () => {
       setLoading(true);
       const fetchClientData = async () => {
         const response = await getData(`clints/${selectedClient}/details`, localStorage.getItem("token"));
-        console.log(response);
         if (response) {
           setClientData(response);
           setLoading(false);
@@ -129,7 +127,6 @@ const Clients = () => {
                   <p className="text-right text-lg">اسم العميل : {item.clint.clint_name}</p>
                   <p className="text-right text-lg">رقم الشيك : {item.clint.clint_name}</p>
                   <p className="text-right text-lg">تاريخ الشيك : {item.clint.clint_name}</p>
-                  {/* <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p> */}
                 </div>
               ))}
             {clientData.chBack.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
@@ -141,7 +138,7 @@ const Clients = () => {
                 <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
                   <p className="text-right text-lg">عدد مرات الخصم: {item.clint.disCount}</p>
                   <p className="text-right text-lg">نسبة الضريبة: {item.taxRate}</p>
-                  <p className="text-right text-lg">نسبة الخصم: {item.discountRate}</p>
+                  <p className="text-right text-lg">نسبة الخصم: {item.discountRate ? item.discountRate : "لا يوجد"}</p>
                   <p className="text-right text-lg">المبلغ: {item.amount}</p>
                   <p className="text-right text-lg">قيمة الضريبة: {Math.floor(item.taxAmount)}</p>
                   <p className="text-right text-lg">قيمة الخصم: {Math.floor(item.discountAmount)}</p>
@@ -151,8 +148,11 @@ const Clients = () => {
               ))}
             {clientData.tax.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
           </div>
-          <div dir="rtl" className="flex flex-col md:flex-row md:justify-center gap-12 xl:gap-24">
-            <div dir="rtl" className="flex flex-col gap-3 justify-start lg:pr-12 text-xl font-medium">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-12 xl:gap-24 xl:w-[70%] xl:mx-auto">
+            <a href={`https://alalamya.onrender.com/api/v1/clints/${selectedClient}/details/export`} target="_blank" className=" items-center justify-center bg-navyColor hover:bg-[#234863] duration-200 text-white text-lg py-2 px-6 rounded-lg">
+              طباعة
+            </a>
+            <div dir="rtl" className="flex flex-col gap-3 justify-start text-xl font-medium">
               <p>مدفوع : {clientData.sela[0].clint.money_on}</p>
               <p>باقي : {clientData.sela[0].clint.money_on}</p>
               <p>اجمالي المبلغ : {clientData.sela[0].clint.money_on + clientData.sela[0].clint.money_pay}</p>
