@@ -63,6 +63,7 @@ const Clients = () => {
       setLoading(true);
       const fetchClientData = async () => {
         const response = await getData(`clints/${selectedClient}/details`, localStorage.getItem("token"));
+        console.log(response);
         if (response) {
           setClientData(response);
           setLoading(false);
@@ -125,8 +126,8 @@ const Clients = () => {
                 <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
                   <p className="text-right text-lg">مبلغ الشيك: {item.amount}</p>
                   <p className="text-right text-lg">اسم العميل : {item.clint.clint_name}</p>
-                  <p className="text-right text-lg">رقم الشيك : {item.clint.clint_name}</p>
-                  <p className="text-right text-lg">تاريخ الشيك : {item.clint.clint_name}</p>
+                  <p className="text-right text-lg">رقم الشيك : {item.num}</p>
+                  <p className="text-right text-lg">تاريخ الشيك : {item.date.split("T")[0]}</p>
                 </div>
               ))}
             {clientData.chBack.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
