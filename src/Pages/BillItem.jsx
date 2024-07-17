@@ -69,7 +69,6 @@ const BillItem = () => {
     }
     const sentData = { user: userData.id, clint: data.clientID, amount: data.payed, date: data.checkDate, num: data.checkNumber };
     const response = await postData(`return_check`, sentData, localStorage.getItem("token"));
-    console.log(response);
     if (response.data) {
       toast.success("تم اضافة المرتجع بنجاح");
       navigate("/receive-bill/report");

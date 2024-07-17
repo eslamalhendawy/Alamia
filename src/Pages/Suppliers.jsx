@@ -138,7 +138,7 @@ const Suppliers = () => {
             {supplierData.tax.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
           </div>
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-12 xl:gap-24 xl:w-[70%] xl:mx-auto">
-            <a href={`https://alalamya.onrender.com/api/v1/supplayrs/${selectedSupplier}/details/export`} target="_blank" className=" items-center justify-center bg-navyColor hover:bg-[#234863] duration-200 text-white text-lg py-2 px-6 rounded-lg">
+            <a href={`https://alalamya.onrender.com/api/v1/supplayrs/${selectedSupplier}/exportToExcel`} target="_blank" className=" items-center justify-center bg-navyColor hover:bg-[#234863] duration-200 text-white text-lg py-2 px-6 rounded-lg">
               طباعة
             </a>
             <div dir="rtl" className="flex flex-col gap-3 justify-start text-xl font-medium">
