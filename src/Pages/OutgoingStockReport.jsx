@@ -48,7 +48,7 @@ const OutgoingStockReport = () => {
         </Link>
       </div>
       {loading && <Loading />}
-      {(!loading && list.length === 0) || (!authorized && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>)}
+      {((!loading && list.length === 0) || !authorized) && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>}
       {!loading && list.length > 0 && authorized && (
         <div className="xl:w-[50%] xl:mx-auto">
           {list.map((item, index) => (
