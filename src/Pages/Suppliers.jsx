@@ -105,7 +105,7 @@ const Suppliers = () => {
                   <p>سعر الاجمالي: {item.price_all}</p>
                 </div>
               ))}
-            {supplierData.buys.length === 0 && <p className="text-center">لا يوجد بيانات</p>}
+            {supplierData.buys.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
           </div>
           <div dir="rtl" className="xl:w-[70%] xl:mx-auto flex flex-col gap-6 mb-8 md:mb-8">
             <h3 className="text-lightGreen text-2xl font-medium">فواتير</h3>
@@ -117,7 +117,7 @@ const Suppliers = () => {
                   <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
                 </div>
               ))}
-            {supplierData.bell.length === 0 && <p className="text-center">لا يوجد بيانات</p>}
+            {supplierData.bell.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
           </div>
           <div dir="rtl" className="xl:w-[70%] xl:mx-auto flex flex-col gap-6 mb-8 md:mb-12">
             <h3 className="text-lightGreen text-2xl font-medium">عمليات ضريبية</h3>
@@ -140,18 +140,13 @@ const Suppliers = () => {
             <a href={`https://alalamya.onrender.com/api/v1/supplayrs/${selectedSupplier}/exportToExcel`} target="_blank" className=" items-center justify-center bg-navyColor hover:bg-[#234863] duration-200 text-white text-lg py-2 px-6 rounded-lg">
               طباعة
             </a>
-            <div dir="rtl" className="flex flex-col gap-3 justify-start text-xl font-medium">
-              {/* <span>وارد</span> */}
-              <p>مدفوع : {supplierData.buys[0].supplayr.price_pay}</p>
-              <p>باقي : {supplierData.buys[0].supplayr.price_on}</p>
-              <p>اجمالي المبلغ : {supplierData.buys[0].supplayr.price_pay + supplierData.buys[0].supplayr.price_on}</p>
-            </div>
-            {/* <div dir="rtl" className="flex flex-col gap-3 justify-start lg:pr-12 text-xl font-medium">
-              <span>صادر</span>
-              <p>المتبقي : {supplierData[0].supplayr.priceOn_sell}</p>
-              <p>الدين : {supplierData[0].supplayr.moneyOn_me}</p>
-              <p>المستحق : {supplierData[0].supplayr.moneyFor_me}</p>
-            </div> */}
+            {supplierData.buys.length !== 0 && (
+              <div dir="rtl" className="flex flex-col gap-3 justify-start text-xl font-medium">
+                <p>مدفوع : {supplierData.buys[0].supplayr.price_pay}</p>
+                <p>باقي : {supplierData.buys[0].supplayr.price_on}</p>
+                <p>اجمالي المبلغ : {supplierData.buys[0].supplayr.price_pay + supplierData.buys[0].supplayr.price_on}</p>
+              </div>
+            )}
           </div>
         </>
       )}

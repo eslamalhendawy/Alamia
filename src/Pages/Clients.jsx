@@ -63,7 +63,6 @@ const Clients = () => {
       setLoading(true);
       const fetchClientData = async () => {
         const response = await getData(`clints/${selectedClient}/details`, localStorage.getItem("token"));
-        console.log(response);
         if (response) {
           setClientData(response);
           setLoading(false);
@@ -105,7 +104,7 @@ const Clients = () => {
                   <p>سعر الاجمالي: {item.price_allQuantity}</p>
                 </div>
               ))}
-            {clientData.sela.length === 0 && <p className="text-center">لا يوجد بيانات</p>}
+            {clientData.sela.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
           </div>
           <div dir="rtl" className="xl:w-[70%] xl:mx-auto flex flex-col gap-6 mb-8 md:mb-8">
             <h3 className="text-lightGreen text-2xl font-medium">فواتير</h3>
@@ -117,7 +116,7 @@ const Clients = () => {
                   <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
                 </div>
               ))}
-            {clientData.bell.length === 0 && <p className="text-center">لا يوجد بيانات</p>}
+            {clientData.bell.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
           </div>
           <div dir="rtl" className="xl:w-[70%] xl:mx-auto flex flex-col gap-6 mb-8 md:mb-8">
             <h3 className="text-lightGreen text-2xl font-medium">شيكات مرتدة</h3>
@@ -153,11 +152,13 @@ const Clients = () => {
             <a href={`https://alalamya.onrender.com/api/v1/clints/${selectedClient}/details/export`} target="_blank" className=" items-center justify-center bg-navyColor hover:bg-[#234863] duration-200 text-white text-lg py-2 px-6 rounded-lg">
               طباعة
             </a>
-            <div dir="rtl" className="flex flex-col gap-3 justify-start text-xl font-medium">
-              <p>مدفوع : {clientData.sela[0].clint.money_on}</p>
-              <p>باقي : {clientData.sela[0].clint.money_on}</p>
-              <p>اجمالي المبلغ : {clientData.sela[0].clint.money_on + clientData.sela[0].clint.money_pay}</p>
-            </div>
+            {clientData.sela.length !== 0 && (
+              <div dir="rtl" className="flex flex-col gap-3 justify-start text-xl font-medium">
+                <p>مدفوع : {clientData.sela[0].clint.money_on}</p>
+                <p>باقي : {clientData.sela[0].clint.money_on}</p>
+                <p>اجمالي المبلغ : {clientData.sela[0].clint.money_on + clientData.sela[0].clint.money_pay}</p>
+              </div>
+            )}
           </div>
         </>
       )}
