@@ -72,6 +72,7 @@ const Suppliers = () => {
       setLoading(true);
       const fetchClientData = async () => {
         const response = await getData(`supplayrs/${selectedSupplier}/details`, localStorage.getItem("token"));
+        console.log(response);
         if (response) {
           setSupplierData(response);
           setLoading(false);
@@ -131,6 +132,7 @@ const Suppliers = () => {
                   <p className="text-right text-lg">قيمة الضريبة: {Math.floor(item.taxAmount)}</p>
                   <p className="text-right text-lg">قيمة الخصم: {Math.floor(item.discountAmount)}</p>
                   <p className="text-right text-lg">الاجمالي: {Math.floor(item.netAmount)}</p>
+                  <p className="text-right text-lg">ملاحظات: {item.Notes === "" ? "لايوجد" : item.Notes}</p>
                   <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
                 </div>
               ))}

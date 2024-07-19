@@ -63,6 +63,7 @@ const Clients = () => {
       setLoading(true);
       const fetchClientData = async () => {
         const response = await getData(`clints/${selectedClient}/details`, localStorage.getItem("token"));
+        console.log(response);
         if (response) {
           setClientData(response);
           setLoading(false);
@@ -143,6 +144,7 @@ const Clients = () => {
                   <p className="text-right text-lg">قيمة الضريبة: {Math.floor(item.taxAmount)}</p>
                   <p className="text-right text-lg">قيمة الخصم: {Math.floor(item.discountAmount)}</p>
                   <p className="text-right text-lg">الاجمالي: {Math.floor(item.netAmount)}</p>
+                  <p className="text-right text-lg">ملاحظات: {item.Notes === "" ? "لايوجد" : item.Notes}</p>
                   <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
                 </div>
               ))}

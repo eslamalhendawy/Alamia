@@ -32,10 +32,12 @@ const TaxReport = () => {
     const fetchList = async () => {
       if (currentPage === "client-tax" && authorized) {
         const response = await getData(`clint_Tax`, localStorage.getItem("token"));
+        console.log(response);
         setList(response.data);
         setLoading(false);
       } else if (currentPage === "supplier-tax" && authorized) {
         const response = await getData(`supplayr_Tax`, localStorage.getItem("token"));
+        console.log(response);
         setList(response.data);
         setLoading(false);
       }
@@ -82,11 +84,12 @@ const TaxReport = () => {
                 <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
                 <p className="text-right text-lg">عدد مرات الخصم: {currentPage === "client-tax" ? item.clint?.disCount : item.supplayr.dis_count}</p>
                 <p className="text-right text-lg">نسبة الضريبة: {item.taxRate}</p>
-                <p className="text-right text-lg">نسبة الخصم: {item.discountRate}</p>
+                <p className="text-right text-lg">نسبة الخصم: {item.discountRate ? item.discountRate : "لا يوجد"}</p>
                 <p className="text-right text-lg">المبلغ: {item.amount}</p>
                 <p className="text-right text-lg">قيمة الضريبة: {Math.floor(item.taxAmount)}</p>
                 <p className="text-right text-lg">قيمة الخصم: {item.discountAmount}</p>
                 <p className="text-right text-lg">الاجمالي: {Math.floor(item.netAmount)}</p>
+                <p className="text-right text-lg">ملاحظات: {item.Notes === "" ? "لا يوجد" : item.Notes}</p>
                 <p className="text-right text-lg">الموظف: {item.user.name}</p>
               </div>
               <div>
