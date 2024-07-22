@@ -54,7 +54,6 @@ const OutgoingStockAdd = () => {
   const [size, setSize] = useState("");
   const [price, setPrice] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
-  const [name, setName] = useState("");
   const [suppliers, setSuppliers] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState("");
   const [pay, setPay] = useState("");
@@ -74,23 +73,16 @@ const OutgoingStockAdd = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await getData("warehous", localStorage.getItem("token"));
+      console.log(response);
       if (response) {
         let temp = response.data.map((item) => {
-          return { value: item.product._id, label: `${item.product.type} - ${item.product_code}`, weight: item.weight, size: item.size, avg_price: item.product.avg_price, stock: item.product.wieght };
+          return { value: item.product._id, label: `${item.product.type} - ${item.product_code}`, weight: item.weight, size: item.size, avg_price: item.product.avg_price, stock: item.product.wieght, code: item.product_code };
         });
         setProductsList(temp);
       }
     };
     fetchProducts();
   }, []);
-
-  useEffect(() => {
-    if (selectedProduct !== "") {
-      setCode(productsList.find((item) => item.value === selectedProduct).label.split(" - ")[1]);
-      setWeight(productsList.find((item) => item.value === selectedProduct).weight);
-      setSize(productsList.find((item) => item.value === selectedProduct).size);
-    }
-  }, [selectedProduct]);
 
   useEffect(() => {
     const fetchSuppliers = async () => {
@@ -131,7 +123,6 @@ const OutgoingStockAdd = () => {
       setSize("");
       setPrice("");
       setTotalPrice("");
-      setName("");
       setPay("");
       setCode_out("");
       setDiscountRate("");
@@ -154,6 +145,9 @@ const OutgoingStockAdd = () => {
         <Select
           onChange={(e) => {
             setSelectedProduct(e.value);
+            setWeight(e.weight);
+            setCode(e.code);
+            setSize(e.size);
             setAveragePrice(e.avg_price);
             setTotalStock(e.stock);
           }}

@@ -33,6 +33,7 @@ const OutgoingStockItem = () => {
       return toast.error("غير مسموح لك بالحذف");
     }
     const response = await deleteData(`sells/${id}`, localStorage.getItem("token"));
+    console.log(response);
     if (response === "") {
       toast.success("تم الحذف بنجاح");
       navigate("/outgoing-stock/report");
@@ -86,15 +87,16 @@ const OutgoingStockItem = () => {
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">نسبة الخصم : {item.discountRate}%</p>
-            <p className="basis-1/3">قيمة الخصم : {item.discountAmount}</p>
-          </div>
-          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">رقم الفاتورة : {item.code_out}</p>
-            <p className="basis-1/3">السعر : {item.price_allQuantity}</p>
+            {/* <p className="basis-1/3">قيمة الخصم : {item.discountAmount}</p> */}
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3">السعر : {item.price_allQuantity}</p>
             <p className="basis-1/3">القيمة النهائية : {item.allForall}</p>
           </div>
+          {/* <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
+            
+          </div> */}
           <div className="flex flex-col sm:flex-row-reverse justify-start gap-3">
             <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
               مسح
