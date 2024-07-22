@@ -9,7 +9,6 @@ import BillsNavigation from "../Components/BillsNavigation";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Notes } from "@mui/icons-material";
 
 const customStyles = {
   control: (provided) => ({
@@ -106,7 +105,8 @@ const Bills = () => {
       const response = await postData("sell_bell", data, localStorage.getItem("token"));
       console.log(response);
       if (response.data) {
-        window.location.reload();
+        // window.location.reload();
+        toast.success("تمت الاضافة بنجاح");
       }
     } else {
       const data = { user: userData.id, supplayr: selectedData?._id, pay_bell: amount, payment_method: paymentType, check_date: checkDate, check_number: checkNumber, bank_name: bankName, Notes: notes };
@@ -118,7 +118,8 @@ const Bills = () => {
       const response = await postData("buy_bell", data, localStorage.getItem("token"));
       console.log(response);
       if (response.data) {
-        window.location.reload();
+        // window.location.reload();
+        toast.success("تمت الاضافة بنجاح");
       }
     }
   };
@@ -139,7 +140,7 @@ const Bills = () => {
       </div>
       <div className="flex flex-col justify-center items-center mb-8 gap-6">
         <input onChange={(e) => setAmount(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="number" placeholder="المبلغ المدفوع" />
-        <textarea onChange={(e) => setAmount(e.target.value)} className="resize-none border text-right outline-none py-2 px-1 rounded-xl h-[150px] w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" placeholder="ملاحظات"></textarea>
+        <textarea onChange={(e) => setNotes(e.target.value)} className="resize-none border text-right outline-none py-2 px-1 rounded-xl h-[150px] w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" placeholder="ملاحظات"></textarea>
       </div>
       <div className="flex justify-center gap-6 mb-8">
         <div className="flex gap-2 items-center">
