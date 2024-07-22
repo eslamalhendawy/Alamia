@@ -49,7 +49,6 @@ const customStyles2 = {
 const OutgoingStockAdd = () => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [productsList, setProductsList] = useState([]);
-  const [productData, setProductData] = useState({});
   const [code, setCode] = useState("");
   const [weight, setWeight] = useState("");
   const [size, setSize] = useState("");
@@ -64,6 +63,9 @@ const OutgoingStockAdd = () => {
   const { userData } = useAppContext();
   const [averagePrice, setAveragePrice] = useState("");
   const [totalStock, setTotalStock] = useState("");
+  const [taxRate, setTaxRate] = useState("");
+  const [discountRate, setDiscountRate] = useState("");
+  const [code_out, setCode_out] = useState("");
 
   useEffect(() => {
     setCurrentPage(location.pathname.split("/")[1]);
@@ -112,17 +114,17 @@ const OutgoingStockAdd = () => {
   }, [weight, price]);
 
   const handleAdd = async () => {
-    if(userData.role === "bill_employee" || userData.role === "manager"){
+    if (userData.role === "bill_employee" || userData.role === "manager") {
       toast.error("لا يمكنك القيام بهذه العملية");
       return;
     }
-    if (!selectedProduct || !code || !weight || !size || !price || !selectedSupplier || !totalPrice || !pay) {
+    if (!selectedProduct || !code || !weight || !size || !price || !selectedSupplier || !totalPrice || !pay || !taxRate || !code_out) {
       toast.error("برجاء ملئ جميع الحقول");
       return;
     }
     toast.info("جاري اضافة البيانات");
-    const response = await postData("sells", { user: userData.id, clint: selectedSupplier, o_wieght: weight, product: selectedProduct, size_o: size, product_code: code, priceForKilo: price, price_allQuantity: totalPrice, pay_now: pay }, localStorage.getItem("token"));
-    if (response.data){
+    const response = await postData("sells", { user: userData.id, clint: selectedSupplier, o_wieght: weight, product: selectedProduct, size_o: size, product_code: code, priceForKilo: price, price_allQuantity: totalPrice, pay_now: pay, code_out, taxRate, discountRate }, localStorage.getItem("token"));
+    if (response.data) {
       toast.success("تمت الاضافة بنجاح");
       setCode("");
       setWeight("");
@@ -131,6 +133,9 @@ const OutgoingStockAdd = () => {
       setTotalPrice("");
       setName("");
       setPay("");
+      setCode_out("");
+      setDiscountRate("");
+      setTaxRate("");
     }
   };
 
@@ -168,12 +173,20 @@ const OutgoingStockAdd = () => {
       </div>
       <div className="flex flex-col items-center sm:flex-row justify-center gap-6 sm:gap-8 xl:gap-16 mb-6 lg:mb-10">
         <input value={totalPrice} readOnly className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="number" placeholder="السعر الاجمالي" />
-        {/* <input value={name} onChange={(e) => setName(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="اسم المورد" /> */}
         <Select onChange={(e) => setSelectedSupplier(e.value)} className="w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" styles={customStyles2} options={suppliers} placeholder="اسم العميل " />
       </div>
-      <div className="flex justify-center mb-6 lg:mb-10">
-        <input value={pay} onChange={(e) => setPay(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="تم دفع" />
+
+      <div className="flex flex-col items-center sm:flex-row justify-center gap-6 sm:gap-8 xl:gap-16 mb-6 lg:mb-10">
+        <input value={discountRate} onChange={(e) => setDiscountRate(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="number" placeholder="قيمة الخصم" />
+
+        <input value={taxRate} onChange={(e) => setTaxRate(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="number" placeholder="قيمة الضريبة" />
       </div>
+
+      <div className="flex flex-col items-center sm:flex-row justify-center gap-6 sm:gap-8 xl:gap-16 mb-6 lg:mb-10">
+        <input value={pay} onChange={(e) => setPay(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="تم دفع" />
+        <input value={code_out} onChange={(e) => setCode_out(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="رقم الفاتورة" />
+      </div>
+
       <div className="flex flex-col justify-center items-center mb-6 lg:mb-10">
         <p dir="rtl" className=" text-[#8b8989] text-xl mb-4">
           متوسط السعر: <span className="text-black">{averagePrice}</span>
