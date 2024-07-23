@@ -103,10 +103,15 @@ const Bills = () => {
         delete data.bankName;
       }
       const response = await postData("sell_bell", data, localStorage.getItem("token"));
-      console.log(response);
       if (response.data) {
         // window.location.reload();
         toast.success("تمت الاضافة بنجاح");
+        setAmount("");
+        setNotes("");
+        setPaymentType("cash");
+        setCheckDate("");
+        setCheckNumber("");
+        setBankName("");
       }
     } else {
       const data = { user: userData.id, supplayr: selectedData?._id, pay_bell: amount, payment_method: paymentType, check_date: checkDate, check_number: checkNumber, bank_name: bankName, Notes: notes };
@@ -116,10 +121,15 @@ const Bills = () => {
         delete data.bank_name;
       }
       const response = await postData("buy_bell", data, localStorage.getItem("token"));
-      console.log(response);
       if (response.data) {
         // window.location.reload();
         toast.success("تمت الاضافة بنجاح");
+        setAmount("");
+        setNotes("");
+        setPaymentType("cash");
+        setCheckDate("");
+        setCheckNumber("");
+        setBankName("");
       }
     }
   };

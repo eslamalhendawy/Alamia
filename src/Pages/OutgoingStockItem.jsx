@@ -33,7 +33,6 @@ const OutgoingStockItem = () => {
       return toast.error("غير مسموح لك بالحذف");
     }
     const response = await deleteData(`sells/${id}`, localStorage.getItem("token"));
-    console.log(response);
     if (response === "") {
       toast.success("تم الحذف بنجاح");
       navigate("/outgoing-stock/report");
@@ -83,7 +82,7 @@ const OutgoingStockItem = () => {
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">نسبة الضريبة : {item.taxRate}%</p>
-            <p className="basis-1/3">قيمة الضريبة : {item.taxAmount}</p>
+            <p className="basis-1/3">قيمة الضريبة : {Math.round(item.taxAmount)}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">نسبة الخصم : {item.discountRate}%</p>
@@ -91,8 +90,8 @@ const OutgoingStockItem = () => {
             {/* <p className="basis-1/3">قيمة الخصم : {item.discountAmount}</p> */}
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
-            <p className="basis-1/3">السعر : {item.price_allQuantity}</p>
-            <p className="basis-1/3">القيمة النهائية : {item.allForall}</p>
+            <p className="basis-1/3">السعر : {Math.round(item.price_allQuantity)}</p>
+            <p className="basis-1/3">القيمة النهائية : {Math.round(item.allForall)}</p>
           </div>
           {/* <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
             
