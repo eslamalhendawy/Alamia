@@ -30,7 +30,6 @@ const IncomingStockReport = () => {
   useEffect(() => {
     const fetchList = async () => {
       const response = await getData("buys", localStorage.getItem("token"));
-      console.log(response);
       if (response.data) {
         setList(response.data);
         setTempList(response.data);

@@ -16,6 +16,8 @@ const TaxReport = () => {
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
   const [authorized, setAuthorized] = useState(true);
+  const [tempList, setTempList] = useState([]);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (userData.role === "storage_employee" || userData.role === "bill_employee") {
@@ -32,11 +34,15 @@ const TaxReport = () => {
     const fetchList = async () => {
       if (currentPage === "client-tax" && authorized) {
         const response = await getData(`clint_Tax`, localStorage.getItem("token"));
+        console.log(response);
         setList(response.data);
+        setTempList(response.data);
         setLoading(false);
       } else if (currentPage === "supplier-tax" && authorized) {
         const response = await getData(`supplayr_Tax`, localStorage.getItem("token"));
+        console.log(response);
         setList(response.data);
+        setTempList(response.data);
         setLoading(false);
       }
     };
@@ -58,6 +64,28 @@ const TaxReport = () => {
     }
   };
 
+  useEffect(() => {
+    if (currentPage === "client-tax") {
+      if (query) {
+        const temp = tempList.filter((item) => {
+          return item.clint.clint_name.includes(query);
+        });
+        setList(temp);
+      } else {
+        setList(tempList);
+      }
+    } else {
+      if (query) {
+        const temp = tempList.filter((item) => {
+          return item.supplayr.supplayr_name.includes(query);
+        });
+        setList(temp);
+      } else {
+        setList(tempList);
+      }
+    }
+  }, [query]);
+
   return (
     <section className="grow pb-6 pt-[70px] px-4 minHeight">
       <TaxNavigation />
@@ -68,6 +96,9 @@ const TaxReport = () => {
         <Link to={currentPage === "client-tax" ? "/client-tax/report" : "/supplier-tax/report"} className={`text-lg font-medium text-darkGreen hover:text-white duration-200`}>
           تقرير
         </Link>
+      </div>
+      <div className="flex justify-center gap-8 mb-6">
+        <input onChange={(e) => setQuery(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[80%] md:w-[50%] xl:w-[35%]" type="text" placeholder="بحث" />
       </div>
       {loading && <Loading />}
       {!loading && list.length === 0 && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>}

@@ -13,6 +13,8 @@ const BillReport = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(true);
+  const [tempList, setTempList] = useState([]);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (userData.role === "manager" || userData.role === "storage_employee") {
@@ -34,6 +36,7 @@ const BillReport = () => {
             return { id: item._id, client: item.clint.clint_name || item.clint, payed: item.payBell, paymentMethod: item.paymentMethod, employee: item.user.name, date: item.updatedAt };
           });
           setList(temp);
+          setTempList(temp);
           setLoading(false);
         } else {
           const response = await getData(`buy_bell`, localStorage.getItem("token"));
@@ -41,12 +44,24 @@ const BillReport = () => {
             return { id: item._id, client: item.supplayr?.supplayr_name, payed: item.pay_bell, paymentMethod: item.payment_method, employee: item.user.name, date: item.updatedAt };
           });
           setList(temp);
+          setTempList(temp);
           setLoading(false);
         }
       };
       fetchList();
     }
   }, [currentPage]);
+
+  useEffect(() => {
+    if (query) {
+      const temp = tempList.filter((item) => {
+        return item.client.includes(query);
+      });
+      setList(temp);
+    } else {
+      setList(tempList);
+    }
+  }, [query]);
 
   return (
     <section className="grow pb-6 pt-[70px] px-4 minHeight">
@@ -58,6 +73,9 @@ const BillReport = () => {
         <Link to={currentPage === "receive-bill" ? "/receive-bill/report" : "/pay-bill/report"} className={`text-lg font-medium text-darkGreen hover:text-white duration-200`}>
           تقرير
         </Link>
+      </div>
+      <div className="flex justify-center gap-8 mb-6">
+        <input onChange={(e) => setQuery(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[80%] md:w-[50%] xl:w-[35%]" type="text" placeholder="بحث" />
       </div>
       {loading && <Loading />}
       {((!loading && list.length === 0) || !authorized) && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>}

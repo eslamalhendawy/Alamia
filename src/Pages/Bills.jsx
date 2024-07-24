@@ -104,7 +104,6 @@ const Bills = () => {
       }
       const response = await postData("sell_bell", data, localStorage.getItem("token"));
       if (response.data) {
-        // window.location.reload();
         toast.success("تمت الاضافة بنجاح");
         setAmount("");
         setNotes("");
@@ -122,7 +121,6 @@ const Bills = () => {
       }
       const response = await postData("buy_bell", data, localStorage.getItem("token"));
       if (response.data) {
-        // window.location.reload();
         toast.success("تمت الاضافة بنجاح");
         setAmount("");
         setNotes("");
