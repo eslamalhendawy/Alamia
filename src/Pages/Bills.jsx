@@ -102,7 +102,9 @@ const Bills = () => {
         delete data.checkNumber;
         delete data.bankName;
       }
+      console.log(data);
       const response = await postData("sell_bell", data, localStorage.getItem("token"));
+      console.log(response);
       if (response.data) {
         toast.success("تمت الاضافة بنجاح");
         setAmount("");

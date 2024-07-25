@@ -34,13 +34,11 @@ const TaxReport = () => {
     const fetchList = async () => {
       if (currentPage === "client-tax" && authorized) {
         const response = await getData(`clint_Tax`, localStorage.getItem("token"));
-        console.log(response);
         setList(response.data);
         setTempList(response.data);
         setLoading(false);
       } else if (currentPage === "supplier-tax" && authorized) {
         const response = await getData(`supplayr_Tax`, localStorage.getItem("token"));
-        console.log(response);
         setList(response.data);
         setTempList(response.data);
         setLoading(false);
@@ -118,8 +116,13 @@ const TaxReport = () => {
                 <p className="text-right text-lg">قيمة الضريبة: {Math.floor(item.taxAmount)}</p>
                 <p className="text-right text-lg">قيمة الخصم: {item.discountAmount}</p>
                 <p className="text-right text-lg">الاجمالي: {Math.floor(item.netAmount)}</p>
-                <p className="text-right text-lg">ملاحظات: {item.Notes === "" ? "لا يوجد" : item.Notes}</p>
+                {/* <p className="text-right text-lg">ملاحظات: {item.Notes === "" ? "لا يوجد" : item.Notes}</p> */}
                 <p className="text-right text-lg">الموظف: {item.user.name}</p>
+                <div className="flex justify-center sm:justify-end">
+                  <Link to={`/${currentPage === "client-tax" ? "client-tax" : "supplier-tax"}/${item._id}`} className="text-[#01D1ED] font-semibold text-lg">
+                    عرض
+                  </Link>
+                </div>
               </div>
               <div>
                 <button onClick={() => handleDelete(item._id)} className="text-xl hover:text-red-500 duration-200">

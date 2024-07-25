@@ -29,6 +29,7 @@ import BillReport from "./Pages/BillReport";
 import BillItem from "./Pages/BillItem";
 import Tax from "./Pages/Tax";
 import TaxReport from "./Pages/TaxReport";
+import TaxItem from "./Pages/TaxItem";
 
 function App() {
   const loggedIn = Boolean(localStorage.getItem("token"));
@@ -87,6 +88,8 @@ function App() {
             <Route path="/supplier-tax/add" element={<Tax />} />
             <Route path="/client-tax/report" element={<TaxReport />} />
             <Route path="/supplier-tax/report" element={<TaxReport />} />
+            <Route path="/client-tax/:id" element={<TaxItem />} />
+            <Route path="/supplier-tax/:id" element={<TaxItem />} />
           </Routes>
         </main>
       </Router>

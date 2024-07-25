@@ -73,7 +73,6 @@ const OutgoingStockAdd = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await getData("warehous", localStorage.getItem("token"));
-      console.log(response);
       if (response) {
         let temp = response.data.map((item) => {
           return { value: item.product._id, label: `${item.product.type} - ${item.product_code}`, weight: item.weight, size: item.size, avg_price: item.product.avg_price, stock: item.product.wieght, code: item.product_code };

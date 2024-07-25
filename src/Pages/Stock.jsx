@@ -96,6 +96,7 @@ const Stock = () => {
           {list.map((item, index) => (
             <div key={index} dir="rtl" className="flex items-center justify-between bg-white p-4 mb-6  rounded-lg font-medium text-lg ">
               <div className="flex flex-wrap gap-4 items-center">
+                <p className="text-right text-lg">المورد: {item.supplayr?.supplayr_name}</p>
                 <p className="text-right text-lg">النوع: {item.product?.type}</p>
                 <p className="text-right text-lg">الكود: {item.product_code}</p>
                 <p className="text-right text-lg">الوزن: {item.weight}</p>
