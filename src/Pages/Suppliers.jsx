@@ -144,9 +144,9 @@ const Suppliers = () => {
             </a>
             {supplierData.buys.length !== 0 && (
               <div dir="rtl" className="flex flex-col gap-3 justify-start text-xl font-medium">
-                <p>مدفوع : {supplierData.buys[0].supplayr.price_pay}</p>
-                <p>باقي : {supplierData.buys[0].supplayr.price_on}</p>
-                <p>اجمالي المبلغ : {supplierData.buys[0].supplayr.price_pay + supplierData.buys[0].supplayr.price_on}</p>
+                <p>مدفوع : {Math.round(supplierData.buys[0].supplayr.price_pay)}</p>
+                <p>باقي : {Math.round(supplierData.buys[0].supplayr.price_on)}</p>
+                <p>اجمالي المبلغ : {Math.round(supplierData.buys[0].supplayr.price_pay + supplierData.buys[0].supplayr.price_on)}</p>
               </div>
             )}
           </div>

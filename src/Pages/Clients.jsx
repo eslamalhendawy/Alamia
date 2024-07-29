@@ -156,9 +156,9 @@ const Clients = () => {
             </a>
             {clientData.sela.length !== 0 && (
               <div dir="rtl" className="flex flex-col gap-3 justify-start text-xl font-medium">
-                <p>مدفوع : {clientData.sela[0].clint.money_on}</p>
-                <p>باقي : {clientData.sela[0].clint.money_on}</p>
-                <p>اجمالي المبلغ : {clientData.sela[0].clint.money_on + clientData.sela[0].clint.money_pay}</p>
+                <p>مدفوع : {Math.round(clientData.sela[0].clint.money_on)}</p>
+                <p>باقي : {Math.round(clientData.sela[0].clint.money_on)}</p>
+                <p>اجمالي المبلغ : {Math.round(clientData.sela[0].clint.money_on + clientData.sela[0].clint.money_pay)}</p>
               </div>
             )}
           </div>

@@ -102,9 +102,7 @@ const Bills = () => {
         delete data.checkNumber;
         delete data.bankName;
       }
-      console.log(data);
       const response = await postData("sell_bell", data, localStorage.getItem("token"));
-      console.log(response);
       if (response.data) {
         toast.success("تمت الاضافة بنجاح");
         setAmount("");
@@ -185,7 +183,7 @@ const Bills = () => {
         </button>
       </div>
       <div dir="rtl" className="flex flex-col gap-3 justify-start lg:pr-12 text-xl font-medium">
-        <p>مدفوع : {type === "clints" ? selectedData?.money_pay : selectedData?.price_pay}</p>
+        <p>مدفوع : {type === "clints" ? Math.round(selectedData?.money_pay) : Math.round(selectedData?.price_pay)}</p>
         <p>باقي : {type === "clints" ? Math.round(selectedData?.money_on) : Math.round(selectedData?.price_on)}</p>
         <p>اجمالي المبلغ : {type === "clints" ? Math.round(selectedData?.total_monye) : Math.round(selectedData?.total_price)}</p>
       </div>

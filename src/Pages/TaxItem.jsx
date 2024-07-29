@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { getData, deleteData } from "../Services/apiCalls";
+import { getData } from "../Services/apiCalls";
 
 import Loading from "../Components/Loading";
 import TaxNavigation from "../Components/TaxNavigation";
-
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const TaxItem = () => {
   const { id } = useParams();
@@ -70,10 +67,10 @@ const TaxItem = () => {
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">نسبة الخصم : {data.discountPercentage ? `${data.discountPercentage} %` : "لا يوجد"}</p>
-            <p className="basis-1/3">قيمة الخصم : {data.discountAmount} ج م</p>
+            <p className="basis-1/3">قيمة الخصم : {Math.round(data.discountAmount)} ج م</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
-            <p className="basis-1/3">الاجمالي : {data.total} ج م</p>
+            <p className="basis-1/3">الاجمالي : {Math.round(data.total)} ج م</p>
             <p className="basis-1/3">التاريخ : {data.date.split("T")[0]}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-6">

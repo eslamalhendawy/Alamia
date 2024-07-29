@@ -29,11 +29,11 @@ const IncomingStockItem = () => {
   }, []);
 
   const handleDelete = async () => {
-    if(userData.role !== "admin"){
+    if (userData.role !== "admin") {
       return toast.error("غير مسموح لك بالحذف");
     }
     const response = await deleteData(`buys/${id}`, localStorage.getItem("token"));
-    if(response === ""){
+    if (response === "") {
       toast.success("تم الحذف بنجاح");
       navigate("/incoming-stock/report");
     }
@@ -67,13 +67,18 @@ const IncomingStockItem = () => {
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">المقاس : {item.size}</p>
-            <p className="basis-1/3">باقي : {item.price_all - item.pay}</p>
+            <p className="basis-1/3">باقي : {Math.round(item.price_all - item.pay)}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
-            <p className="basis-1/3">السعر : {item.price_all}</p>
+            <p className="basis-1/3">السعر : {Math.round(item.price_all)}</p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-6">
+            <p className="basis-1/3">ملاحظات : {item.Notes ? item.Notes : "لا يوجد"}</p>
           </div>
           <div className="flex flex-col sm:flex-row-reverse justify-start gap-3">
-            <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">مسح</button>
+            <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
+              مسح
+            </button>
             <EditStockModal item={item} />
           </div>
         </div>

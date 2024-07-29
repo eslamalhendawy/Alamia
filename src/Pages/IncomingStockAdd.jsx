@@ -58,6 +58,7 @@ const IncomingStockAdd = () => {
   const [pay, setPay] = useState("");
   const [suppliers, setSuppliers] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState("");
+  const [notes, setNotes] = useState("");
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("incoming-stock" || location.pathname.split("/")[0]);
   const { userData } = useAppContext();
@@ -111,7 +112,7 @@ const IncomingStockAdd = () => {
   }, [weight, price]);
 
   const handleAdd = async () => {
-    if(userData.role === "bill_employee" || userData.role === "manager"){
+    if (userData.role === "bill_employee" || userData.role === "manager") {
       toast.error("لا يمكنك القيام بهذه العملية");
       return;
     }
@@ -120,7 +121,7 @@ const IncomingStockAdd = () => {
       return;
     }
     toast.info("جاري اضافة البيانات");
-    const response = await postData("buys", { user: userData.id, supplayr: selectedSupplier, size, E_wieght: weight, product: selectedProduct, product_code: code, price_Kilo: price, price_all: totalPrice, pay }, localStorage.getItem("token"));
+    const response = await postData("buys", { user: userData.id, supplayr: selectedSupplier, size, E_wieght: weight, product: selectedProduct, product_code: code, price_Kilo: price, price_all: totalPrice, pay, Notes: notes }, localStorage.getItem("token"));
     if (response.data) {
       toast.success("تمت الاضافة بنجاح");
       setCode("");
@@ -159,8 +160,9 @@ const IncomingStockAdd = () => {
         <input value={totalPrice} readOnly className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="number" placeholder="السعر الاجمالي" />
         <Select onChange={(e) => setSelectedSupplier(e.value)} className="w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" styles={customStyles2} options={suppliers} placeholder="اسم المورد" />
       </div>
-      <div className="flex justify-center mb-6 lg:mb-10">
+      <div className="flex flex-col items-start sm:flex-row justify-center gap-6 sm:gap-8 xl:gap-16 mb-6 lg:mb-10">
         <input value={pay} onChange={(e) => setPay(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="تم دفع" />
+        <textarea onChange={(e) => setNotes(e.target.value)} className="resize-none border text-right outline-none py-2 px-1 rounded-xl h-[150px] w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" placeholder="ملاحظات"></textarea>
       </div>
       <div className="flex flex-col justify-center items-center mb-6 lg:mb-10">
         <p dir="rtl" className=" text-[#8b8989] text-xl mb-4">

@@ -43,6 +43,7 @@ const Tax = () => {
   }, [location]);
 
   useEffect(() => {
+    setSelected("");
     if (currentPage !== "") {
       const fetchList = async () => {
         if (currentPage === "client-tax") {
@@ -121,10 +122,10 @@ const Tax = () => {
         </button>
       </div>
       <div dir="rtl" className="flex flex-col gap-3 justify-start lg:pr-12 text-xl font-medium">
-        <p>عدد مرات الخصم : {selected.discountNumber}</p>
-        <p>مدفوع : {selected.payed}</p>
-        <p>باقي : {selected !== "" && Math.floor(selected.debt)}</p>
-        <p>اجمالي المبلغ : {selected.total}</p>
+        <p>عدد مرات الخصم : {selected !== "" && selected.discountNumber}</p>
+        <p>مدفوع : {selected !== "" && Math.round(selected.payed)}</p>
+        <p>باقي : {selected !== "" && Math.round(selected.debt)}</p>
+        <p>اجمالي المبلغ : {selected !== "" && Math.round(selected.total)}</p>
       </div>
     </section>
   );

@@ -64,6 +64,7 @@ const OutgoingStockAdd = () => {
   const [totalStock, setTotalStock] = useState("");
   const [taxRate, setTaxRate] = useState("");
   const [discountRate, setDiscountRate] = useState("");
+  const [notes, setNotes] = useState("");
   const [code_out, setCode_out] = useState("");
 
   useEffect(() => {
@@ -109,12 +110,12 @@ const OutgoingStockAdd = () => {
       toast.error("لا يمكنك القيام بهذه العملية");
       return;
     }
-    if (!selectedProduct || !code || !weight || !size || !price || !selectedSupplier || !totalPrice || !pay || !taxRate || !code_out) {
+    if (!selectedProduct || !code || !weight || !size || !price || !selectedSupplier || !totalPrice || !pay || !taxRate || !code_out || !discountRate) {
       toast.error("برجاء ملئ جميع الحقول");
       return;
     }
     toast.info("جاري اضافة البيانات");
-    const response = await postData("sells", { user: userData.id, clint: selectedSupplier, o_wieght: weight, product: selectedProduct, size_o: size, product_code: code, priceForKilo: price, price_allQuantity: totalPrice, pay_now: pay, code_out, taxRate, discountRate }, localStorage.getItem("token"));
+    const response = await postData("sells", { user: userData.id, clint: selectedSupplier, o_wieght: weight, product: selectedProduct, size_o: size, product_code: code, priceForKilo: price, price_allQuantity: totalPrice, pay_now: pay, code_out, taxRate, discountRate, Notes: notes }, localStorage.getItem("token"));
     if (response.data) {
       toast.success("تمت الاضافة بنجاح");
       setCode("");
@@ -178,6 +179,10 @@ const OutgoingStockAdd = () => {
       <div className="flex flex-col items-center sm:flex-row justify-center gap-6 sm:gap-8 xl:gap-16 mb-6 lg:mb-10">
         <input value={pay} onChange={(e) => setPay(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="تم دفع" />
         <input value={code_out} onChange={(e) => setCode_out(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="رقم الفاتورة" />
+      </div>
+
+      <div className="flex flex-col items-start sm:flex-row justify-center gap-6 sm:gap-8 xl:gap-16 mb-6 lg:mb-10">
+        <textarea onChange={(e) => setNotes(e.target.value)} className="resize-none border text-right outline-none py-2 px-1 rounded-xl h-[150px] w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" placeholder="ملاحظات"></textarea>
       </div>
 
       <div className="flex flex-col justify-center items-center mb-6 lg:mb-10">

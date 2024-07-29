@@ -113,9 +113,9 @@ const TaxReport = () => {
                 <p className="text-right text-lg">نسبة الضريبة: {item.taxRate}</p>
                 <p className="text-right text-lg">نسبة الخصم: {item.discountRate ? item.discountRate : "لا يوجد"}</p>
                 <p className="text-right text-lg">المبلغ: {item.amount}</p>
-                <p className="text-right text-lg">قيمة الضريبة: {Math.floor(item.taxAmount)}</p>
-                <p className="text-right text-lg">قيمة الخصم: {item.discountAmount}</p>
-                <p className="text-right text-lg">الاجمالي: {Math.floor(item.netAmount)}</p>
+                <p className="text-right text-lg">قيمة الضريبة: {Math.round(item.taxAmount)}</p>
+                <p className="text-right text-lg">قيمة الخصم: {Math.round(item.discountAmount)}</p>
+                <p className="text-right text-lg">الاجمالي: {Math.round(item.netAmount)}</p>
                 {/* <p className="text-right text-lg">ملاحظات: {item.Notes === "" ? "لا يوجد" : item.Notes}</p> */}
                 <p className="text-right text-lg">الموظف: {item.user.name}</p>
                 <div className="flex justify-center sm:justify-end">

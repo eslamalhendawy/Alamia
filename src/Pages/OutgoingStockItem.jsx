@@ -78,7 +78,7 @@ const OutgoingStockItem = () => {
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">المقاس : {item.size_o}</p>
-            <p className="basis-1/3">باقي : {item.price_allQuantity - item.pay_now}</p>
+            <p className="basis-1/3">باقي : {Math.round(item.price_allQuantity - item.pay_now)}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">نسبة الضريبة : {item.taxRate}%</p>
@@ -87,15 +87,14 @@ const OutgoingStockItem = () => {
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">نسبة الخصم : {item.discountRate}%</p>
             <p className="basis-1/3">رقم الفاتورة : {item.code_out}</p>
-            {/* <p className="basis-1/3">قيمة الخصم : {item.discountAmount}</p> */}
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">السعر : {Math.round(item.price_allQuantity)}</p>
             <p className="basis-1/3">القيمة النهائية : {Math.round(item.allForall)}</p>
           </div>
-          {/* <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
-            
-          </div> */}
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-6">
+            <p className="basis-1/3">ملاحظات: {item.Notes ? item.Notes : "لا يوجد"}</p>
+          </div>
           <div className="flex flex-col sm:flex-row-reverse justify-start gap-3">
             <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
               مسح
