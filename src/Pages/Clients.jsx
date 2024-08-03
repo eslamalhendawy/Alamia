@@ -63,7 +63,6 @@ const Clients = () => {
       setLoading(true);
       const fetchClientData = async () => {
         const response = await getData(`clints/${selectedClient}/details`, localStorage.getItem("token"));
-        console.log(response);
         if (response) {
           setClientData(response);
           setLoading(false);
@@ -99,10 +98,10 @@ const Clients = () => {
               clientData.sela.map((item, index) => (
                 <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
                   <p>النوع: {item.product.type}</p>
-                  <p>الوزن: {item.o_wieght}ك</p>
+                  <p>الوزن: {item.o_wieght} ك</p>
                   <p>المقاس: {item.size_o}</p>
                   <p>التاريخ: {item.updatedAt.split("T")[0]}</p>
-                  <p>سعر الاجمالي: {item.price_allQuantity}</p>
+                  <p>سعر الاجمالي: {item.price_allQuantity.toFixed(2)} ج م</p>
                 </div>
               ))}
             {clientData.sela.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
@@ -112,7 +111,7 @@ const Clients = () => {
             {clientData.bell.length !== 0 &&
               clientData.bell.map((item, index) => (
                 <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
-                  <p className="text-right text-lg">المدفوع: {item.payBell}</p>
+                  <p className="text-right text-lg">المدفوع: {item.payBell.toFixed(2)} ج م</p>
                   <p className="text-right text-lg">طريقة الدفع: {item.paymentMethod}</p>
                   <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
                 </div>
@@ -124,7 +123,7 @@ const Clients = () => {
             {clientData.chBack.length !== 0 &&
               clientData.chBack.map((item, index) => (
                 <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
-                  <p className="text-right text-lg">مبلغ الشيك: {item.amount}</p>
+                  <p className="text-right text-lg">مبلغ الشيك: {item.amount.toFixed(2)} ج م</p>
                   <p className="text-right text-lg">اسم العميل : {item.clint.clint_name}</p>
                   <p className="text-right text-lg">رقم الشيك : {item.num}</p>
                   <p className="text-right text-lg">تاريخ الشيك : {item.date.split("T")[0]}</p>
@@ -141,9 +140,9 @@ const Clients = () => {
                   <p className="text-right text-lg">نسبة الضريبة: {item.taxRate}</p>
                   <p className="text-right text-lg">نسبة الخصم: {item.discountRate ? item.discountRate : "لا يوجد"}</p>
                   <p className="text-right text-lg">المبلغ: {item.amount}</p>
-                  <p className="text-right text-lg">قيمة الضريبة: {Math.floor(item.taxAmount)}</p>
-                  <p className="text-right text-lg">قيمة الخصم: {Math.floor(item.discountAmount)}</p>
-                  <p className="text-right text-lg">الاجمالي: {Math.floor(item.netAmount)}</p>
+                  <p className="text-right text-lg">قيمة الضريبة: {item.taxAmount.toFixed(2)}</p>
+                  <p className="text-right text-lg">قيمة الخصم: {item.discountAmount.toFixed(2)}</p>
+                  <p className="text-right text-lg">الاجمالي: {item.netAmount.toFixed(2)}</p>
                   <p className="text-right text-lg">ملاحظات: {item.Notes === "" ? "لايوجد" : item.Notes}</p>
                   <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
                 </div>
@@ -156,9 +155,9 @@ const Clients = () => {
             </a>
             {clientData.sela.length !== 0 && (
               <div dir="rtl" className="flex flex-col gap-3 justify-start text-xl font-medium">
-                <p>مدفوع : {Math.round(clientData.sela[0].clint.money_on)}</p>
-                <p>باقي : {Math.round(clientData.sela[0].clint.money_on)}</p>
-                <p>اجمالي المبلغ : {Math.round(clientData.sela[0].clint.money_on + clientData.sela[0].clint.money_pay)}</p>
+                <p>مدفوع : {clientData.sela[0].clint.money_on.toFixed(2)} ج م</p>
+                <p>باقي : {clientData.sela[0].clint.money_on.toFixed(2)} ج م</p>
+                <p>اجمالي المبلغ : {(clientData.sela[0].clint.money_on + clientData.sela[0].clint.money_pay).toFixed(2)} ج م</p>
               </div>
             )}
           </div>

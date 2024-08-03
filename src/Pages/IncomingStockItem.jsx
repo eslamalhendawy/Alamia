@@ -63,14 +63,14 @@ const IncomingStockItem = () => {
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">الوزن : {item.E_wieght}ك</p>
-            <p className="basis-1/3">مدفوع : {item.pay}</p>
+            <p className="basis-1/3">مدفوع : {item.pay.toFixed(2)} ج م</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">المقاس : {item.size}</p>
-            <p className="basis-1/3">باقي : {Math.round(item.price_all - item.pay)}</p>
+            <p className="basis-1/3">باقي : {(item.price_all - item.pay).toFixed(2)} ج م</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
-            <p className="basis-1/3">السعر : {Math.round(item.price_all)}</p>
+            <p className="basis-1/3">السعر : {(item.price_all).toFixed(2)} ج م</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-6">
             <p className="basis-1/3">ملاحظات : {item.Notes ? item.Notes : "لا يوجد"}</p>

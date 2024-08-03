@@ -76,11 +76,11 @@ const OutgoingStockReport = () => {
               <p className="text-right text-lg">الوزن: {item.o_wieght}</p>
               <p className="text-right text-lg">المقاس: {item.size_o}</p>
               <p className="text-right text-lg">نسبة الضريبة: {item.taxRate}%</p>
-              <p className="text-right text-lg">قيمة الضريبة: {item.taxAmount}</p>
+              <p className="text-right text-lg">قيمة الضريبة: {item.taxAmount.toFixed(2)} ج م</p>
               <p className="text-right text-lg">نسبة الخصم: {item.discountRate}%</p>
               {/* <p className="text-right text-lg">قيمة الخصم: {item.discountAmount}</p> */}
               <p className="text-right text-lg"> رقم الفاتورة: {item.code_out}</p>
-              <p className="text-right text-lg">القيمة النهائية: {Math.floor(item.allForall)}</p>
+              <p className="text-right text-lg">القيمة النهائية: {item.allForall} ج م</p>
               <p className="text-right text-lg">الموظف: {item.user.name}</p>
               <p className="text-right text-lg">التاريخ: {item.createdAt.split("T")[0]}</p>
               <div className="flex justify-center sm:justify-end">

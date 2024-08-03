@@ -86,7 +86,7 @@ const BillReport = () => {
               <p className="text-right text-lg">
                 {currentPage === "receive-bill" ? "العميل" : "المورد"}: {item.client}
               </p>
-              <p className="text-right text-lg">المدفوع: {item.payed}</p>
+              <p className="text-right text-lg">المدفوع: {item.payed.toFixed(2)} ج م</p>
               <p className="text-right text-lg">طريقة الدفع: {item.paymentMethod}</p>
               <p className="text-right text-lg">الموظف: {item.employee}</p>
               <p className="text-right text-lg">التاريخ: {item.date.split("T")[0]}</p>

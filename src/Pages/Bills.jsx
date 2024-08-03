@@ -183,9 +183,9 @@ const Bills = () => {
         </button>
       </div>
       <div dir="rtl" className="flex flex-col gap-3 justify-start lg:pr-12 text-xl font-medium">
-        <p>مدفوع : {type === "clints" ? Math.round(selectedData?.money_pay) : Math.round(selectedData?.price_pay)}</p>
-        <p>باقي : {type === "clints" ? Math.round(selectedData?.money_on) : Math.round(selectedData?.price_on)}</p>
-        <p>اجمالي المبلغ : {type === "clints" ? Math.round(selectedData?.total_monye) : Math.round(selectedData?.total_price)}</p>
+        <p>مدفوع : {type === "clints" ? Math.round(selectedData?.money_pay) : Math.round(selectedData?.price_pay)} ج م</p>
+        <p>باقي : {type === "clints" ? Math.round(selectedData?.money_on) : Math.round(selectedData?.price_on)} ج م</p>
+        <p>اجمالي المبلغ : {type === "clints" ? Math.round(selectedData?.total_monye) : Math.round(selectedData?.total_price)} ج م</p>
       </div>
     </section>
   );

@@ -97,11 +97,11 @@ const BillItem = () => {
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">مبلغ الفاتورة : {data.payed} ج م</p>
-            <p className="basis-1/3">الباقي : {data.debt} ج م</p>
+            <p className="basis-1/3">الباقي : {data.debt.toFixed(2)} ج م</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
-            <p className="basis-1/3">السعر : {data.total} ج م</p>
-            <p className="basis-1/3">المبلغ المدفوع : {data.allPayed} ج م</p>
+            <p className="basis-1/3">السعر : {data.total.toFixed(2)} ج م</p>
+            <p className="basis-1/3">المبلغ المدفوع : {data.allPayed.toFixed(2)} ج م</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/2">طريقة الدفع : {data.paymentMethod}</p>

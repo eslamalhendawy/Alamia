@@ -72,7 +72,6 @@ const Suppliers = () => {
       setLoading(true);
       const fetchClientData = async () => {
         const response = await getData(`supplayrs/${selectedSupplier}/details`, localStorage.getItem("token"));
-        console.log(response);
         if (response) {
           setSupplierData(response);
           setLoading(false);
@@ -100,10 +99,10 @@ const Suppliers = () => {
               supplierData.buys.map((item, index) => (
                 <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
                   <p>النوع: {item.product.type}</p>
-                  <p>الوزن: {item.E_wieght}ك</p>
+                  <p>الوزن: {item.E_wieght} ك</p>
                   <p>المقاس: {item.size}</p>
                   <p>التاريخ: {item.updatedAt.split("T")[0]}</p>
-                  <p>سعر الاجمالي: {item.price_all}</p>
+                  <p>سعر الاجمالي: {item.price_all.toFixed(2)} ج م</p>
                 </div>
               ))}
             {supplierData.buys.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
@@ -113,7 +112,7 @@ const Suppliers = () => {
             {supplierData.bell.length !== 0 &&
               supplierData.bell.map((item, index) => (
                 <div dir="rtl" key={index} className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg">
-                  <p className="text-right text-lg">المدفوع: {item.pay_bell}</p>
+                  <p className="text-right text-lg">المدفوع: {item.pay_bell.toFixed(2)} ج م</p>
                   <p className="text-right text-lg">طريقة الدفع: {item.payment_method}</p>
                   <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
                 </div>
@@ -128,10 +127,10 @@ const Suppliers = () => {
                   <p className="text-right text-lg">عدد مرات الخصم: {item.supplayr.dis_count}</p>
                   <p className="text-right text-lg">نسبة الضريبة: {item.taxRate}</p>
                   <p className="text-right text-lg">نسبة الخصم: {item.discountRate ? item.discountRate : "لا يوجد"}</p>
-                  <p className="text-right text-lg">المبلغ: {item.amount}</p>
-                  <p className="text-right text-lg">قيمة الضريبة: {Math.floor(item.taxAmount)}</p>
-                  <p className="text-right text-lg">قيمة الخصم: {Math.floor(item.discountAmount)}</p>
-                  <p className="text-right text-lg">الاجمالي: {Math.floor(item.netAmount)}</p>
+                  <p className="text-right text-lg">المبلغ: {item.amount.toFixed(2)} ج م</p>
+                  <p className="text-right text-lg">قيمة الضريبة: {item.taxAmount.toFixed(2)} ج م</p>
+                  <p className="text-right text-lg">قيمة الخصم: {item.discountAmount.toFixed(2)} ج م</p>
+                  <p className="text-right text-lg">الاجمالي: {item.netAmount.toFixed(2)} ج م</p>
                   <p className="text-right text-lg">ملاحظات: {item.Notes === "" ? "لايوجد" : item.Notes}</p>
                   <p className="text-right text-lg">التاريخ: {item.updatedAt.split("T")[0]}</p>
                 </div>
@@ -144,9 +143,9 @@ const Suppliers = () => {
             </a>
             {supplierData.buys.length !== 0 && (
               <div dir="rtl" className="flex flex-col gap-3 justify-start text-xl font-medium">
-                <p>مدفوع : {Math.round(supplierData.buys[0].supplayr.price_pay)}</p>
-                <p>باقي : {Math.round(supplierData.buys[0].supplayr.price_on)}</p>
-                <p>اجمالي المبلغ : {Math.round(supplierData.buys[0].supplayr.price_pay + supplierData.buys[0].supplayr.price_on)}</p>
+                <p>مدفوع : {supplierData.buys[0].supplayr.price_pay.toFixed(2)} ج م</p>
+                <p>باقي : {supplierData.buys[0].supplayr.price_on.toFixed(2)} ج م</p>
+                <p>اجمالي المبلغ : {(supplierData.buys[0].supplayr.price_pay + supplierData.buys[0].supplayr.price_on).toFixed(2)} ج م</p>
               </div>
             )}
           </div>

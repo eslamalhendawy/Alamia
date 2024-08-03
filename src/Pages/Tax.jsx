@@ -123,9 +123,9 @@ const Tax = () => {
       </div>
       <div dir="rtl" className="flex flex-col gap-3 justify-start lg:pr-12 text-xl font-medium">
         <p>عدد مرات الخصم : {selected !== "" && selected.discountNumber}</p>
-        <p>مدفوع : {selected !== "" && Math.round(selected.payed)}</p>
-        <p>باقي : {selected !== "" && Math.round(selected.debt)}</p>
-        <p>اجمالي المبلغ : {selected !== "" && Math.round(selected.total)}</p>
+        <p>مدفوع : {selected !== "" && Math.round(selected.payed)} ج م</p>
+        <p>باقي : {selected !== "" && Math.round(selected.debt)} ج م</p>
+        <p>اجمالي المبلغ : {selected !== "" && Math.round(selected.total)} ج م</p>
       </div>
     </section>
   );

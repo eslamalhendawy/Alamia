@@ -74,23 +74,23 @@ const OutgoingStockItem = () => {
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">الوزن : {item.o_wieght}ك</p>
-            <p className="basis-1/3">مدفوع : {item.pay_now}</p>
+            <p className="basis-1/3">مدفوع : {item.pay_now.toFixed(2)} ج م</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">المقاس : {item.size_o}</p>
-            <p className="basis-1/3">باقي : {Math.round(item.price_allQuantity - item.pay_now)}</p>
+            <p className="basis-1/3">باقي : {(item.price_allQuantity - item.pay_now).toFixed(2)} ج م</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">نسبة الضريبة : {item.taxRate}%</p>
-            <p className="basis-1/3">قيمة الضريبة : {Math.round(item.taxAmount)}</p>
+            <p className="basis-1/3">قيمة الضريبة : {item.taxAmount.toFixed(2)} ج م</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">نسبة الخصم : {item.discountRate}%</p>
             <p className="basis-1/3">رقم الفاتورة : {item.code_out}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
-            <p className="basis-1/3">السعر : {Math.round(item.price_allQuantity)}</p>
-            <p className="basis-1/3">القيمة النهائية : {Math.round(item.allForall)}</p>
+            <p className="basis-1/3">السعر : {item.price_allQuantity.toFixed(2)} ج م</p>
+            <p className="basis-1/3">القيمة النهائية : {item.allForall.toFixed(2)} ج م</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-6">
             <p className="basis-1/3">ملاحظات: {item.Notes ? item.Notes : "لا يوجد"}</p>
