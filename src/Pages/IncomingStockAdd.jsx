@@ -95,7 +95,7 @@ const IncomingStockAdd = () => {
 
   useEffect(() => {
     const fetchProductData = async () => {
-      const response = await getData(`products/${selectedProduct}`, localStorage.getItem("token"));
+      const response = await getData(`products/${selectedProduct}`, localStorage.getItem("token")); 
       if (response) {
         setProductData(response.data);
       }
@@ -167,6 +167,9 @@ const IncomingStockAdd = () => {
       <div className="flex flex-col justify-center items-center mb-6 lg:mb-10">
         <p dir="rtl" className=" text-[#8b8989] text-xl mb-4">
           متوسط السعر: <span className="text-black">{productData?.avg_price}</span>
+        </p>
+        <p dir="rtl" className=" text-[#8b8989] text-xl mb-4">
+          مخزون مالي: <span className="text-black">{productData?.wight_money}</span>
         </p>
         <p dir="rtl" className=" text-[#8b8989] text-xl">
           اجمالي المخزون: <span className="text-black">{productData?.wieght}</span>

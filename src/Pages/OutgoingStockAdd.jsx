@@ -189,6 +189,9 @@ const OutgoingStockAdd = () => {
         <p dir="rtl" className=" text-[#8b8989] text-xl mb-4">
           متوسط السعر: <span className="text-black">{averagePrice}</span>
         </p>
+        {/* <p dir="rtl" className=" text-[#8b8989] text-xl mb-4">
+          مخزون مالي: <span className="text-black">{averagePrice}</span>
+        </p> */}
         <p dir="rtl" className=" text-[#8b8989] text-xl">
           اجمالي المخزون: <span className="text-black">{totalStock}</span>
         </p>

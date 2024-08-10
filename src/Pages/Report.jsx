@@ -41,16 +41,16 @@ const Report = () => {
       </div>
       {loading && <Loading />}
       {!loading && result && (
-        <div dir="rtl" className="xl:w-[100%] 2xl:w-[55%] xl:mx-auto bg-white p-6 rounded-xl font-medium text-lg">
-          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+        <div dir="rtl" className="xl:w-[100%] 2xl:w-[70%] xl:mx-auto bg-white p-6 rounded-xl font-medium text-lg">
+          <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-0 justify-between mb-3">
             <p className="basis-1/3">اجمالي المبيع : {result.totalSales.toFixed(2)} ج م</p>
             <p className="basis-1/3">متبقي على العملاء : {result.totalDueFromClients.toFixed(2)} ج م</p>
           </div>
-          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+          <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-0 justify-between mb-3">
             <p className="basis-1/3">اجمالي شراء : {result.totalPurchases.toFixed(2)} ج م</p>
             <p className="basis-1/3">تم سداد : {result.totalDueFromClients.toFixed(2)} ج م</p>
           </div>
-          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+          <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-0 justify-between mb-3">
             <p className="basis-1/3"> هامش الربح : {result.totalPurchases.toFixed(2)} ج م</p>
           </div>
         </div>
