@@ -22,7 +22,7 @@ const Report = () => {
       return toast.error("الرجاء ادخال تاريخ البداية والنهاية");
     }
     setLoading(true);
-    const response = await getData(`report?startDate=${startDate}&endDate=${endDate}`, localStorage.getItem("token"));
+    const response = await getData(`report?startDate=${startDate}&endDate=${endDate}`, localStorage.getItem("token"));    
     if (response.data) {
       setResult(response.data);
       setLoading(false);
@@ -51,6 +51,7 @@ const Report = () => {
             <p className="basis-1/3">تم سداد : {result.totalDueFromClients.toFixed(2)} ج م</p>
           </div>
           <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-0 justify-between mb-3">
+            <p className="basis-1/3">اجمالي مخزون مالي : {result.totalWightMoney.toFixed(2)} ج م</p>
             <p className="basis-1/3"> هامش الربح : {result.totalPurchases.toFixed(2)} ج م</p>
           </div>
         </div>

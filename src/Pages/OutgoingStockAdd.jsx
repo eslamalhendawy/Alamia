@@ -66,6 +66,8 @@ const OutgoingStockAdd = () => {
   const [discountRate, setDiscountRate] = useState("");
   const [notes, setNotes] = useState("");
   const [code_out, setCode_out] = useState("");
+  const [moneyReserve, setMoneyReserve] = useState("");
+
 
   useEffect(() => {
     setCurrentPage(location.pathname.split("/")[1]);
@@ -74,9 +76,10 @@ const OutgoingStockAdd = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await getData("warehous", localStorage.getItem("token"));
+      console.log(response);
       if (response) {
         let temp = response.data.map((item) => {
-          return { value: item.product._id, label: `${item.product.type} - ${item.product_code}`, weight: item.weight, size: item.size, avg_price: item.product.avg_price, stock: item.product.wieght, code: item.product_code };
+          return { value: item.product._id, label: `${item.product.type} - ${item.product_code}`, weight: item.weight, size: item.size, avg_price: item.product.avg_price, stock: item.product.wieght, code: item.product_code, moneyReserve: item.product.wight_money };
         });
         setProductsList(temp);
       }
@@ -150,6 +153,7 @@ const OutgoingStockAdd = () => {
             setSize(e.size);
             setAveragePrice(e.avg_price);
             setTotalStock(e.stock);
+            setMoneyReserve(e.moneyReserve);
           }}
           className="w-[250px]"
           styles={customStyles}
@@ -189,9 +193,9 @@ const OutgoingStockAdd = () => {
         <p dir="rtl" className=" text-[#8b8989] text-xl mb-4">
           متوسط السعر: <span className="text-black">{averagePrice}</span>
         </p>
-        {/* <p dir="rtl" className=" text-[#8b8989] text-xl mb-4">
-          مخزون مالي: <span className="text-black">{averagePrice}</span>
-        </p> */}
+        <p dir="rtl" className=" text-[#8b8989] text-xl mb-4">
+          مخزون مالي: <span className="text-black">{moneyReserve}</span>
+        </p>
         <p dir="rtl" className=" text-[#8b8989] text-xl">
           اجمالي المخزون: <span className="text-black">{totalStock}</span>
         </p>
