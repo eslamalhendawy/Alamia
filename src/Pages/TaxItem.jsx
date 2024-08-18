@@ -26,11 +26,12 @@ const TaxItem = () => {
     const fetchData = async () => {
       if (type === "client-tax") {
         const response = await getData(`clint_Tax/${id}`, localStorage.getItem("token"));
-        setData({ client: response.data.clint, employee: response.data.user.name, amount: response.data.amount, taxPercentage: response.data.taxRate, taxAmount: response.data.taxAmount, discountPercentage: response.data.discountRate, discountAmount: response.data.discountAmount, total: response.data.netAmount, date: response.data.updatedAt, notes: response.data.Notes });
+        setData({ client: response.data.clint, employee: response.data.user.name, amount: response.data.amount, taxPercentage: response.data.taxRate, taxAmount: response.data.taxAmount, discountPercentage: response.data.discountRate, discountAmount: response.data.discountAmount, total: response.data.netAmount, systemDate: response.data.updatedAt, notes: response.data.Notes, companyName: response.data.company_name, billNumber: response.data.bell_num, 
+        date: response.data.entryDate });
         setLoading(false);
       } else if (type === "supplier-tax") {
         const response = await getData(`supplayr_Tax/${id}`, localStorage.getItem("token"));
-        setData({ client: response.data.supplayr, employee: response.data.user.name, amount: response.data.amount, taxPercentage: response.data.taxRate, taxAmount: response.data.taxAmount, discountPercentage: response.data.discountRate, discountAmount: response.data.discountAmount, total: response.data.netAmount, date: response.data.updatedAt, notes: response.data.Notes });
+        setData({ client: response.data.supplayr, employee: response.data.user.name, amount: response.data.amount, taxPercentage: response.data.taxRate, taxAmount: response.data.taxAmount, discountPercentage: response.data.discountRate, discountAmount: response.data.discountAmount, total: response.data.netAmount, systemDate: response.data.updatedAt, notes: response.data.Notes, companyName: response.data.Company_name, billNumber: response.data.Bell_num, date: response.data.entryDate });
         setLoading(false);
       }
     };
@@ -55,7 +56,7 @@ const TaxItem = () => {
             <p className="basis-1/3">
               {type === "client-tax" ? "العميل" : "المورد"} : {type === "client-tax" ? data.client.clint_name : data.client.supplayr_name}
             </p>
-            <p className="basis-1/3">الموظف : {data.employee}</p>
+            <p className="basis-1/3">اسم الشركة : {data.companyName}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">المبلغ : {data.amount} ج م</p>
@@ -73,8 +74,13 @@ const TaxItem = () => {
             <p className="basis-1/3">الاجمالي : {Math.round(data.total)} ج م</p>
             <p className="basis-1/3">التاريخ : {data.date.split("T")[0]}</p>
           </div>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3">رقم الفاتورة : {data.billNumber}</p>
+            <p className="basis-1/3">الموظف : {data.employee}</p>
+          </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-6">
             <p className="basis-1/3">ملاحظات : {data.notes}</p>
+            <p className="basis-1/3">تاريخ النظام : {data.systemDate.split("T")[0]}</p>
           </div>
         </div>
       )}

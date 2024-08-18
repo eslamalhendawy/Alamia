@@ -32,10 +32,12 @@ const Stock = () => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [size, setSize] = useState("");
   const [list, setList] = useState([]);
+  const [tempList, setTempList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hidden, setHidden] = useState(true);
   const [suppliers, setSuppliers] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState("");
+  const [query, setQuery] = useState("");
   const { userData } = useAppContext();
 
   useEffect(() => {
@@ -70,13 +72,24 @@ const Stock = () => {
     }
     setLoading(true);
     const response = await getData(`warehous?${selectedProduct != "" ? `product=${selectedProduct}` : ""}${size != "" ? `&size=${size}` : ""}${selectedSupplier != "" ? `&supplayr=${selectedSupplier}` : ""}`, localStorage.getItem("token"));
-    console.log(response);
     if (response) {
       setList(response.data);
+      setTempList(response.data);
       setLoading(false);
       setHidden(false);
     }
   };
+
+  useEffect(() => {
+    if (query) {
+      const temp = tempList.filter((item) => {
+        return item.product_code.toString().includes(query);
+      });
+      setList(temp);
+    } else {
+      setList(tempList);
+    }
+  }, [query, tempList]);
 
   return (
     <section className="grow pb-6 pt-[70px] px-4 minHeight">
@@ -88,6 +101,12 @@ const Stock = () => {
         <input onChange={(e) => setSize(e.target.value)} type="text" className="w-[250px] bg-[#bcbaba] p-2 outline-none text-right rounded" placeholder="المقاس" />
         <Select onChange={(e) => setSelectedSupplier(e.value)} className="w-[250px]" styles={customStyles} options={suppliers} placeholder="اسم المورد" />
         <Select onChange={(e) => setSelectedProduct(e.value)} className="w-[250px]" styles={customStyles} options={products} placeholder="اسم المنتج" />
+      </div>
+      <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-6 xl:w-[50%] xl:mx-auto">
+        <p className="text-right text-lg font-medium">عدد البكر : {list.length}</p>
+      </div>
+      <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-6 xl:w-[50%] xl:mx-auto">
+        <input value={query} onChange={(e) => setQuery(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[80%]" type="text" placeholder="رقم البكرة" />
       </div>
       {loading && <Loading />}
       {!loading && !hidden && list.length === 0 && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>}

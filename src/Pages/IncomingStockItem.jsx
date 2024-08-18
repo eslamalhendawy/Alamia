@@ -20,6 +20,8 @@ const IncomingStockItem = () => {
   useEffect(() => {
     const fetchItem = async () => {
       const response = await getData(`buys/${id}`, localStorage.getItem("token"));
+      console.log(response);
+      
       if (response.data) {
         setItem(response.data);
         setLoading(false);
@@ -59,21 +61,21 @@ const IncomingStockItem = () => {
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">النوع : {item.product.type}</p>
-            <p className="basis-1/3">التاريخ : {item.createdAt.split("T")[0]}</p>
+            <p className="basis-1/3">التاريخ : {item.Entry_date.split("T")[0]}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">الوزن : {item.E_wieght}ك</p>
-            <p className="basis-1/3">مدفوع : {item.pay.toFixed(2)} ج م</p>
+            <p className="basis-1/3">سعر الكيلو : {item.price_Kilo} ج م</p>
+            {/* <p className="basis-1/3">مدفوع : {item.pay.toFixed(2)} ج م</p> */}
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3">قيمة البكرة : {(item.price_all).toFixed(2)} ج م</p>
             <p className="basis-1/3">المقاس : {item.size}</p>
-            <p className="basis-1/3">باقي : {(item.price_all - item.pay).toFixed(2)} ج م</p>
-          </div>
-          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
-            <p className="basis-1/3">السعر : {(item.price_all).toFixed(2)} ج م</p>
+            {/* <p className="basis-1/3">باقي : {(item.price_all - item.pay).toFixed(2)} ج م</p> */}
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-6">
             <p className="basis-1/3">ملاحظات : {item.Notes ? item.Notes : "لا يوجد"}</p>
+            <p className="basis-1/3">تاريخ النظام : {item.createdAt.split("T")[0]}</p>
           </div>
           <div className="flex flex-col sm:flex-row-reverse justify-start gap-3">
             <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">

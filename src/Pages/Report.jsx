@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppContext } from "../Context/AppContext";
 import { getData } from "../Services/apiCalls";
 
@@ -9,35 +9,48 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Report = () => {
   const { userData } = useAppContext();
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [result, setResult] = useState("");
 
-  const handleSearch = async () => {
-    if (userData.role !== "admin") {
-      return toast.error("غير مسموح لك بالبحث");
-    }
-    if (!startDate || !endDate) {
-      return toast.error("الرجاء ادخال تاريخ البداية والنهاية");
-    }
-    setLoading(true);
-    const response = await getData(`report?startDate=${startDate}&endDate=${endDate}`, localStorage.getItem("token"));    
-    if (response.data) {
-      setResult(response.data);
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    const fetchReport = async () => {
+      if (userData.role !== "admin") {
+        return toast.error("غير مسموح لك بالبحث");
+      }
+      const response = await getData(`report`, localStorage.getItem("token"));
+      console.log(response);
+      if (response.data) {
+        setLoading(false);
+        setResult(response.data);
+      }
+    };
+    fetchReport();
+  }, []);
+
+  // const handleSearch = async () => {
+  //   if (userData.role !== "admin") {
+  //     return toast.error("غير مسموح لك بالبحث");
+  //   }
+  //   // if (!startDate || !endDate) {
+  //   //   return toast.error("الرجاء ادخال تاريخ البداية والنهاية");
+  //   // }
+  //   setLoading(true);
+  //   const response = await getData(`report?startDate=${startDate}&endDate=${endDate}`, localStorage.getItem("token"));
+  //   if (response.data) {
+  //     setResult(response.data);
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <section className="minHeight grow pb-6 pt-[70px] px-4">
       <div className="flex flex-col sm:flex-row-reverse justify-center items-center gap-4 md:gap-8 pt-[50px] mb-12">
-        <input onChange={(e) => setStartDate(e.target.value)} className="bg-[#bcbaba] text-white outline-none p-2 lg:w-[250px]" type="date" />
+        {/* <input onChange={(e) => setStartDate(e.target.value)} className="bg-[#bcbaba] text-white outline-none p-2 lg:w-[250px]" type="date" />
         <span className="text-lg text-navyColor font-medium">الى</span>
         <input onChange={(e) => setEndDate(e.target.value)} className="bg-[#bcbaba] text-white outline-none p-2 lg:w-[250px]" type="date" />
         <button onClick={handleSearch} className="bg-navyColor hover:bg-[#234863] duration-200 text-white text-xl size-[40px] flex justify-center items-center rounded-lg">
           <i className="fa-solid fa-magnifying-glass"></i>
-        </button>
+        </button> */}
       </div>
       {loading && <Loading />}
       {!loading && result && (

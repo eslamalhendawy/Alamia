@@ -15,6 +15,7 @@ const OutgoingStockReport = () => {
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("incoming-stock" || location.pathname.split("/")[0]);
   const [query, setQuery] = useState("");
+  const [query2, setQuery2] = useState("");
 
   useEffect(() => {
     if (userData.role === "bill_employee" || userData.role === "manager") {
@@ -40,6 +41,19 @@ const OutgoingStockReport = () => {
   }, []);
 
   useEffect(() => {
+    setQuery("");
+    if (query2) {
+      const temp = tempList.filter((item) => {
+        return item.product_code.toString().includes(query2);
+      });
+      setList(temp);
+    } else {
+      setList(tempList);
+    }
+  }, [query2, tempList]);
+
+  useEffect(() => {
+    setQuery2("");
     if (query) {
       const temp = tempList.filter((item) => {
         return item.clint.clint_name.includes(query);
@@ -48,7 +62,7 @@ const OutgoingStockReport = () => {
     } else {
       setList(tempList);
     }
-  }, [query]);
+  }, [query, tempList]);
 
   return (
     <section className="grow pb-6 pt-[70px] px-4 minHeight">
@@ -61,8 +75,9 @@ const OutgoingStockReport = () => {
           تقرير
         </Link>
       </div>
-      <div className="flex justify-center gap-8 mb-6">
-        <input onChange={(e) => setQuery(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[80%] md:w-[50%] xl:w-[35%]" type="text" placeholder="بحث" />
+      <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-6 xl:w-[50%] xl:mx-auto">
+        <input value={query2} onChange={(e) => setQuery2(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[80%] md:w-[50%] xl:w-[45%]" type="text" placeholder="رقم البكرة" />
+        <input value={query} onChange={(e) => setQuery(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[80%] md:w-[50%] xl:w-[45%]" type="text" placeholder="اسم العميل" />
       </div>
       {loading && <Loading />}
       {((!loading && list.length === 0) || !authorized) && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>}
@@ -78,11 +93,10 @@ const OutgoingStockReport = () => {
               <p className="text-right text-lg">نسبة الضريبة: {item.taxRate}%</p>
               <p className="text-right text-lg">قيمة الضريبة: {item.taxAmount.toFixed(2)} ج م</p>
               <p className="text-right text-lg">نسبة الخصم: {item.discountRate}%</p>
-              {/* <p className="text-right text-lg">قيمة الخصم: {item.discountAmount}</p> */}
               <p className="text-right text-lg"> رقم الفاتورة: {item.code_out}</p>
-              <p className="text-right text-lg">القيمة النهائية: {item.allForall} ج م</p>
+              <p className="text-right text-lg">القيمة النهائية: {item.allForall?.toFixed(2)} ج م</p>
               <p className="text-right text-lg">الموظف: {item.user.name}</p>
-              <p className="text-right text-lg">التاريخ: {item.createdAt.split("T")[0]}</p>
+              <p className="text-right text-lg">التاريخ: {item.entry_date.split("T")[0]}</p>
               <div className="flex justify-center sm:justify-end">
                 <Link to={`/outgoing-stock/${item._id}`} className="text-[#01D1ED] font-semibold text-lg">
                   عرض

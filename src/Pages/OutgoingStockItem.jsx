@@ -20,6 +20,7 @@ const OutgoingStockItem = () => {
   useEffect(() => {
     const fetchItem = async () => {
       const response = await getData(`sells/${id}`, localStorage.getItem("token"));
+      console.log(response);
       if (response.data) {
         setItem(response.data);
         setLoading(false);
@@ -44,8 +45,6 @@ const OutgoingStockItem = () => {
       return toast.error("غير مسموح لك بالحذف");
     }
     const response = await postData(`return`, { user: userData.id, sell: item._id, o_wieght: item.o_wieght, size_o: item.size_o, product_code: item.product_code, priceForKilo: item.priceForKilo, price_allQuantity: item.price_allQuantity, refund_amount: item.pay_now, clint: item.clint._id, product: item.product._id }, localStorage.getItem("token"));
-    console.log(response);
-    
     if (response.data) {
       toast.success("تم الارجاع بنجاح");
       navigate("/outgoing-stock/report");
@@ -72,15 +71,16 @@ const OutgoingStockItem = () => {
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">النوع : {item.product?.type}</p>
-            <p className="basis-1/3">التاريخ : {item.createdAt.split("T")[0]}</p>
+            <p className="basis-1/3">التاريخ : {item.entry_date.split("T")[0]}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">الوزن : {item.o_wieght}ك</p>
             <p className="basis-1/3">مدفوع : {item.pay_now.toFixed(2)} ج م</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
+            <p className="basis-1/3">سعر الكيلو : {item.priceForKilo} ج م</p>
             <p className="basis-1/3">المقاس : {item.size_o}</p>
-            <p className="basis-1/3">باقي : {(item.price_allQuantity - item.pay_now).toFixed(2)} ج م</p>
+            {/* <p className="basis-1/3">باقي : {(item.price_allQuantity - item.pay_now).toFixed(2)} ج م</p> */}
           </div>
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">نسبة الضريبة : {item.taxRate}%</p>
@@ -91,18 +91,19 @@ const OutgoingStockItem = () => {
             <p className="basis-1/3">رقم الفاتورة : {item.code_out}</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-3">
-            <p className="basis-1/3">السعر : {item.price_allQuantity.toFixed(2)} ج م</p>
+            <p className="basis-1/3">قيمة البكرة : {item.price_allQuantity.toFixed(2)} ج م</p>
             <p className="basis-1/3">القيمة النهائية : {item.allForall.toFixed(2)} ج م</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0 justify-between mb-6">
             <p className="basis-1/3">ملاحظات: {item.Notes ? item.Notes : "لا يوجد"}</p>
+            <p className="basis-1/3">تاريخ النظام : {item.createdAt.split("T")[0]}</p>
           </div>
           <div className="flex flex-col sm:flex-row-reverse justify-start gap-3">
             <button onClick={handleDelete} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
               مسح
             </button>
             <button onClick={handleReturn} className="bg-navyColor hover:bg-[#234863] duration-200 text-white py-2 px-8 rounded-xl">
-              مرتجع
+              مرتد
             </button>
             <EditOutgoingModel item={item} />
           </div>

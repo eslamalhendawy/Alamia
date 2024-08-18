@@ -36,10 +36,19 @@ const Tax = () => {
   const [taxAmount, setTaxAmount] = useState("");
   const [discountAmount, setDiscountAmount] = useState("");
   const [notes, setNotes] = useState("");
+  const [billNumber, setBillNumber] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [date, setDate] = useState("");
   const { userData } = useAppContext();
 
   useEffect(() => {
     setCurrentPage(location.pathname.split("/")[1]);
+    setAmount("");
+    setTaxAmount("");
+    setDiscountAmount("");
+    setNotes("");
+    setBillNumber("");
+    setCompanyName("");
   }, [location]);
 
   useEffect(() => {
@@ -72,22 +81,26 @@ const Tax = () => {
       return toast.error("الرجاء ملئ جميع الحقول");
     }
     if (currentPage === "client-tax") {
-      const response = await postData(`clint_Tax`, { user: userData.id, clint: selected.value, amount, taxRate: taxAmount, discountRate: discountAmount, Notes: notes }, localStorage.getItem("token"));
+      const response = await postData(`clint_Tax`, { user: userData.id, clint: selected.value, amount, taxRate: taxAmount, discountRate: discountAmount, Notes: notes, bell_num: billNumber, company_name: companyName, entryDate: date }, localStorage.getItem("token"));
       if (response.data) {
         toast.success("تم الاضافة بنجاح");
         setAmount("");
         setTaxAmount("");
         setDiscountAmount("");
         setNotes("");
+        setCompanyName("");
+        setBillNumber("");
       }
     } else if (currentPage === "supplier-tax") {
-      const response = await postData(`supplayr_Tax`, { user: userData.id, supplayr: selected.value, amount, taxRate: taxAmount, discountRate: discountAmount, Notes: notes }, localStorage.getItem("token"));
+      const response = await postData(`supplayr_Tax`, { user: userData.id, supplayr: selected.value, amount, taxRate: taxAmount, discountRate: discountAmount, Notes: notes, Bell_num: billNumber, Company_name: companyName, entryDate: date }, localStorage.getItem("token"));
       if (response.data) {
         toast.success("تم الاضافة بنجاح");
         setAmount("");
         setTaxAmount("");
         setDiscountAmount("");
         setNotes("");
+        setCompanyName("");
+        setBillNumber("");
       }
     }
   };
@@ -108,13 +121,19 @@ const Tax = () => {
       </div>
       <div className="flex flex-col md:flex-row items-stretch justify-center gap-8 mb-16">
         <div className="flex flex-col gap-6 basis-1/3">
+          <input value={companyName} onChange={(e) => setCompanyName(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl" type="text" placeholder="اسم الشركة" />
           <input value={amount} onChange={(e) => setAmount(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl" type="number" placeholder="المبلغ" />
           <input value={taxAmount} onChange={(e) => setTaxAmount(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl" type="number" placeholder="قيمة الضريبة" />
           <input value={discountAmount} onChange={(e) => setDiscountAmount(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl" type="number" placeholder="قيمة الخصم" />
+          <input value={billNumber} onChange={(e) => setBillNumber(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl" type="number" placeholder="رقم الفاتورة" />
+          <input value={date} onChange={(e) => setDate(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl" type="date" />
         </div>
         <div className="basis-1/3">
           <textarea value={notes} onChange={(e) => setNotes(e.target.value)} className="w-full min-h-[200px] h-full resize-none border text-right outline-none py-2 px-1 rounded-xl" placeholder="ملاحظات"></textarea>
         </div>
+      </div>
+      <div dir="rtl" className="flex gap-3 justify-center lg:pr-12 text-2xl font-medium mb-16">
+        <p>اجمالي مبلغ الضريبة : {(amount * (taxAmount - discountAmount)) / 100} ج م</p>
       </div>
       <div className="flex justify-center mb-8">
         <button onClick={handleAdd} className="flex flex-row-reverse items-center justify-center gap-2 bg-navyColor hover:bg-[#234863] duration-200 text-white text-xl py-3 px-8 rounded-lg">

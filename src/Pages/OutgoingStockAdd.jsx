@@ -66,6 +66,7 @@ const OutgoingStockAdd = () => {
   const [discountRate, setDiscountRate] = useState("");
   const [notes, setNotes] = useState("");
   const [code_out, setCode_out] = useState("");
+  const [date, setDate] = useState("");
   const [moneyReserve, setMoneyReserve] = useState("");
 
 
@@ -76,7 +77,6 @@ const OutgoingStockAdd = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await getData("warehous", localStorage.getItem("token"));
-      console.log(response);
       if (response) {
         let temp = response.data.map((item) => {
           return { value: item.product._id, label: `${item.product.type} - ${item.product_code}`, weight: item.weight, size: item.size, avg_price: item.product.avg_price, stock: item.product.wieght, code: item.product_code, moneyReserve: item.product.wight_money };
@@ -118,7 +118,7 @@ const OutgoingStockAdd = () => {
       return;
     }
     toast.info("جاري اضافة البيانات");
-    const response = await postData("sells", { user: userData.id, clint: selectedSupplier, o_wieght: weight, product: selectedProduct, size_o: size, product_code: code, priceForKilo: price, price_allQuantity: totalPrice, pay_now: pay, code_out, taxRate, discountRate, Notes: notes }, localStorage.getItem("token"));
+    const response = await postData("sells", { user: userData.id, clint: selectedSupplier, o_wieght: weight, product: selectedProduct, size_o: size, product_code: code, priceForKilo: price, price_allQuantity: totalPrice, pay_now: pay, code_out, taxRate, discountRate, Notes: notes, entry_date: date }, localStorage.getItem("token"));
     if (response.data) {
       toast.success("تمت الاضافة بنجاح");
       setCode("");
@@ -184,8 +184,8 @@ const OutgoingStockAdd = () => {
         <input value={pay} onChange={(e) => setPay(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="تم دفع" />
         <input value={code_out} onChange={(e) => setCode_out(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="text" placeholder="رقم الفاتورة" />
       </div>
-
       <div className="flex flex-col items-start sm:flex-row justify-center gap-6 sm:gap-8 xl:gap-16 mb-6 lg:mb-10">
+      <input value={date} onChange={(e) => setDate(e.target.value)} className="text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="date" />
         <textarea onChange={(e) => setNotes(e.target.value)} className="resize-none border text-right outline-none py-2 px-1 rounded-xl h-[150px] w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" placeholder="ملاحظات"></textarea>
       </div>
 

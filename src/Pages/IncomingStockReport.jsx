@@ -13,6 +13,7 @@ const IncomingStockReport = () => {
   const [authorized, setAuthorized] = useState(true);
   const [tempList, setTempList] = useState([]);
   const [query, setQuery] = useState("");
+  const [query2, setQuery2] = useState("");
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("incoming-stock" || location.pathname.split("/")[0]);
 
@@ -40,6 +41,19 @@ const IncomingStockReport = () => {
   }, []);
 
   useEffect(() => {
+    setQuery("");
+    if (query2) {
+      const temp = tempList.filter((item) => {
+        return item.product_code.toString().includes(query2);
+      });
+      setList(temp);
+    } else {
+      setList(tempList);
+    }
+  }, [query2, tempList]);
+
+  useEffect(() => {
+    setQuery2("");
     if (query) {
       const temp = tempList.filter((item) => {
         return item.supplayr.supplayr_name.includes(query);
@@ -48,7 +62,7 @@ const IncomingStockReport = () => {
     } else {
       setList(tempList);
     }
-  }, [query]);
+  }, [query, tempList]);
 
   return (
     <section className="grow pb-6 pt-[70px] px-4 minHeight">
@@ -61,8 +75,9 @@ const IncomingStockReport = () => {
           تقرير
         </Link>
       </div>
-      <div className="flex justify-center gap-8 mb-6">
-        <input onChange={(e) => setQuery(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[80%] md:w-[50%] xl:w-[35%]" type="text" placeholder="بحث" />
+      <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-6 xl:w-[50%] xl:mx-auto">
+        <input value={query2} onChange={(e) => setQuery2(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[80%] md:w-[50%] xl:w-[45%]" type="text" placeholder="رقم البكرة" />
+        <input value={query} onChange={(e) => setQuery(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[80%] md:w-[50%] xl:w-[45%]" type="text" placeholder="اسم المورد" />
       </div>
       {loading && <Loading />}
       {((!loading && list.length === 0) || !authorized) && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>}
@@ -71,11 +86,12 @@ const IncomingStockReport = () => {
           {list.map((item, index) => (
             <div key={index} dir="rtl" className="flex flex-wrap gap-4 items-center bg-white p-4 rounded-lg font-medium text-lg mb-6">
               <p className="text-right text-lg">المورد: {item.supplayr?.supplayr_name}</p>
+              <p className="text-right text-lg">الكود: {item.product_code}</p>
               <p className="text-right text-lg">النوع: {item.product.type}</p>
               <p className="text-right text-lg">الوزن: {item.E_wieght}</p>
               <p className="text-right text-lg">المقاس: {item.size}</p>
               <p className="text-right text-lg">الموظف: {item.user?.name}</p>
-              <p className="text-right text-lg">التاريخ: {item.createdAt.split("T")[0]}</p>
+              <p className="text-right text-lg">التاريخ: {item.Entry_date.split("T")[0]}</p>
               <div className="flex justify-center sm:justify-end">
                 <Link to={`/incoming-stock/${item._id}`} className="text-[#01D1ED] font-semibold text-lg">
                   عرض

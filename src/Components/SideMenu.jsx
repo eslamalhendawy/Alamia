@@ -12,11 +12,11 @@ const linksList = [
     url: ["/incoming-stock/add", "/incoming-stock/report", "/outgoing-stock/add", "/outgoing-stock/report", "/stock/view"],
   },
   {
-    title: "فواتير",
+    title: "تحصيلات",
     url: ["/receive-bill/add", "/receive-bill/report", "/pay-bill/add", "/pay-bill/report"],
   },
   {
-    title: "ضريبة",
+    title: "فواتير ضريبية",
     url: ["/client-tax/add", "/supplier-tax/add", "/client-tax/report", "/supplier-tax/report"],
   },
   {
