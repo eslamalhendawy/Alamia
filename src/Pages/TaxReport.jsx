@@ -109,7 +109,7 @@ const TaxReport = () => {
                 <p className="text-right text-lg">
                   {currentPage === "client-tax" ? "العميل" : "المورد"}: {currentPage === "client-tax" ? item.clint?.clint_name : item.supplayr.supplayr_name}
                 </p>
-                <p className="text-right text-lg">التاريخ: {item.entryDate.split("T")[0]}</p>
+                <p className="text-right text-lg">التاريخ: {item.entryDate?.split("T")[0]}</p>
                 <p className="text-right text-lg">عدد مرات الخصم: {currentPage === "client-tax" ? item.clint?.disCount : item.supplayr.dis_count}</p>
                 <p className="text-right text-lg">نسبة الضريبة: {item.taxRate}</p>
                 <p className="text-right text-lg">نسبة الخصم: {item.discountRate ? item.discountRate : "لا يوجد"}</p>

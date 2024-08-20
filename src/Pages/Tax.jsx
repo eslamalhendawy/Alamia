@@ -81,7 +81,11 @@ const Tax = () => {
       return toast.error("الرجاء ملئ جميع الحقول");
     }
     if (currentPage === "client-tax") {
-      const response = await postData(`clint_Tax`, { user: userData.id, clint: selected.value, amount, taxRate: taxAmount, discountRate: discountAmount, Notes: notes, bell_num: billNumber, company_name: companyName, entryDate: date }, localStorage.getItem("token"));
+      const data = { user: userData.id, clint: selected.value, amount, taxRate: taxAmount, discountRate: discountAmount, Notes: notes, bell_num: billNumber, company_name: companyName, entryDate: date };
+      if (date === "") {
+        delete data.entryDate;
+      }
+      const response = await postData(`clint_Tax`, data, localStorage.getItem("token"));
       if (response.data) {
         toast.success("تم الاضافة بنجاح");
         setAmount("");
@@ -92,7 +96,11 @@ const Tax = () => {
         setBillNumber("");
       }
     } else if (currentPage === "supplier-tax") {
-      const response = await postData(`supplayr_Tax`, { user: userData.id, supplayr: selected.value, amount, taxRate: taxAmount, discountRate: discountAmount, Notes: notes, Bell_num: billNumber, Company_name: companyName, entryDate: date }, localStorage.getItem("token"));
+      const data = { user: userData.id, supplayr: selected.value, amount, taxRate: taxAmount, discountRate: discountAmount, Notes: notes, Bell_num: billNumber, Company_name: companyName, entryDate: date };
+      if (date === "") {
+        delete data.entryDate;
+      }
+      const response = await postData(`supplayr_Tax`, data, localStorage.getItem("token"));
       if (response.data) {
         toast.success("تم الاضافة بنجاح");
         setAmount("");

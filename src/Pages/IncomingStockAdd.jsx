@@ -121,8 +121,12 @@ const IncomingStockAdd = () => {
       toast.error("برجاء ملئ جميع الحقول");
       return;
     }
+    const data = {user: userData.id, supplayr: selectedSupplier, size, E_wieght: weight, product: selectedProduct, product_code: code, price_Kilo: price, price_all: totalPrice, pay, Notes: notes, Entry_date: date};
+    if(date === ""){
+      delete data.Entry_date
+    }
     toast.info("جاري اضافة البيانات");
-    const response = await postData("buys", { user: userData.id, supplayr: selectedSupplier, size, E_wieght: weight, product: selectedProduct, product_code: code, price_Kilo: price, price_all: totalPrice, pay, Notes: notes, Entry_date: date }, localStorage.getItem("token"));
+    const response = await postData("buys", data, localStorage.getItem("token"));
     if (response.data) {
       toast.success("تمت الاضافة بنجاح");
       setCode("");

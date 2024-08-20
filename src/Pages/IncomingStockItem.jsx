@@ -20,8 +20,6 @@ const IncomingStockItem = () => {
   useEffect(() => {
     const fetchItem = async () => {
       const response = await getData(`buys/${id}`, localStorage.getItem("token"));
-      console.log(response);
-      
       if (response.data) {
         setItem(response.data);
         setLoading(false);
@@ -35,6 +33,8 @@ const IncomingStockItem = () => {
       return toast.error("غير مسموح لك بالحذف");
     }
     const response = await deleteData(`buys/${id}`, localStorage.getItem("token"));
+    console.log(response);
+    
     if (response === "") {
       toast.success("تم الحذف بنجاح");
       navigate("/incoming-stock/report");
