@@ -33,11 +33,14 @@ const BillItem = () => {
     const fetchData = async () => {
       if (type === "sell_bell") {
         const response = await getData(`sell_bell/${id}`, localStorage.getItem("token"));
-        setData({ client: response.data.clint.clint_name, employee: response.data.user.name, payed: response.data.payBell, date: response.data.updatedAt, debt: response.data.clint.money_on, total: response.data.clint.total_monye, paymentMethod: response.data.paymentMethod, checkNumber: response.data.checkNumber, checkDate: response.data.checkDate, bankName: response.data.bankName, allPayed: response.data.clint.money_pay, clientID: response.data.clint._id, notes: response.data.Notes });
+        console.log(response);
+        
+        setData({ client: response.data.clint.clint_name, employee: response.data.user.name, payed: response.data.payBell, date: response.data.updatedAt, debt: response.data.clint.money_on, total: response.data.clint.total_monye, paymentMethod: response.data.paymentMethod, checkNumber: response.data.checkNumber, checkDate: response.data.checkDate, bankName: response.data.bankName, allPayed: response.data.clint.money_pay, clientID: response.data.clint._id, notes: response.data.Notes, systemDate: response.data.Entry_date });
         setLoading(false);
       } else if (type === "buy_bell") {
         const response = await getData(`buy_bell/${id}`, localStorage.getItem("token"));
-        setData({ client: response.data.supplayr?.supplayr_name, employee: response.data.user.name, payed: response.data.pay_bell, date: response.data.updatedAt, debt: response.data.supplayr.price_on, total: response.data.supplayr.total_price, paymentMethod: response.data.payment_method, allPayed: response.data.supplayr.price_pay, checkNumber: response.data.check_number, checkDate: response.data.check_date, bankName: response.data.bank_name, notes: response.data.Notes });
+        console.log(response);
+        setData({ client: response.data.supplayr?.supplayr_name, employee: response.data.user.name, payed: response.data.pay_bell, date: response.data.updatedAt, debt: response.data.supplayr.price_on, total: response.data.supplayr.total_price, paymentMethod: response.data.payment_method, allPayed: response.data.supplayr.price_pay, checkNumber: response.data.check_number, checkDate: response.data.check_date, bankName: response.data.bank_name, notes: response.data.Notes, systemDate: response.data.Entry_date });
         setLoading(false);
       }
     };
@@ -117,9 +120,12 @@ const BillItem = () => {
               <p className="basis-1/3">تاريخ الشيك : {data.checkDate}</p>
             </div>
           )}
-          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-6">
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-3">
             <p className="basis-1/3">ملاحظات : {data.notes ? data.notes : "لا يوجد"}</p>
-            <p className="basis-1/3">التاريخ : {data.date.split("T")[0]}</p>
+            <p className="basis-1/3">التاريخ : {data.systemDate.split("T")[0]}</p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0 justify-between mb-6">
+            <p className="basis-1/3">تاريخ النظام : {data.date.split("T")[0]}</p>
           </div>
           <div>
             <div className="flex flex-col sm:flex-row-reverse justify-start gap-3">

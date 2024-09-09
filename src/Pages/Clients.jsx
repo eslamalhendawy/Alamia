@@ -63,6 +63,8 @@ const Clients = () => {
       setLoading(true);
       const fetchClientData = async () => {
         const response = await getData(`clints/${selectedClient}/details`, localStorage.getItem("token"));
+        console.log(response);
+        
         if (response) {
           setClientData(response);
           setLoading(false);
@@ -82,11 +84,19 @@ const Clients = () => {
 
   return (
     <section className="grow pb-6 pt-[70px] px-4 minHeight">
-      <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8 md:mb-24">
+      <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
         <button onClick={handleClick} to="/add-client" className=" items-center justify-center bg-navyColor hover:bg-[#234863] duration-200 text-white text-lg py-2 px-6 rounded-lg">
           اضافة عميل
         </button>
         <Select onChange={(e) => setSelectedClient(e.value)} className="w-[250px]" styles={customStyles} options={clients} placeholder="اسم العميل" />
+      </div>
+      <div className="flex justify-center gap-4 mb-8 md:mb-24">
+        <a href={`https://alalamya.onrender.com/api/v1/clints/${selectedClient}/export`} target="_blank" className=" items-center justify-center bg-navyColor hover:bg-[#234863] duration-200 text-white text-lg py-2 px-6 rounded-lg">
+          شيكات
+        </a>
+        <a href={`https://alalamya.onrender.com/api/v1/clints/${selectedClient}/details/export`} target="_blank" className=" items-center justify-center bg-navyColor hover:bg-[#234863] duration-200 text-white text-lg py-2 px-6 rounded-lg">
+          كشف حساب
+        </a>
       </div>
       {loading && !hidden && <Loading />}
       {!loading && clientData === "" && <h2 className="text-2xl text-center">No Records Found</h2>}
@@ -150,9 +160,6 @@ const Clients = () => {
             {clientData.tax.length === 0 && <p className="text-center text-2xl font-medium">لا يوجد بيانات</p>}
           </div>
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-12 xl:gap-24 xl:w-[70%] xl:mx-auto">
-            <a href={`https://alalamya.onrender.com/api/v1/clints/${selectedClient}/details/export`} target="_blank" className=" items-center justify-center bg-navyColor hover:bg-[#234863] duration-200 text-white text-lg py-2 px-6 rounded-lg">
-              طباعة
-            </a>
             {clientData.sela.length !== 0 && (
               <div dir="rtl" className="flex flex-col gap-3 justify-start text-xl font-medium">
                 <p>مدفوع : {clientData.sela[0].clint.money_on.toFixed(2)} ج م</p>

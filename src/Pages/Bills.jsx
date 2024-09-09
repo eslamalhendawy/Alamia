@@ -40,6 +40,7 @@ const Bills = () => {
   const [checkDate, setCheckDate] = useState("");
   const [bankName, setBankName] = useState("");
   const [notes, setNotes] = useState("");
+  const [date, setDate] = useState("");
   const { userData } = useAppContext();
 
   useEffect(() => {
@@ -96,13 +97,18 @@ const Bills = () => {
       return;
     }
     if (type === "clints") {
-      const data = { user: userData.id, clint: selectedData?._id, payBell: amount, paymentMethod: paymentType, checkDate, checkNumber, bankName, Notes: notes };
+      const data = { user: userData.id, clint: selectedData?._id, payBell: amount, paymentMethod: paymentType, checkDate, checkNumber, bankName, Notes: notes, Entry_date: date };
       if (paymentType === "cash") {
         delete data.checkDate;
         delete data.checkNumber;
         delete data.bankName;
       }
+      if (date === "") {
+        delete data.Entry_date;
+      }
       const response = await postData("sell_bell", data, localStorage.getItem("token"));
+      console.log(response);
+
       if (response.data) {
         toast.success("تمت الاضافة بنجاح");
         setAmount("");
@@ -113,13 +119,17 @@ const Bills = () => {
         setBankName("");
       }
     } else {
-      const data = { user: userData.id, supplayr: selectedData?._id, pay_bell: amount, payment_method: paymentType, check_date: checkDate, check_number: checkNumber, bank_name: bankName, Notes: notes };
+      const data = { user: userData.id, supplayr: selectedData?._id, pay_bell: amount, payment_method: paymentType, check_date: checkDate, check_number: checkNumber, bank_name: bankName, Notes: notes, Entry_date: date };
       if (paymentType === "cash") {
         delete data.check_date;
         delete data.check_number;
         delete data.bank_name;
       }
+      if (date === "") {
+        delete data.Entry_date;
+      }
       const response = await postData("buy_bell", data, localStorage.getItem("token"));
+      console.log(response);
       if (response.data) {
         toast.success("تمت الاضافة بنجاح");
         setAmount("");
@@ -148,6 +158,7 @@ const Bills = () => {
       </div>
       <div className="flex flex-col justify-center items-center mb-8 gap-6">
         <input onChange={(e) => setAmount(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="number" placeholder="المبلغ المدفوع" />
+        <input onChange={(e) => setDate(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" type="date" />
         <textarea onChange={(e) => setNotes(e.target.value)} className="resize-none border text-right outline-none py-2 px-1 rounded-xl h-[150px] w-[90%] sm:w-[40%] xl:w-[30%] 2xl:w-[25%]" placeholder="ملاحظات"></textarea>
       </div>
       <div className="flex justify-center gap-6 mb-8">
