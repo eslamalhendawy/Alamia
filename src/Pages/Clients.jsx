@@ -162,7 +162,7 @@ const Clients = () => {
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-12 xl:gap-24 xl:w-[70%] xl:mx-auto">
             {clientData.sela.length !== 0 && (
               <div dir="rtl" className="flex flex-col gap-3 justify-start text-xl font-medium">
-                <p>مدفوع : {clientData.sela[0].clint.money_on.toFixed(2)} ج م</p>
+                <p>مدفوع : {clientData.sela[0].clint.money_pay.toFixed(2)} ج م</p>
                 <p>باقي : {clientData.sela[0].clint.money_on.toFixed(2)} ج م</p>
                 <p>اجمالي المبلغ : {(clientData.sela[0].clint.money_on + clientData.sela[0].clint.money_pay).toFixed(2)} ج م</p>
               </div>
