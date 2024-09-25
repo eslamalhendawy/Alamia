@@ -1,8 +1,7 @@
 import axios from "axios";
-const baseURL = "https://alalamya.onrender.com/api/v1/";
+// const baseURL = "https://alalamya.onrender.com/api/v1/";
+const baseURL = "https://alamia-1vfdgf2n.b4a.run/api/v1/";
 
-// "https://alamaya.zeabur.app/api/v1/"
-// "https://alalamya.onrender.com/api/v1/"
 
 export const postData = async (url, data, token) => {
   let result = [];
