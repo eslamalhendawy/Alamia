@@ -85,7 +85,6 @@ const TaxItem = () => {
           <div>
             <div className="flex flex-col sm:flex-row-reverse justify-start gap-3">
               <EditTaxModel data={data} />
-              
             </div>
           </div>
         </div>
