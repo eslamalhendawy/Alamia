@@ -63,7 +63,7 @@ const Clients = () => {
       setLoading(true);
       const fetchClientData = async () => {
         const response = await getData(`clints/${selectedClient}/details`, localStorage.getItem("token"));
-        console.log(response);
+        // console.log(response);
         
         if (response) {
           setClientData(response);

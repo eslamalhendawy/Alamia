@@ -18,7 +18,7 @@ const Report = () => {
         return toast.error("غير مسموح لك بالبحث");
       }
       const response = await getData(`report`, localStorage.getItem("token"));
-      console.log(response);
+      // console.log(response);
       if (response.data) {
         setLoading(false);
         setResult(response.data);
@@ -57,33 +57,43 @@ const Report = () => {
         <>
           <div dir="rtl" className="xl:w-[100%] 2xl:w-[70%] xl:mx-auto bg-white p-6 rounded-xl font-medium text-lg mb-8">
             <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-0 justify-between mb-3">
-              <p className="basis-1/3">اجمالي المبيع : {result.totalSales.toFixed(2)} ج م</p>
-              <p className="basis-1/3">متبقي على العملاء : {result.totalDueFromClients.toFixed(2)} ج م</p>
+              <p className="basis-1/3">اجمالي المبيع : {Number(result.totalSales.toFixed(2)).toLocaleString()} ج م</p>
+              <p className="basis-1/3">متبقي على العملاء : {Number(result.totalDueFromClients.toFixed(2)).toLocaleString()} ج م</p>
             </div>
             <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-0 justify-between mb-3">
-              <p className="basis-1/3">اجمالي شراء : {result.totalPurchases.toFixed(2)} ج م</p>
-              <p className="basis-1/3">تم سداد : {result.totalDueFromClients.toFixed(2)} ج م</p>
+              <p className="basis-1/3">اجمالي شراء : {Number(result.totalPurchases.toFixed(2)).toLocaleString()} ج م</p>
+              <p className="basis-1/3">تم سداد : {Number(result.totalDueFromClients.toFixed(2)).toLocaleString()} ج م</p>
             </div>
             <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-0 justify-between mb-3">
-              <p className="basis-1/3">اجمالي مخزون مالي : {result.totalWightMoney.toFixed(2)} ج م</p>
-              <p className="basis-1/3"> هامش الربح : {result.totalPurchases.toFixed(2)} ج م</p>
+              <p className="basis-1/3">اجمالي مخزون مالي : {Number(result.totalWightMoney.toFixed(2)).toLocaleString()} ج م</p>
+              <p className="basis-1/3"> هامش الربح : {Number(result.totalPurchases.toFixed(2)).toLocaleString()} ج م</p>
             </div>
           </div>
           <h3 className="text-right text-2xl font-bold xl:w-[100%] 2xl:w-[70%] xl:mx-auto mb-6">مبيعات شهرية</h3>
           <div dir="rtl" className="xl:w-[100%] 2xl:w-[70%] xl:mx-auto bg-white p-6 rounded-xl font-medium text-lg mb-8">
-            <h5 className="text-center text-2xl mb-6">شهر {result.monthlySales[0]._id}</h5>
-            <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-0 justify-between mb-3">
-              <p className="basis-1/3">اجمالي مالي : {result.monthlySales[0].totalAmount.toFixed(2)} ج م</p>
-              <p className="basis-1/3">اجمالي وزن : {result.monthlySales[0].totalWeight.toFixed(2)} كجم</p>
-            </div>
+            {result.monthlySales.length > 0 ? (
+              <>
+                <h5 className="text-center text-2xl mb-6">شهر {result.monthlySales[0]._id}</h5>
+                <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-0 justify-between mb-3">
+                  <p className="basis-1/3">اجمالي مالي : {result.monthlySales[0].totalAmount.toFixed(2)} ج م</p>
+                  <p className="basis-1/3">اجمالي وزن : {result.monthlySales[0].totalWeight.toFixed(2)} كجم</p>
+                </div>
+              </>
+            ) : (
+              <p className="text-center text-2xl">لا يوجد مبيعات شهرية</p>
+            )}
           </div>
           <h3 className="text-right text-2xl font-bold xl:w-[100%] 2xl:w-[70%] xl:mx-auto mb-6">مشتريات شهرية</h3>
           <div dir="rtl" className="xl:w-[100%] 2xl:w-[70%] xl:mx-auto bg-white p-6 rounded-xl font-medium text-lg mb-8">
-            <h5 className="text-center text-2xl mb-6">شهر {result.monthlySales[0]._id}</h5>
-            <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-0 justify-between mb-3">
-              <p className="basis-1/3">اجمالي مالي : {result.monthlyPurchases[0].totalAmount.toFixed(2)} ج م</p>
-              <p className="basis-1/3">اجمالي وزن : {result.monthlyPurchases[0].totalWeight.toFixed(2)} كجم</p>
-            </div>
+            {/* <h5 className="text-center text-2xl mb-6">شهر {result.monthlySales[0]._id}</h5> */}
+            {result.monthlyPurchases.length > 0 ? (
+              <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-0 justify-between mb-3">
+                <p className="basis-1/3">اجمالي مالي : {result.monthlyPurchases[0].totalAmount.toFixed(2)} ج م</p>
+                <p className="basis-1/3">اجمالي وزن : {result.monthlyPurchases[0].totalWeight.toFixed(2)} كجم</p>
+              </div>
+            ) : (
+              <p className="text-center text-2xl">لا يوجد مشتريات شهرية</p>
+            )}
           </div>
         </>
       )}
