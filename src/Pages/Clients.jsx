@@ -63,8 +63,6 @@ const Clients = () => {
       setLoading(true);
       const fetchClientData = async () => {
         const response = await getData(`clints/${selectedClient}/details`, localStorage.getItem("token"));
-        // console.log(response);
-        
         if (response) {
           setClientData(response);
           setLoading(false);
@@ -91,7 +89,7 @@ const Clients = () => {
         <Select onChange={(e) => setSelectedClient(e.value)} className="w-[250px]" styles={customStyles} options={clients} placeholder="اسم العميل" />
       </div>
       <div className="flex justify-center gap-4 mb-8 md:mb-24">
-        <a href={`https://alalamya.onrender.com/api/v1/clints/${selectedClient}/export`} target="_blank" className=" items-center justify-center bg-navyColor hover:bg-[#234863] duration-200 text-white text-lg py-2 px-6 rounded-lg">
+        <a href={`https://alamia-1vfdgf2n.b4a.run/api/v1/sell_bell/checks`} target="_blank" className=" items-center justify-center bg-navyColor hover:bg-[#234863] duration-200 text-white text-lg py-2 px-6 rounded-lg">
           شيكات
         </a>
         <a href={`https://alalamya.onrender.com/api/v1/clints/${selectedClient}/details/export`} target="_blank" className=" items-center justify-center bg-navyColor hover:bg-[#234863] duration-200 text-white text-lg py-2 px-6 rounded-lg">

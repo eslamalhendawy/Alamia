@@ -107,8 +107,6 @@ const Bills = () => {
         delete data.Entry_date;
       }
       const response = await postData("sell_bell", data, localStorage.getItem("token"));
-      console.log(response);
-
       if (response.data) {
         toast.success("تمت الاضافة بنجاح");
         setAmount("");
@@ -129,7 +127,6 @@ const Bills = () => {
         delete data.Entry_date;
       }
       const response = await postData("buy_bell", data, localStorage.getItem("token"));
-      console.log(response);
       if (response.data) {
         toast.success("تمت الاضافة بنجاح");
         setAmount("");
