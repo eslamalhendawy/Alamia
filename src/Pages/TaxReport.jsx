@@ -19,6 +19,7 @@ const TaxReport = () => {
   const [authorized, setAuthorized] = useState(true);
   const [tempList, setTempList] = useState([]);
   const [query, setQuery] = useState("");
+  const [query2, setQuery2] = useState("");
 
   useEffect(() => {
     if (userData.role === "storage_employee" || userData.role === "bill_employee") {
@@ -35,11 +36,13 @@ const TaxReport = () => {
     const fetchList = async () => {
       if (currentPage === "client-tax" && authorized) {
         const response = await getData(`clint_Tax`, localStorage.getItem("token"));
+        console.log(response);
         setList(response.data);
         setTempList(response.data);
         setLoading(false);
       } else if (currentPage === "supplier-tax" && authorized) {
         const response = await getData(`supplayr_Tax`, localStorage.getItem("token"));
+        console.log(response);
         setList(response.data);
         setTempList(response.data);
         setLoading(false);
@@ -62,6 +65,28 @@ const TaxReport = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (currentPage === "client-tax") {
+      if (query2) {
+        const temp = tempList.filter((item) => {
+          return item.bell_num == query2;
+        });
+        setList(temp);
+      } else {
+        setList(tempList);
+      }
+    } else {
+      if (query2) {
+        const temp = tempList.filter((item) => {
+          return item.Bell_num == query2;
+        });
+        setList(temp);
+      } else {
+        setList(tempList);
+      }
+    }
+  }, [query2]);
 
   useEffect(() => {
     if (currentPage === "client-tax") {
@@ -97,7 +122,8 @@ const TaxReport = () => {
         </Link>
       </div>
       <div className="flex justify-center gap-8 mb-6">
-        <input onChange={(e) => setQuery(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[80%] md:w-[50%] xl:w-[35%]" type="text" placeholder="بحث" />
+        <input onChange={(e) => setQuery2(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[80%] md:w-[50%] xl:w-[35%]" type="text" placeholder="رقم الفاتورة" />
+        <input onChange={(e) => setQuery(e.target.value)} className="border text-right outline-none py-2 px-1 rounded-xl w-[80%] md:w-[50%] xl:w-[35%]" type="text" placeholder="الاسم" />
       </div>
       {loading && <Loading />}
       {!loading && list.length === 0 && <p className="text-center mt-16 text-2xl font-semibold">لا يوجد بيانات</p>}
